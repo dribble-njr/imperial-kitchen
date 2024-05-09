@@ -14,7 +14,7 @@
     "kitchen"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "workspaces": [
     "apps/*",
     "packages/*"
