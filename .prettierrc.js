@@ -7,7 +7,7 @@ module.exports = {
   // Prettier configuration options go here
   useTabs: false,
   tabWidth: 2,
-  printWidth: 80,
+  printWidth: 120,
   singleQuote: true,
   trailingComma: "none",
   semi: true,
