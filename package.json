@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "husky"
   },
   "keywords": [
     "food order",
@@ -13,16 +15,24 @@
     "food",
     "kitchen"
   ],
-  "author": "",
+  "author": "dribble-njr <wzw15292257101@163.com>",
   "license": "MIT",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "devDependencies": {
-    "prettier": "3.2.5"
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@eslint/js": "^9.2.0",
+    "eslint": "^9.2.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "3.2.5",
+    "typescript-eslint": "^7.9.0"
   },
   "dependencies": {
     "dotenv": "^16.4.5"
-  }
+  },
+  "repository": "https://github.com/dribble-njr/imperial-kitchen.git"
 }
