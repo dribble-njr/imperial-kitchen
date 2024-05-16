@@ -1,4 +1,3 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
 import { CategoryController } from '../controller';
 import { Route } from '../types';
 
@@ -17,6 +16,12 @@ const Router: { [key: string]: Route } = {
     controller: (req, res) => {
       const categoryController = new CategoryController();
       categoryController.list(req, res);
+    }
+  },
+  'GET/category/create': {
+    controller: (req, res) => {
+      const categoryController = new CategoryController();
+      categoryController.create(req, res);
     }
   }
 };

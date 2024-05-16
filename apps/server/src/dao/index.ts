@@ -17,9 +17,12 @@ export class DB {
     return DB.instance;
   }
 
-  public async execute(stmt: InStatement): Promise<void> {
+  public async execute(stmt: InStatement) {
     try {
-      await client.execute(stmt);
+      const start = Date.now();
+      const res = await client.execute(stmt);
+      console.log('Query time: ', Date.now() - start);
+      return res;
     } catch (error) {
       if (error instanceof LibsqlError) {
         throw new Error(`Execution failed: ${error.message}`);
