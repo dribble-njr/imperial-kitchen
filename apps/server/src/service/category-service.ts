@@ -1,4 +1,5 @@
 import { BaseService } from './base-service';
+import { Category } from '@imperial-kitchen/types';
 
 export class CategoryService extends BaseService {
   constructor() {
@@ -7,7 +8,8 @@ export class CategoryService extends BaseService {
 
   async getAllCategories() {
     const res = await this.db.execute('SELECT * FROM categories');
-    return res.rows;
+    const categories: Category[] = res.rows.map((row) => ({ id: Number(row.id), name: String(row.name) }));
+    return categories;
   }
 
   async createCategory(name: string) {
