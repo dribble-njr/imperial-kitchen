@@ -1,8 +1,3 @@
-/*
- * @Author: yanfan
- * @Date: 2024-05-18 14:20:04
- * @LastEditTime: 2024-05-19 21:27:59
- */
 import { BaseService } from './base-service';
 import { User, LoginParmas } from '@imperial-kitchen/types';
 
@@ -11,8 +6,8 @@ export class UserService extends BaseService {
     super();
   }
 
-  // login
-  async login(data: LoginParmas) {
+  // sign-in
+  async signIn(data: LoginParmas) {
     const sql = 'SELECT * FROM users WHERE name = ?';
     const res = await this.db.execute({ sql, args: [data.name] });
     const usersInfo: User[] = res.rows.map((row) => ({

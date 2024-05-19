@@ -1,8 +1,3 @@
-/*
- * @Author: yanfan
- * @Date: 2024-05-18 14:05:52
- * @LastEditTime: 2024-05-18 17:10:09
- */
 import { InStatement, LibsqlError, createClient } from '@libsql/client';
 
 const client = createClient({

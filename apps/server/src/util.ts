@@ -1,8 +1,3 @@
-/*
- * @Author: yanfan
- * @Date: 2024-05-18 14:05:52
- * @LastEditTime: 2024-05-19 21:31:02
- */
 import querystring from 'node:querystring';
 import { IncomingMessage } from 'http';
 
