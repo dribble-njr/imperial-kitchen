@@ -1,5 +1,5 @@
 import { BaseService } from './base-service';
-import { User, LoginParmas } from '@imperial-kitchen/types';
+import { User, SignInParams } from '@imperial-kitchen/types';
 
 export class UserService extends BaseService {
   constructor() {
@@ -7,7 +7,7 @@ export class UserService extends BaseService {
   }
 
   // sign-in
-  async signIn(data: LoginParmas) {
+  async signIn(data: SignInParams) {
     const sql = 'SELECT * FROM users WHERE name = ?';
     const res = await this.db.execute({ sql, args: [data.name] });
     const usersInfo: User[] = res.rows.map((row) => ({

@@ -25,7 +25,7 @@ const Router: { [key: string]: Route } = {
     }
   },
   // 登录
-  'POST/user/signIn': {
+  'POST/user/sign-in': {
     controller: (req, res) => {
       const userController = new UserController();
       userController.signIn(req, res);

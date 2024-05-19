@@ -4,7 +4,7 @@ export interface User {
   password: string;
 }
 
-export interface LoginParmas {
+export interface SignInParams {
   name: string;
   password: string;
 }
