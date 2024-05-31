@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStorageState } from './hooks/useStorageState';
+import { UserService } from './service';
 
 const AuthContext = React.createContext<{
   signIn: () => void;
@@ -33,7 +34,8 @@ export function SessionProvider(props: React.PropsWithChildren) {
       value={{
         signIn: () => {
           // Perform sign-in logic here
-          setSession('xxx');
+          UserService.signIn('test', 'test');
+          // setSession('xxx');
         },
         signOut: () => {
           setSession(null);

@@ -13,8 +13,19 @@ export default class UserController extends BaseController {
   }
 
   async signIn(req: IncomingMessage, res: ServerResponse) {
-    const data = await getPostData<SignInParams>(req);
-    const user = await this.userService.signIn(data);
-    UserController.sendResponse(200, user, res);
+    try {
+      const start = Date.now();
+      const data = await getPostData<SignInParams>(req);
+
+      // TODO: verify parameters.
+
+      const response = await this.userService.signIn(data);
+
+      console.log('All time: ', Date.now() - start);
+      UserController.sendResponse(response.code, { message: response.message }, res);
+    } catch (error) {
+      UserController.sendResponse(500, { message: 'Internal Server Error' }, res);
+      throw error;
+    }
   }
 }

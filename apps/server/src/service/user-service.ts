@@ -15,15 +15,18 @@ export class UserService extends BaseService {
       name: String(row.name),
       password: String(row.password)
     }));
-    // 校验是否有该用户
+
+    // Check if the user exists.
     if (usersInfo.length === 0) {
-      return { code: 0, msg: '用户不存在' };
+      return { code: 401, message: 'Access to the requested resource is unauthorized. Please authenticate.' };
     }
-    // 校验密码是否一致
+    // Check if the password matches.
     if (usersInfo[0].password !== data.password) {
-      return { code: 0, msg: '密码错误' };
+      return { code: 401, message: 'Access to the requested resource is unauthorized. Please authenticate.' };
     }
-    // 全部校验通过，拼接数据
-    return { code: 200, msg: '登录成功', data: usersInfo[0] };
+
+    // All checks passed, return success message or token
+    // TODO: generate token.
+    return { code: 200, message: 'Login successful' };
   }
 }
