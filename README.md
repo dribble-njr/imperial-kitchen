@@ -1,5 +1,10 @@
 ## Imperial Kitchen
 
+```sh
+Node v20.10.0
+yarn 1.22.22
+```
+
 Install.
 
 ```sh
