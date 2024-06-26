@@ -1,6 +1,6 @@
 import DB from '../dao';
 
-export class BaseService {
+export abstract class BaseService {
   protected db: DB;
 
   constructor() {

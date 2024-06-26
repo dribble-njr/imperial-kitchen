@@ -1,6 +1,6 @@
 import { ServerResponse } from 'node:http';
 
-export class BaseController {
+export abstract class BaseController {
   protected static sendResponse(statusCode: number, data: unknown, res: ServerResponse) {
     res.setHeader('content-type', 'application/json');
     res.writeHead(statusCode);
