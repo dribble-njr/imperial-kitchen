@@ -35,7 +35,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         signIn: () => {
           // Perform sign-in logic here
           UserService.signIn('test', 'test');
-          // setSession('xxx');
+          setSession('xxx');
         },
         signOut: () => {
           setSession(null);
