@@ -1,4 +1,4 @@
-import { CategoryController, UserController } from '../controller';
+import { CategoryController, CommodityController, UserController } from '../controller';
 import { Route } from '../types';
 
 /**
@@ -24,11 +24,16 @@ const Router: { [key: string]: Route } = {
       categoryController.create(req, res);
     }
   },
-  // 登录
   'POST/user/sign-in': {
     controller: (req, res) => {
       const userController = new UserController();
       userController.signIn(req, res);
+    }
+  },
+  'POST/commodity/create': {
+    controller: (req, res) => {
+      const commodityController = new CommodityController();
+      commodityController.create(req, res);
     }
   }
 };
