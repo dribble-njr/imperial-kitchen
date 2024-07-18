@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { BaseController } from './base-controller';
 import { getQueryParams } from '../util';
-import { CategoryService } from '../service/category-service';
+import { CategoryService } from '../service';
 
 export default class CategoryController extends BaseController {
   private categoryService: CategoryService;

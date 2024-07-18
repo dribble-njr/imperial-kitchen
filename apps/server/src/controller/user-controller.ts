@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { BaseController } from './base-controller';
 import { getPostData } from '../util';
-import { UserService } from '../service/user-service';
+import { UserService } from '../service';
 import { SignInParams } from '@imperial-kitchen/types';
 
 export default class UserController extends BaseController {

@@ -1,7 +1,7 @@
 import { BaseService } from './base-service';
 import { Category } from '@imperial-kitchen/types';
 
-export class CategoryService extends BaseService {
+export default class CategoryService extends BaseService {
   constructor() {
     super();
   }
@@ -44,6 +44,7 @@ export class CategoryService extends BaseService {
           id: Number(row.good_id),
           name: String(row.good_name),
           price: Number(row.good_price),
+          categoryId: categoryId,
           description: row.good_description ? String(row.good_description) : undefined
         });
       }

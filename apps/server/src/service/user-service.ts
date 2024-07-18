@@ -1,7 +1,7 @@
 import { BaseService } from './base-service';
 import { User, SignInParams, Response } from '@imperial-kitchen/types';
 
-export class UserService extends BaseService {
+export default class UserService extends BaseService {
   constructor() {
     super();
   }
