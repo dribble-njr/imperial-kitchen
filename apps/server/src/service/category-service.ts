@@ -40,7 +40,7 @@ export default class CategoryService extends BaseService {
       }
 
       if (row.good_id) {
-        categoryMap.get(categoryId)?.goods.push({
+        categoryMap.get(categoryId)?.goods?.push({
           id: Number(row.good_id),
           name: String(row.good_name),
           price: Number(row.good_price),
