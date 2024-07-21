@@ -35,6 +35,18 @@ const Router: { [key: string]: Route } = {
       const commodityController = new CommodityController();
       commodityController.create(req, res);
     }
+  },
+  'POST/commodity/update': {
+    controller: (req, res) => {
+      const commodityController = new CommodityController();
+      commodityController.update(req, res);
+    }
+  },
+  'POST/commodity/delete': {
+    controller: (req, res) => {
+      const commodityController = new CommodityController();
+      commodityController.delete(req, res);
+    }
   }
 };
 

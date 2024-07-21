@@ -13,9 +13,23 @@ export default class CommodityController extends BaseController {
   }
 
   async create(req: IncomingMessage, res: ServerResponse) {
-    const { categoryId, name, price, description } = await getPostData<Commodity>(req);
-    console.log(categoryId, name, price, description);
-    const id = await this.commodityService.createCommodity(categoryId, name as string, price, description);
+    const commodity = await getPostData<Commodity>(req);
+    const id = await this.commodityService.createCommodity(commodity);
     CommodityController.sendResponse(200, id, res);
+  }
+
+  async update(req: IncomingMessage, res: ServerResponse) {
+    const commodity = await getPostData<Commodity>(req);
+    const updatedCommodity = await this.commodityService.updateCommodity(commodity);
+    CommodityController.sendResponse(200, updatedCommodity, res);
+  }
+
+  async delete(req: IncomingMessage, res: ServerResponse) {
+    const { id } = await getPostData<Commodity>(req);
+    if (!id) {
+      return CommodityController.sendResponse(400, 'id is required', res);
+    }
+    const isDeleted = await this.commodityService.deleteCommodity(id);
+    CommodityController.sendResponse(200, isDeleted, res);
   }
 }
