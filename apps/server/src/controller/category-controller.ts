@@ -23,4 +23,12 @@ export default class CategoryController extends BaseController {
     const id = await this.categoryService.createCategory(name as string);
     CategoryController.sendResponse(200, id, res);
   }
+
+  async delete(req: CustomIncomingMessage, res: ServerResponse) {
+    if (!req.params.id) {
+      return CategoryController.sendResponse(400, 'id is required', res);
+    }
+    const isDeleted = await this.categoryService.deleteCategory(Number(req.params.id));
+    CategoryController.sendResponse(200, isDeleted, res);
+  }
 }

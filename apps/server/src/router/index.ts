@@ -24,6 +24,12 @@ const Router: { [key: string]: Route } = {
       categoryController.create(req, res);
     }
   },
+  'DELETE/category/delete/:id': {
+    controller: (req, res) => {
+      const categoryController = new CategoryController();
+      categoryController.delete(req, res);
+    }
+  },
   'POST/user/sign-in': {
     controller: (req, res) => {
       const userController = new UserController();

@@ -57,4 +57,9 @@ export default class CategoryService extends BaseService {
     const res = await this.db.execute({ sql: 'INSERT INTO category (name) VALUES (?)', args: [name] });
     return res.lastInsertRowid;
   }
+
+  async deleteCategory(id: number) {
+    const res = await this.db.execute({ sql: 'DELETE FROM category WHERE id = ?', args: [id] });
+    return !!res.rowsAffected;
+  }
 }
