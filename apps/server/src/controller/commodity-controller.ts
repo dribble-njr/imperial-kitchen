@@ -1,8 +1,9 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import { ServerResponse } from 'node:http';
 import { Commodity } from '@imperial-kitchen/types';
 import { CommodityService } from '../service';
 import { BaseController } from './base-controller';
 import { getPostData } from '../util';
+import { CustomIncomingMessage } from '../types';
 
 export default class CommodityController extends BaseController {
   private commodityService: CommodityService;
@@ -12,24 +13,23 @@ export default class CommodityController extends BaseController {
     this.commodityService = new CommodityService();
   }
 
-  async create(req: IncomingMessage, res: ServerResponse) {
+  async create(req: CustomIncomingMessage, res: ServerResponse) {
     const commodity = await getPostData<Commodity>(req);
     const id = await this.commodityService.createCommodity(commodity);
     CommodityController.sendResponse(200, id, res);
   }
 
-  async update(req: IncomingMessage, res: ServerResponse) {
+  async update(req: CustomIncomingMessage, res: ServerResponse) {
     const commodity = await getPostData<Commodity>(req);
     const updatedCommodity = await this.commodityService.updateCommodity(commodity);
     CommodityController.sendResponse(200, updatedCommodity, res);
   }
 
-  async delete(req: IncomingMessage, res: ServerResponse) {
-    const { id } = await getPostData<Commodity>(req);
-    if (!id) {
+  async delete(req: CustomIncomingMessage, res: ServerResponse) {
+    if (!req.params.id) {
       return CommodityController.sendResponse(400, 'id is required', res);
     }
-    const isDeleted = await this.commodityService.deleteCommodity(id);
+    const isDeleted = await this.commodityService.deleteCommodity(Number(req.params.id));
     CommodityController.sendResponse(200, isDeleted, res);
   }
 }

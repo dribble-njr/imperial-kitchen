@@ -5,6 +5,10 @@ export interface Route {
   middlewares?: Middleware[]; // route-specific middleware
 }
 
-export type Controller = (req: IncomingMessage, res: ServerResponse) => void;
+export interface CustomIncomingMessage extends IncomingMessage {
+  params: Record<string, string>;
+}
 
-export type Middleware = (req: IncomingMessage, res: ServerResponse, next: () => void) => void;
+export type Controller = (req: CustomIncomingMessage, res: ServerResponse) => void;
+
+export type Middleware = (req: CustomIncomingMessage, res: ServerResponse, next: () => void) => void;

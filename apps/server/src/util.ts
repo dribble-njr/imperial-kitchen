@@ -1,5 +1,5 @@
 import querystring from 'node:querystring';
-import { IncomingMessage } from 'http';
+import { CustomIncomingMessage } from './types';
 
 export const getQueryParams = (url: string | undefined) => {
   if (!url) return {};
@@ -10,7 +10,7 @@ export const getQueryParams = (url: string | undefined) => {
 };
 
 // get Post data
-export const getPostData = <T>(req: IncomingMessage): Promise<T> => {
+export const getPostData = <T>(req: CustomIncomingMessage): Promise<T> => {
   return new Promise((resolve, reject) => {
     try {
       if (req.method !== 'POST') {

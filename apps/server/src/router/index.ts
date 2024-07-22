@@ -42,7 +42,7 @@ const Router: { [key: string]: Route } = {
       commodityController.update(req, res);
     }
   },
-  'POST/commodity/delete': {
+  'DELETE/commodity/delete/:id': {
     controller: (req, res) => {
       const commodityController = new CommodityController();
       commodityController.delete(req, res);

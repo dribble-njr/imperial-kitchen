@@ -1,8 +1,9 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import { ServerResponse } from 'node:http';
+import { SignInParams } from '@imperial-kitchen/types';
 import { BaseController } from './base-controller';
 import { getPostData } from '../util';
 import { UserService } from '../service';
-import { SignInParams } from '@imperial-kitchen/types';
+import { CustomIncomingMessage } from '../types';
 
 export default class UserController extends BaseController {
   private userService: UserService;
@@ -12,7 +13,7 @@ export default class UserController extends BaseController {
     this.userService = new UserService();
   }
 
-  async signIn(req: IncomingMessage, res: ServerResponse) {
+  async signIn(req: CustomIncomingMessage, res: ServerResponse) {
     try {
       const start = Date.now();
       const data = await getPostData<SignInParams>(req);

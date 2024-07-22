@@ -1,5 +1,5 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
-import { Middleware } from '../types';
+import { ServerResponse } from 'node:http';
+import { CustomIncomingMessage, Middleware } from '../types';
 
 /**
  * Manage the execution order of middleware functions.
@@ -20,7 +20,7 @@ export default class MiddlewareManager {
     this.middlewares.push(func);
   }
 
-  run(req: IncomingMessage, res: ServerResponse) {
+  run(req: CustomIncomingMessage, res: ServerResponse) {
     const runner = async (index: number) => {
       const middleware = this.middlewares[index];
       if (middleware) {
