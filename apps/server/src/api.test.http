@@ -1,0 +1,35 @@
+@host = http://[::1]:8000
+
+### hello world
+
+GET {{host}} HTTP/1.1
+
+### commodity/create
+
+POST {{host}}/commodity/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "test",
+  "price": 10,
+  "description": "desc",
+  "categoryId": 1
+}
+
+### commodity/update
+
+POST {{host}}/commodity/update HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 9,
+  "name": "酱骨头",
+  "price": 20,
+  "description": "大口吃肉～",
+  "categoryId": 1
+}
+
+### commodity/delete
+
+DELETE {{host}}/commodity/delete/10 HTTP/1.1
+Content-Type: application/json
