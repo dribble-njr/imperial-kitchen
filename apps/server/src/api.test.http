@@ -32,4 +32,16 @@ Content-Type: application/json
 ### commodity/delete
 
 DELETE {{host}}/commodity/delete/10 HTTP/1.1
+
+### category/create
+
+POST {{host}}/category/create HTTP/1.1
 Content-Type: application/json
+
+{
+  "name": "test"
+}
+
+### category/delete
+
+DELETE {{host}}/category/delete/4 HTTP/1.1

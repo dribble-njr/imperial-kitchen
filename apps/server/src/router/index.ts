@@ -18,7 +18,7 @@ const Router: { [key: string]: Route } = {
       categoryController.list(req, res);
     }
   },
-  'GET/category/create': {
+  'POST/category/create': {
     controller: (req, res) => {
       const categoryController = new CategoryController();
       categoryController.create(req, res);
