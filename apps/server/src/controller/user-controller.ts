@@ -1,7 +1,7 @@
 import { ServerResponse } from 'node:http';
 import { SignInParams } from '@imperial-kitchen/types';
 import { BaseController } from './base-controller';
-import { getPostData } from '../util';
+import { getRequestBody } from '../util';
 import { UserService } from '../service';
 import { CustomIncomingMessage } from '../types';
 
@@ -16,7 +16,7 @@ export default class UserController extends BaseController {
   async signIn(req: CustomIncomingMessage, res: ServerResponse) {
     try {
       const start = Date.now();
-      const data = await getPostData<SignInParams>(req);
+      const data = await getRequestBody<SignInParams>(req);
 
       // TODO: verify parameters.
 

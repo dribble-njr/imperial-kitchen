@@ -36,7 +36,7 @@ const Router: { [key: string]: Route } = {
       commodityController.create(req, res);
     }
   },
-  'POST/commodity/update': {
+  'PUT/commodity/update': {
     controller: (req, res) => {
       const commodityController = new CommodityController();
       commodityController.update(req, res);

@@ -1,6 +1,12 @@
 import querystring from 'node:querystring';
 import { CustomIncomingMessage } from './types';
 
+/**
+ * Extracts query parameters from a URL string.
+ *
+ * @param {string | undefined} url - The URL string from which to extract query parameters.
+ * @return {Record<string, string>} An object containing the extracted query parameters.
+ */
 export const getQueryParams = (url: string | undefined) => {
   if (!url) return {};
 
@@ -9,11 +15,16 @@ export const getQueryParams = (url: string | undefined) => {
   return querystring.parse(query);
 };
 
-// get Post data
-export const getPostData = <T>(req: CustomIncomingMessage): Promise<T> => {
+/**
+ * A function to retrieve the request body data asynchronously.
+ *
+ * @param {CustomIncomingMessage} req - The incoming message object containing the request data.
+ * @return {Promise<T>} A promise resolving to the parsed request body data.
+ */
+export const getRequestBody = <T>(req: CustomIncomingMessage): Promise<T> => {
   return new Promise((resolve, reject) => {
     try {
-      if (req.method !== 'POST') {
+      if (req.method !== 'POST' && req.method !== 'PUT') {
         resolve({} as T);
         return;
       }

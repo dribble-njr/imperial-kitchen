@@ -2,7 +2,7 @@ import { ServerResponse } from 'node:http';
 import { Commodity } from '@imperial-kitchen/types';
 import { CommodityService } from '../service';
 import { BaseController } from './base-controller';
-import { getPostData } from '../util';
+import { getRequestBody } from '../util';
 import { CustomIncomingMessage } from '../types';
 
 export default class CommodityController extends BaseController {
@@ -14,13 +14,13 @@ export default class CommodityController extends BaseController {
   }
 
   async create(req: CustomIncomingMessage, res: ServerResponse) {
-    const commodity = await getPostData<Commodity>(req);
+    const commodity = await getRequestBody<Commodity>(req);
     const id = await this.commodityService.createCommodity(commodity);
     CommodityController.sendResponse(200, id, res);
   }
 
   async update(req: CustomIncomingMessage, res: ServerResponse) {
-    const commodity = await getPostData<Commodity>(req);
+    const commodity = await getRequestBody<Commodity>(req);
     const updatedCommodity = await this.commodityService.updateCommodity(commodity);
     CommodityController.sendResponse(200, updatedCommodity, res);
   }
