@@ -41,13 +41,16 @@ class HttpClient {
   }
 
   // Axios instance will combine finalConfig and defaultConfig.
-  public request<T>(config: AxiosRequestConfig): Promise<Response<T>> {
+  public request<T>(config: AxiosRequestConfig): Promise<T> {
     return new Promise((resolve, reject) => {
       const finalConfig = this.mergeConfig(config);
       this.axiosInstance
         .request<Response<T>>(finalConfig)
         .then((response) => {
-          resolve(response.data);
+          if (response.data.code !== 200) {
+            throw new Error(response.data.message);
+          }
+          resolve(response.data.data as T);
         })
         .catch((e: Error | AxiosError) => {
           reject(e);
@@ -55,7 +58,7 @@ class HttpClient {
     });
   }
 
-  public get<T, P>(url: string, params?: P, config?: AxiosRequestConfig): Promise<Response<T>> {
+  public get<T, P = object>(url: string, params?: P, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'GET', params });
   }
 
@@ -63,11 +66,11 @@ class HttpClient {
     return this.request<T>({ ...config, url, method: 'POST', data });
   }
 
-  public put<T, D>(url: string, data?: D, config?: AxiosRequestConfig): Promise<Response<T>> {
+  public put<T, D>(url: string, data?: D, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'PUT', data });
   }
 
-  public delete<T>(url: string, config?: AxiosRequestConfig): Promise<Response<T>> {
+  public delete<T>(url: string, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'DELETE' });
   }
 }
