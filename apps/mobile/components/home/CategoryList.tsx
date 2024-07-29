@@ -19,7 +19,7 @@ const CategoryList: FC<CategoryListProps> = ({ categories, activeCategoryId, onC
       <ThemedView>
         {categories.map((category) => (
           <div
-            onClick={() => onCategoryPress(category.id)}
+            onClick={() => onCategoryPress(category.id!)}
             key={category.id}
             style={category.id === activeCategoryId ? styles.active : undefined}
           >

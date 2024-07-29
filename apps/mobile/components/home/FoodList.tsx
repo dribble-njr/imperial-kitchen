@@ -19,10 +19,8 @@ const FoodList: FC<FoodListProps> = ({ categories, onScroll }) => {
         {categories.map((category) => {
           return (
             <>
-              <ThemedText key={category.id}>{category.name}</ThemedText>
-              {category.goods.map((food) => (
-                <ThemedText key={food.id}>{food.name}</ThemedText>
-              ))}
+              <ThemedText key={category.name}>{category.name}</ThemedText>
+              {category.goods?.map((food) => <ThemedText key={food.id}>{food.name}</ThemedText>)}
             </>
           );
         })}
