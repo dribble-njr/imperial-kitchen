@@ -1,8 +1,8 @@
-import React from 'react';
+import { createContext, useContext, PropsWithChildren } from 'react';
 import { useStorageState } from '../hooks/useStorageState';
 import { UserService } from '../service';
 
-const AuthContext = React.createContext<{
+const AuthContext = createContext<{
   signIn: () => void;
   signOut: () => void;
   session?: string | null;
@@ -16,7 +16,7 @@ const AuthContext = React.createContext<{
 
 // This hook can be used to access the user info.
 export function useSession() {
-  const value = React.useContext(AuthContext);
+  const value = useContext(AuthContext);
   if (process.env.NODE_ENV !== 'production') {
     if (!value) {
       throw new Error('useSession must be wrapped in a <SessionProvider />');
@@ -26,7 +26,7 @@ export function useSession() {
   return value;
 }
 
-export function SessionProvider(props: React.PropsWithChildren) {
+export function SessionProvider(props: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('session');
 
   return (
