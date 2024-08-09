@@ -1,6 +1,6 @@
 import React from 'react';
-import { useStorageState } from './hooks/useStorageState';
-import { UserService } from './service';
+import { useStorageState } from '../hooks/useStorageState';
+import { UserService } from '../service';
 
 const AuthContext = React.createContext<{
   signIn: () => void;

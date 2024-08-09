@@ -2,7 +2,7 @@ import { Slot } from 'expo-router';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { SessionProvider } from '@/ctx';
+import { SessionProvider } from '@/context/AuthContext';
 
 export default function Root() {
   const colorScheme = useColorScheme();

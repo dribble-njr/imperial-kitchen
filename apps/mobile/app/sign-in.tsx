@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 
-import { useSession } from '@/ctx';
+import { useSession } from '@/context/AuthContext';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
