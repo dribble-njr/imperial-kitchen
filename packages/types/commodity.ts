@@ -4,4 +4,5 @@ export interface Commodity {
   price?: number;
   categoryId?: number;
   description?: string;
+  image?: string;
 }
