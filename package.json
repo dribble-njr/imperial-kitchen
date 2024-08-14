@@ -6,6 +6,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "mobile:dev": "yarn workspace mobile dev",
+    "server:dev": "yarn workspace server dev",
+    "types:build": "yarn workspace @imperial-kitchen/types build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "husky"
   },

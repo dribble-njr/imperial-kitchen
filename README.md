@@ -35,13 +35,13 @@ yarn install
 3. Generate types.
 
 ```sh
-yarn workspace @imperial-kitchen/types build
+yarn types:build
 ```
 
 4. Run mobile.
 
 ```sh
-yarn workspace mobile dev
+yarn mobile:dev
 ```
 
 5. Configure database env.
@@ -57,5 +57,5 @@ TURSO_AUTH_TOKEN="YOUR_TURSO_AUTH_TOKEN"
 6. Run server.
 
 ```sh
-yarn workspace server dev
+yarn server:dev
 ```
