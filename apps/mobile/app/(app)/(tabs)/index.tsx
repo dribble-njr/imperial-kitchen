@@ -7,6 +7,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { CategoryService } from '@/service';
 import { ThemedText } from '@/components/ThemedText';
+import { CartProvider } from '@/context/CartContext';
 
 export default function HomeScreen() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -23,25 +24,28 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={<Image source={require('@/assets/images/partial-react-logo.png')} style={styles.reactLogo} />}
-    >
-      <Header />
-      {categories.length ? (
-        <ThemedView style={styles.container}>
-          <ThemedView style={styles.sidebar}>
-            <CategoryList categories={categories} activeCategoryId={activeCategoryId} onCategoryPress={() => {}} />
-          </ThemedView>
+    <CartProvider>
+      <ParallaxScrollView
+        headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+        headerImage={<Image source={require('@/assets/images/partial-react-logo.png')} style={styles.reactLogo} />}
+      >
+        <Header />
 
-          <ThemedView style={styles.main}>
-            <FoodList categories={categories} onScroll={() => {}} />
+        {categories.length ? (
+          <ThemedView style={styles.container}>
+            <ThemedView style={styles.sidebar}>
+              <CategoryList categories={categories} activeCategoryId={activeCategoryId} onCategoryPress={() => {}} />
+            </ThemedView>
+
+            <ThemedView style={styles.main}>
+              <FoodList categories={categories} onScroll={() => {}} />
+            </ThemedView>
           </ThemedView>
-        </ThemedView>
-      ) : (
-        <ThemedText>loading...</ThemedText>
-      )}
-    </ParallaxScrollView>
+        ) : (
+          <ThemedText>loading...</ThemedText>
+        )}
+      </ParallaxScrollView>
+    </CartProvider>
   );
 }
 
