@@ -24,8 +24,6 @@ export default class CategoryService extends BaseService {
         c.id = g.category_id
     `);
 
-    console.log(res, 'category list');
-
     const categoryMap = new Map<number, Category>();
 
     res.rows.forEach((row) => {
