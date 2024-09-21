@@ -17,8 +17,9 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@libsql/client": "^0.6.0",
-    "tsx": "^4.10.2",
-    "@imperial-kitchen/types": "1.0.0"
+    "@imperial-kitchen/types": "1.0.0",
+    "@libsql/client": "^0.13.0",
+    "@prisma/adapter-libsql": "^5.19.1",
+    "tsx": "^4.10.2"
   }
 }

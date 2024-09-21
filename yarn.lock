@@ -1801,47 +1801,43 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@libsql/client@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@libsql/client/-/client-0.6.0.tgz#bbae2beba4e9c1a3d71ba2593e9e21d0858ae7d1"
-  integrity sha512-qhQzTG/y2IEVbL3+9PULDvlQFWJ/RnjFXECr/Nc3nRngGiiMysDaOV5VUzYk7DulUX98EA4wi+z3FspKrUplUA==
+"@libsql/client@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@libsql/client/-/client-0.13.0.tgz#0b8764a7d12a8c5667f45802ce5bf6cc455219f8"
+  integrity sha512-Gh01PdZC58TNDaw8kHHExfZ8afaveN3yb0uz1Dh28pXQ6wHDOgf9nHPnuPGTXX4IrN5d5kI80y/E0O9sC4c5yg==
   dependencies:
-    "@libsql/core" "^0.6.0"
-    "@libsql/hrana-client" "^0.6.0"
+    "@libsql/core" "^0.13.0"
+    "@libsql/hrana-client" "^0.8.0"
     js-base64 "^3.7.5"
-    libsql "^0.3.10"
+    libsql "^0.4.4"
+    promise-limit "^2.7.0"
 
-"@libsql/core@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@libsql/core/-/core-0.6.0.tgz#8eb8468bf452efe73847d699a1a8238803eba9a1"
-  integrity sha512-affAB8vSqQwqI9NBDJ5uJCVaHoOAS2pOpbv1kWConh1SBbmJBnHHd4KG73RAJ2sgd2+NbT9WA+XJBqxgp28YSw==
+"@libsql/core@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@libsql/core/-/core-0.13.0.tgz#7e48384d023b040c03defc6cf85757a83878bf80"
+  integrity sha512-4BHLL6abxn/lq6MA/46YY7uZx7hn2nlfXzhmGGQLegPuBwD62Wj7tspZVhCLcU2XmLv08i5xN9hSeqgauQ1SRA==
   dependencies:
     js-base64 "^3.7.5"
 
-"@libsql/darwin-arm64@0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@libsql/darwin-arm64/-/darwin-arm64-0.3.18.tgz#67bb39f2fa9974092a38eeef8909d4dabcd08f58"
-  integrity sha512-Zt49dt+cwhPCkuoWgvjbQd4ckNfCJR5xzIAyhgHl3CBZqZaEuaXTOGKLNQT7bnFRPuQcdLt5PBT1cenKu2N6pA==
+"@libsql/darwin-arm64@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@libsql/darwin-arm64/-/darwin-arm64-0.4.5.tgz#3e05690997f6e1ce3f9f217e1e079cafdb3f71a0"
+  integrity sha512-xLdnn0NrgSk6OMi716FFs/27Hs33jtSd2fkKi/72Ey/qBtPWcB1BMurDQekzi0yAcfQTjGqIz7tpOibyjiEPyQ==
 
-"@libsql/darwin-x64@0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@libsql/darwin-x64/-/darwin-x64-0.3.18.tgz#9dfb0c4ddfe100b8809839fa20540673a9d778b7"
-  integrity sha512-faq6HUGDaNaueeqPei5cypHaD/hhazUyfHo094CXiEeRZq6ZKtNl5PHdlr8jE/Uw8USNpVVQaLdnvSgKcpRPHw==
+"@libsql/darwin-x64@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@libsql/darwin-x64/-/darwin-x64-0.4.5.tgz#12931312f5b6975a29dfca6311404c606d34c934"
+  integrity sha512-rZsEWj0H7oCqd5Y2pe0RzKmuQXC2OB1RbnFy4CvjeAjT6MP6mFp+Vx9mTCAUuJMhuoSVMsFPUJRpAQznl9E3Tg==
 
-"@libsql/hrana-client@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@libsql/hrana-client/-/hrana-client-0.6.0.tgz#051466f7e6c3d7402499de9af20a5deca6b82e9f"
-  integrity sha512-k+fqzdjqg3IvWfKmVJK5StsbjeTcyNAXFelUbXbGNz3yH1gEVT9mZ6kmhsIXP30ZSyVV0AE1Gi25p82mxC9hwg==
+"@libsql/hrana-client@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@libsql/hrana-client/-/hrana-client-0.8.0.tgz#439d6a29047ee3b586426a5ec790b148e53dac3d"
+  integrity sha512-dERMyhDV7O7nxX5qWKxOPb/tIHt+NlnKkVUHYsNSe79GCLQEIOFFRJJtopdLinE1kZosvB2jh02ylFnnZW5+RQ==
   dependencies:
-    "@libsql/isomorphic-fetch" "^0.2.1"
     "@libsql/isomorphic-ws" "^0.1.5"
+    cross-fetch "^4.0.0"
     js-base64 "^3.7.5"
     node-fetch "^3.3.2"
-
-"@libsql/isomorphic-fetch@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@libsql/isomorphic-fetch/-/isomorphic-fetch-0.2.1.tgz#8dc17476cd1625efb0c0bd613857fd319b7e11b5"
-  integrity sha512-Sv07QP1Aw8A5OOrmKgRUBKe2fFhF2hpGJhtHe3d1aRnTESZCGkn//0zDycMKTGamVWb3oLYRroOsCV8Ukes9GA==
 
 "@libsql/isomorphic-ws@^0.1.5":
   version "0.1.5"
@@ -1851,30 +1847,30 @@
     "@types/ws" "^8.5.4"
     ws "^8.13.0"
 
-"@libsql/linux-arm64-gnu@0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@libsql/linux-arm64-gnu/-/linux-arm64-gnu-0.3.18.tgz#d6012ef0bc4af9971898046232010786083a2e4d"
-  integrity sha512-5m9xtDAhoyLSV54tho9uQ2ZIDeJWc0vU3Xpe/VK4+6bpURISs23qNhXiCrZnnq3oV0hFlBfcIgQUIATmb6jD2A==
+"@libsql/linux-arm64-gnu@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@libsql/linux-arm64-gnu/-/linux-arm64-gnu-0.4.5.tgz#171656b0401ddff0d81a212087f13eaef242db89"
+  integrity sha512-VR09iu6KWGJ6fauCn59u/jJ9OA+/A2yQ0dr2HDN2zkRueLC6D2oGYt4gPfLZPFKf+WJpVMtIhNfd+Ru9MMaFkA==
 
-"@libsql/linux-arm64-musl@0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@libsql/linux-arm64-musl/-/linux-arm64-musl-0.3.18.tgz#350a177a56cc783e3322aff063301b798a51803e"
-  integrity sha512-oYD5+oM2gPEalp+EoR5DVQBRtdGjLsocjsRbQs5O2m4WOBJKER7VUfDYZHsifLGZoBSc11Yo6s9IR9rjGWy20w==
+"@libsql/linux-arm64-musl@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@libsql/linux-arm64-musl/-/linux-arm64-musl-0.4.5.tgz#532d4aa3f2c3c28c25c710461237d3b67eb38a3f"
+  integrity sha512-74hvD5ej4rBshhxFGNYU16a3m8B/NjIPvhlZ/flG1Oeydfo6AuUXSSNFi+H5+zi9/uWuzyz5TLVeQcraoUV10A==
 
-"@libsql/linux-x64-gnu@0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@libsql/linux-x64-gnu/-/linux-x64-gnu-0.3.18.tgz#c3be01dcc80a6f0c8e8d426e0e699695034f22a9"
-  integrity sha512-QDSSP60nS8KIldGE7H3bpEflQHiL1erwED6huoVJdmDFxsyDJX2CYdWUWW8Za0ZUOvUbnEWAOyMhp6j1dBbZqw==
+"@libsql/linux-x64-gnu@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@libsql/linux-x64-gnu/-/linux-x64-gnu-0.4.5.tgz#09cb19647556bdc2b1f536589ff4350c54b4d8a0"
+  integrity sha512-gb5WObGO3+rbuG8h9font1N02iF+zgYAgY0wNa8BNiZ5A9UolZKFxiqGFS7eHaAYfemHJKKTT+aAt3X2p5TibA==
 
-"@libsql/linux-x64-musl@0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@libsql/linux-x64-musl/-/linux-x64-musl-0.3.18.tgz#54507d442d6de3722eced59e7aeecc9014919c2a"
-  integrity sha512-5SXwTlaLCUPzxYyq+P0c7Ko7tcEjpd1X6RZKe1DuRFmJPg6f7j2+LrPEhMSIbqKcrl5ACUUAyoKmGZqNYwz23w==
+"@libsql/linux-x64-musl@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@libsql/linux-x64-musl/-/linux-x64-musl-0.4.5.tgz#6855ee51fd5bdbe843780b2216db42259bc438ee"
+  integrity sha512-JfyE6OVC5X4Nr4cFF77VhB1o+hBRxAqYT9YdeqnWdAQSYc/ASi5HnRALLAQEsGacFPZZ32pixfraQmPE3iJFfw==
 
-"@libsql/win32-x64-msvc@0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@libsql/win32-x64-msvc/-/win32-x64-msvc-0.3.18.tgz#470064f804d33b1c78fe5b61aa296b9ad7341b83"
-  integrity sha512-9EEIHz+e8tTbx9TMkb8ByZnzxc0pYFirK1nSbqC6cFEST95fiY0NCfQ/zAzJxe90KckbjifX6BbO69eWIi3TAg==
+"@libsql/win32-x64-msvc@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@libsql/win32-x64-msvc/-/win32-x64-msvc-0.4.5.tgz#6b9806c3adbab56230324811cece6b8abffa4749"
+  integrity sha512-57GGurNJhOhq3XIopLdGnCoQ4kQAcmbmzzFoC4tpvDE/KSbwZ/13zqJWhQA41nMGk/PKM1XKfKmbIybKx1+eqA==
 
 "@neon-rs/load@^0.0.4":
   version "0.0.4"
@@ -1917,6 +1913,26 @@
   dependencies:
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
+
+"@prisma/adapter-libsql@^5.19.1":
+  version "5.19.1"
+  resolved "https://registry.yarnpkg.com/@prisma/adapter-libsql/-/adapter-libsql-5.19.1.tgz#e5378d041cf9b9ce2603a413a71693f0cc943051"
+  integrity sha512-DZ9WATcxAP5Pew4L2lKv9V072rxtuFwOXkusSZ4L68zD2qu+o87eSe9MNcQKjvRpDWNKW4DY16/wVh727jI9nA==
+  dependencies:
+    "@prisma/driver-adapter-utils" "5.19.1"
+    async-mutex "0.5.0"
+
+"@prisma/debug@5.19.1":
+  version "5.19.1"
+  resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-5.19.1.tgz#9c6f25f62192104b96bee8c452e10872be6d000b"
+  integrity sha512-lAG6A6QnG2AskAukIEucYJZxxcSqKsMK74ZFVfCTOM/7UiyJQi48v6TQ47d6qKG3LbMslqOvnTX25dj/qvclGg==
+
+"@prisma/driver-adapter-utils@5.19.1":
+  version "5.19.1"
+  resolved "https://registry.yarnpkg.com/@prisma/driver-adapter-utils/-/driver-adapter-utils-5.19.1.tgz#2577238332793eb6ecfe3d1119dc63dc3ad44983"
+  integrity sha512-98PZ4MWYddRFRlEZXSXGIPeNxtY3ErRH13rir8j31YcqQDPuAWG0dWAjIp1h7NL3uewj+QF5UkDXRnTgoCE4Wg==
+  dependencies:
+    "@prisma/debug" "5.19.1"
 
 "@radix-ui/react-compose-refs@1.0.0":
   version "1.0.0"
@@ -2995,6 +3011,13 @@ async-limiter@~1.0.0:
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
 
+async-mutex@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/async-mutex/-/async-mutex-0.5.0.tgz#353c69a0b9e75250971a64ac203b0ebfddd75482"
+  integrity sha512-1A94B18jkJ3DYq284ohPxoXbfTA5HsQ7/Mf4DEhcyLx3Bz27Rh59iScbB6EPiP+B+joue6YCxcMXSbFC1tZKwA==
+  dependencies:
+    tslib "^2.4.0"
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -3759,6 +3782,13 @@ cross-fetch@^3.1.5:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
   integrity sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==
+  dependencies:
+    node-fetch "^2.6.12"
+
+cross-fetch@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
   dependencies:
     node-fetch "^2.6.12"
 
@@ -6410,22 +6440,21 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libsql@^0.3.10, libsql@^0.3.15:
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/libsql/-/libsql-0.3.18.tgz#796f403736e7c6c7a3b7be35f559f702d3ab6166"
-  integrity sha512-lvhKr7WV3NLWRbXkjn/MeKqXOAqWKU0PX9QYrvDh7fneukapj+iUQ4qgJASrQyxcCrEsClXCQiiK5W6OoYPAlA==
+libsql@^0.4.4:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/libsql/-/libsql-0.4.5.tgz#5b0b553279a3f7436152a128f879ceafa09f91c8"
+  integrity sha512-sorTJV6PNt94Wap27Sai5gtVLIea4Otb2LUiAUyr3p6BPOScGMKGt5F1b5X/XgkNtcsDKeX5qfeBDj+PdShclQ==
   dependencies:
     "@neon-rs/load" "^0.0.4"
     detect-libc "2.0.2"
-    libsql "^0.3.15"
   optionalDependencies:
-    "@libsql/darwin-arm64" "0.3.18"
-    "@libsql/darwin-x64" "0.3.18"
-    "@libsql/linux-arm64-gnu" "0.3.18"
-    "@libsql/linux-arm64-musl" "0.3.18"
-    "@libsql/linux-x64-gnu" "0.3.18"
-    "@libsql/linux-x64-musl" "0.3.18"
-    "@libsql/win32-x64-msvc" "0.3.18"
+    "@libsql/darwin-arm64" "0.4.5"
+    "@libsql/darwin-x64" "0.4.5"
+    "@libsql/linux-arm64-gnu" "0.4.5"
+    "@libsql/linux-arm64-musl" "0.4.5"
+    "@libsql/linux-x64-gnu" "0.4.5"
+    "@libsql/linux-x64-musl" "0.4.5"
+    "@libsql/win32-x64-msvc" "0.4.5"
 
 lighthouse-logger@^1.0.0:
   version "1.4.2"
@@ -7708,6 +7737,11 @@ promise-inflight@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==
+
+promise-limit@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/promise-limit/-/promise-limit-2.7.0.tgz#eb5737c33342a030eaeaecea9b3d3a93cb592b26"
+  integrity sha512-7nJ6v5lnJsXwGprnGXga4wx6d1POjvi5Qmf1ivTRxTjH4Z/9Czja/UCMLVmB9N93GeWOU93XaFaEt6jbuoagNw==
 
 promise@^7.1.1:
   version "7.3.1"
