@@ -14,12 +14,14 @@
   "devDependencies": {
     "@types/node": "^20.12.11",
     "nodemon": "^3.1.0",
+    "prisma": "^5.19.1",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "@imperial-kitchen/types": "1.0.0",
     "@libsql/client": "^0.13.0",
     "@prisma/adapter-libsql": "^5.19.1",
+    "@prisma/client": "^5.19.1",
     "tsx": "^4.10.2"
   }
 }

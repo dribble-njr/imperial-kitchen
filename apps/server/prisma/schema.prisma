@@ -1,0 +1,70 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true)
+
+  commodity Commodity[]
+}
+
+model Commodity {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Float
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true)
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String?  @unique
+  phone     String?  @unique
+  name      String
+  password  String
+  role      String   @default("MEMBER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  families FamiliesOnUsers[]
+}
+
+model Family {
+  id         Int      @id @default(autoincrement())
+  name       String
+  adminId    Int
+  inviteCode String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  users FamiliesOnUsers[]
+}
+
+model FamiliesOnUsers {
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int
+  family   Family    @relation(fields: [familyId], references: [id])
+  familyId Int
+  role     String
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+  isActive Boolean   @default(true)
+
+  @@id([userId, familyId])
+}
