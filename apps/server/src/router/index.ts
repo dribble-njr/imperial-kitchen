@@ -1,59 +1,9 @@
-import { CategoryController, CommodityController, UserController } from '../controller';
-import { Route } from '../types';
+import { Router } from 'express';
+import UserRouter from './user-router';
+import config from '../config';
 
-/**
- * Distribute controller for different route.
- */
-const Router: { [key: string]: Route } = {
-  'GET/': {
-    controller: (req, res) => {
-      res.setHeader('content-type', 'text/html');
-      res.write('Hello World!');
-      res.end();
-    }
-  },
-  'GET/category/list': {
-    controller: (req, res) => {
-      const categoryController = new CategoryController();
-      categoryController.list(req, res);
-    }
-  },
-  'POST/category/create': {
-    controller: (req, res) => {
-      const categoryController = new CategoryController();
-      categoryController.create(req, res);
-    }
-  },
-  'DELETE/category/delete/:id': {
-    controller: (req, res) => {
-      const categoryController = new CategoryController();
-      categoryController.delete(req, res);
-    }
-  },
-  'POST/user/sign-in': {
-    controller: (req, res) => {
-      const userController = new UserController();
-      userController.signIn(req, res);
-    }
-  },
-  'POST/commodity/create': {
-    controller: (req, res) => {
-      const commodityController = new CommodityController();
-      commodityController.create(req, res);
-    }
-  },
-  'PUT/commodity/update': {
-    controller: (req, res) => {
-      const commodityController = new CommodityController();
-      commodityController.update(req, res);
-    }
-  },
-  'DELETE/commodity/delete/:id': {
-    controller: (req, res) => {
-      const commodityController = new CommodityController();
-      commodityController.delete(req, res);
-    }
-  }
-};
+const router = Router();
 
-export default Router;
+router.use(`${config.API_V1}/users`, new UserRouter().router);
+
+export default router;
