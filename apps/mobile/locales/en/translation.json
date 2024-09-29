@@ -1,0 +1,16 @@
+{
+  "welcome": "Welcome to Imperial Kitchen",
+  "startTip": "Sign up or login to get started",
+  "login": "Login",
+  "logout": "Logout",
+  "signup": "Sign Up",
+  "enterEmail": "Enter your email",
+  "enterPhone": "Enter your phone number",
+  "enterName": "Enter your name",
+  "enterPassword": "Enter your password",
+  "enterPasswordAgain": "Enter your password again",
+  "enterInviteCode": "Enter your invite code",
+  "forgotPassword": "Forgot Password?",
+  "sendVerificationCode": "Send Verification Code",
+  "greeting": "Hello, {{name}}!"
+}

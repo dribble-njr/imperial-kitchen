@@ -3,6 +3,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { SessionProvider } from '@/context/AuthContext';
+import '@/i8n';
 
 export default function Root() {
   const colorScheme = useColorScheme();
