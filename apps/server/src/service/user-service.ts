@@ -1,40 +1,36 @@
-import { BaseService } from './base-service';
-import { User, SignInParams, Response } from '@imperial-kitchen/types';
+import { CommonResponse, RegisterRequest } from '@imperial-kitchen/types';
+import { UserDao } from '../dao/user-dao';
+import { AppError } from '../errors';
 
-export default class UserService extends BaseService {
+export default class UserService {
+  private userDao: UserDao;
+
   constructor() {
-    super();
+    this.userDao = new UserDao();
   }
 
-  // sign-in
-  async signIn(data: SignInParams): Promise<Response<boolean | null>> {
-    const sql = 'SELECT * FROM users WHERE name = ?';
-    const res = await this.db.execute({ sql, args: [data.name] });
-    const usersInfo: User[] = res.rows.map((row) => ({
-      id: Number(row.ID),
-      name: String(row.name),
-      password: String(row.password)
-    }));
-
-    // Check if the user exists.
-    if (usersInfo.length === 0) {
-      return {
-        code: 401,
-        message: 'Access to the requested resource is unauthorized. Please authenticate.',
-        data: null
-      };
-    }
-    // Check if the password matches.
-    if (usersInfo[0].password !== data.password) {
-      return {
-        code: 401,
-        message: 'Access to the requested resource is unauthorized. Please authenticate.',
-        data: null
-      };
+  async registerAdmin(data: RegisterRequest): Promise<CommonResponse<boolean | null>> {
+    const { name, password, email, phone } = data;
+    const user = await this.userDao.findUserByEmailOrPhone(email, phone);
+    console.log(user, 'registerAdmin');
+    if (user) {
+      throw new AppError('User already exists with this email or phone number.', 409);
     }
 
-    // All checks passed, return success message or token
-    // TODO: generate token.
-    return { code: 200, message: 'Login successful', data: true };
+    const newUser = await this.userDao.createUser({
+      name,
+      password,
+      email,
+      phone,
+      role: 'ADMIN'
+    });
+
+    console.log(newUser, 'registerAdmin');
+
+    return {
+      code: 200,
+      message: 'success',
+      data: true
+    };
   }
 }
