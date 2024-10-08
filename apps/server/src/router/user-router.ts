@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { UserController } from '../controller';
+import { authMiddleware } from '../middleware';
 
 class UserRouter {
   public router: Router;
@@ -12,8 +13,16 @@ class UserRouter {
   }
 
   private initializeRoutes() {
-    console.log('initializeRoutes', 'user', this.userController.registerAdmin);
-    this.router.post('/register/admin', (req, res, next) => this.userController.registerAdmin(req, res, next));
+    this.router.post(
+      '/register/admin',
+      async (req, res, next) => await this.userController.registerAdmin(req, res, next)
+    );
+    this.router.get('/register/captcha', async (req, res, next) => await this.userController.captcha(req, res, next));
+    this.router.post('/login', async (req, res, next) => await this.userController.login(req, res, next));
+    this.router.post('/register', async (req, res, next) => await this.userController.register(req, res, next));
+    this.router.get('/aaa', authMiddleware, async (req, res, next) => await this.userController.aaa(req, res, next));
+    this.router.get('/all', async (req, res, next) => await this.userController.findAllUser(req, res, next));
+    this.router.get('/refresh', async (req, res, next) => await this.userController.refresh(req, res, next));
   }
 }
 

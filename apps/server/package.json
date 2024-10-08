@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20.12.11",
     "express-list-endpoints": "^7.1.0",
     "nodemon": "^3.1.0",
@@ -25,7 +26,11 @@
     "@prisma/adapter-libsql": "^5.19.1",
     "@prisma/client": "^5.19.1",
     "body-parser": "^1.20.3",
+    "class-validator": "^0.14.1",
     "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.15",
+    "redis": "^4.7.0",
     "tsx": "^4.10.2"
   }
 }
