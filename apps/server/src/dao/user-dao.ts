@@ -13,8 +13,32 @@ export class UserDao {
   }
 
   async createUser(data: CreateUserData) {
-    return await prisma.user.create({
-      data
+    try {
+      return await prisma.user.create({
+        data
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findUserByName(name: string) {
+    return await prisma.user.findFirst({
+      where: {
+        OR: [{ name: name || undefined }]
+      }
     });
+  }
+
+  async findUserById(id: number) {
+    return await prisma.user.findFirst({
+      where: {
+        OR: [{ id: id }]
+      }
+    });
+  }
+
+  async findAllUser() {
+    return await prisma.user.findMany();
   }
 }
