@@ -1,19 +1,24 @@
 import { Transporter, createTransport } from 'nodemailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 import config from '../config';
+
 class EmailService {
   transporter: Transporter;
 
   constructor() {
-    this.transporter = createTransport({
+    const smtpConfig: SMTPTransport.Options = {
       host: config.NODEMAILER_HOST,
-      port: config.NODEMAILER_PORT,
+      port: Number(config.NODEMAILER_PORT),
       secure: false,
       auth: {
         user: config.NODEMAILER_AUTH_USER,
         pass: config.NODEMAILER_AUTH_PASS
       }
-    });
+    };
+
+    this.transporter = createTransport(smtpConfig);
   }
+
   async sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
     try {
       await this.transporter.sendMail({
