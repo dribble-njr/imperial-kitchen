@@ -1,5 +1,6 @@
 import querystring from 'node:querystring';
 import { CustomIncomingMessage } from './types';
+import * as crypto from 'crypto';
 
 /**
  * Extracts query parameters from a URL string.
@@ -48,3 +49,9 @@ export const getRequestBody = <T>(req: CustomIncomingMessage): Promise<T> => {
     }
   });
 };
+
+export function md5(str: string) {
+  const hash = crypto.createHash('md5');
+  hash.update(str);
+  return hash.digest('hex');
+}
