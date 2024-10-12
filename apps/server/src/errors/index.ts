@@ -1,3 +1,11 @@
+export const ERROR_CODES = {
+  USER_EXISTS: 'ERR_USER_EXISTS',
+  CAPTCHA_EXPIRED: 'ERR_CAPTCHA_EXPIRED',
+  CAPTCHA_ERROR: 'ERR_CAPTCHA_ERROR',
+  USER_NOT_FOUND: 'ERR_USER_NOT_FOUND',
+  INVALID_PASSWORD: 'ERR_INVALID_PASSWORD'
+};
+
 export class AppError extends Error {
   public code: number;
   public data: unknown;
