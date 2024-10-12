@@ -8,12 +8,16 @@ class EmailService {
   constructor() {
     const smtpConfig: SMTPTransport.Options = {
       host: config.NODEMAILER_HOST,
-      port: Number(config.NODEMAILER_PORT),
-      secure: false,
+      port: 465,
+      secure: true,
       auth: {
         user: config.NODEMAILER_AUTH_USER,
         pass: config.NODEMAILER_AUTH_PASS
-      }
+      },
+      socketTimeout: 30000,
+      connectionTimeout: 30000,
+      logger: true,
+      debug: true
     };
 
     this.transporter = createTransport(smtpConfig);
