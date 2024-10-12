@@ -7,7 +7,6 @@ const config = {
   DB_URL: process.env.DB_URL || '',
   DB_TOKEN: process.env.DB_TOKEN || '',
   NODEMAILER_HOST: process.env.nodemailer_host || '',
-  NODEMAILER_PORT: process.env.nodemailer_port || '',
   NODEMAILER_AUTH_USER: process.env.nodemailer_auth_user || '',
   NODEMAILER_AUTH_PASS: process.env.nodemailer_auth_pass || '',
   JWT_SECRET: process.env.JWT_SECRET || 'jwt_secret',
