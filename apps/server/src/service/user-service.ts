@@ -1,6 +1,6 @@
 import { CommonResponse, RegisterRequest } from '@imperial-kitchen/types';
 import { UserDao } from '../dao/user-dao';
-import { AppError } from '../errors';
+import { AppError, ERROR_CODES } from '../errors';
 import { RegisterUserDto } from '../../types/dto/register-user';
 import redisService from './redis-service';
 import emailService from './email-service';
@@ -24,7 +24,7 @@ export default class UserService {
     const user = await this.userDao.findUserByEmailOrPhone(email, phone);
     console.log(user, 'registerAdmin');
     if (user) {
-      throw new AppError('User already exists with this email or phone number.', 409);
+      throw new AppError(ERROR_CODES.USER_EXISTS, 409);
     }
 
     const newUser = await this.userDao.createUser({
@@ -47,14 +47,10 @@ export default class UserService {
   async register(user: RegisterUserDto): Promise<CommonResponse<boolean | null>> {
     const captcha = await this.redisService.get(`captcha_${user.email}`);
     if (!captcha) {
-      throw new AppError('验证码失效', 400);
+      throw new AppError(ERROR_CODES.CAPTCHA_EXPIRED, 400);
     }
     if (captcha !== user.captcha) {
-      throw new AppError('验证码错误', 400);
-    }
-    const foundUser = await this.userDao.findUserByName(user.name);
-    if (foundUser) {
-      throw new AppError('用户名重复', 400);
+      throw new AppError(ERROR_CODES.CAPTCHA_ERROR, 400);
     }
 
     console.log(
@@ -94,10 +90,10 @@ export default class UserService {
   async login(data: LoginUserDto) {
     const user = await this.userDao.findUserByName(data.name);
     if (!user) {
-      throw new AppError('用户不存在', 400);
+      throw new AppError(ERROR_CODES.USER_NOT_FOUND, 400);
     }
     if (md5(data.password) !== user.password) {
-      throw new AppError('密码错误', 400);
+      throw new AppError(ERROR_CODES.INVALID_PASSWORD, 400);
     }
     const vo = new LoginUserVo();
     vo.userInfo = {
@@ -118,7 +114,7 @@ export default class UserService {
   async findUserById(id: number) {
     const user = await this.userDao.findUserById(id);
     if (!user) {
-      throw new AppError('用户不存在', 400);
+      throw new AppError(ERROR_CODES.USER_NOT_FOUND, 400);
     }
     const vo = new LoginUserVo();
     vo.userInfo = {
