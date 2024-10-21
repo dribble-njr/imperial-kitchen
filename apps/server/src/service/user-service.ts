@@ -1,12 +1,10 @@
-import { CommonResponse, RegisterRequest } from '@imperial-kitchen/types';
+import { CommonResponse } from '@imperial-kitchen/types';
 import { UserDao } from '../dao/user-dao';
 import { AppError, ERROR_CODES } from '../errors';
-import { RegisterUserDto } from '../../types/dto/register-user';
 import redisService from './redis-service';
 import emailService from './email-service';
 import { md5 } from '../util';
-import { LoginUserVo } from '../../types/vo/login-user.vo';
-import { LoginUserDto } from '../../types/dto/login-user.dto';
+import { RegisterUserDto, LoginUserDto } from '../dto';
 
 export default class UserService {
   private userDao: UserDao;
@@ -19,9 +17,9 @@ export default class UserService {
     this.emailService = emailService;
   }
 
-  async registerAdmin(data: RegisterRequest): Promise<CommonResponse<boolean | null>> {
-    const { name, password, email, phone } = data;
-    const user = await this.userDao.findUserByEmailOrPhone(email, phone);
+  async registerAdmin(data: RegisterUserDto): Promise<CommonResponse<boolean | null>> {
+    const { name, password, email } = data;
+    const user = await this.userDao.findUserByEmailOrPhone(email);
     console.log(user, 'registerAdmin');
     if (user) {
       throw new AppError(ERROR_CODES.USER_EXISTS, 409);
@@ -95,15 +93,15 @@ export default class UserService {
     if (md5(data.password) !== user.password) {
       throw new AppError(ERROR_CODES.INVALID_PASSWORD, 400);
     }
-    const vo = new LoginUserVo();
-    vo.userInfo = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone ? user.phone : undefined,
-      createdAt: user.createdAt,
-      role: user.role
-    };
+    const vo = {};
+    // vo.userInfo = {
+    //   id: user.id,
+    //   name: user.name,
+    //   email: user.email,
+    //   phone: user.phone ? user.phone : undefined,
+    //   createdAt: user.createdAt,
+    //   role: user.role
+    // };
     return vo;
   }
 
@@ -116,15 +114,15 @@ export default class UserService {
     if (!user) {
       throw new AppError(ERROR_CODES.USER_NOT_FOUND, 400);
     }
-    const vo = new LoginUserVo();
-    vo.userInfo = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone ? user.phone : undefined,
-      createdAt: user.createdAt,
-      role: user.role
-    };
+    const vo = {};
+    // vo.userInfo = {
+    //   id: user.id,
+    //   name: user.name,
+    //   email: user.email,
+    //   phone: user.phone ? user.phone : undefined,
+    //   createdAt: user.createdAt,
+    //   role: user.role
+    // };
     return vo;
   }
 }
