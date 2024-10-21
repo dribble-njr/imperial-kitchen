@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: Imperial Kitchen API
+  version: 1.0.0
+paths:
+  $ref: './openapi/paths/user.yaml'
+components:
+  schemas:
+    $ref: './openapi/components/schemas.yaml'
+tags:
+  - name: User
+    description: 用户相关接口
