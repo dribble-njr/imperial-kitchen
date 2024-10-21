@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { SignInParams } from '@imperial-kitchen/types';
 import { BaseController } from './base-controller';
 import { UserService } from '../service';
-import { RegisterUserDto } from '../../types/dto/register-user';
-import { LoginUserDto } from '../../types/dto/login-user.dto';
+import { RegisterUserDto, LoginUserDto } from '../dto';
 import { generateToken } from '../middleware/auth';
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import { AppError } from '../errors';
 
 export default class UserController extends BaseController {
   private userService: UserService;
@@ -18,7 +17,7 @@ export default class UserController extends BaseController {
 
   async registerAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await this.userService.registerAdmin(req.body as SignInParams);
+      const user = await this.userService.registerAdmin(req.body as RegisterUserDto);
       res.json(user);
       next();
     } catch (error) {
@@ -49,7 +48,7 @@ export default class UserController extends BaseController {
         res.json(await this.userService.captcha(req.query.email as string));
         next();
       } else {
-        next(new Error('Email is required'));
+        next(new AppError('Email is required', 400));
       }
     } catch (error) {
       next(error);

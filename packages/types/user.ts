@@ -26,3 +26,18 @@ export interface RegisterRequest {
   familyName?: string;
   inviteCode?: string;
 }
+
+export interface UserInfo {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  createdAt: Date;
+  role: string;
+}
+
+export interface LoginUserVO {
+  userInfo: UserInfo;
+  accessToken: string;
+  refreshToken: string;
+}

@@ -1,5 +1,5 @@
 import prisma from '.';
-import { CreateUserData } from '../../types/user';
+import { RegisterUserDto } from '../dto';
 
 export class UserDao {
   constructor() {}
@@ -12,7 +12,7 @@ export class UserDao {
     });
   }
 
-  async createUser(data: CreateUserData) {
+  async createUser(data: RegisterUserDto) {
     try {
       return await prisma.user.create({
         data
