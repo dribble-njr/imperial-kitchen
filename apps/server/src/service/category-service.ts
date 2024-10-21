@@ -1,5 +1,5 @@
 import { Category } from '@imperial-kitchen/types';
-import prisma from '../dao';
+import prisma from '../dao/index.ts';
 
 export default class CategoryService {
   constructor() {}

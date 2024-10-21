@@ -1,4 +1,4 @@
-import { Middleware } from '../types';
+import { Middleware } from '../types.ts';
 
 const corsMiddleware = (options: { origin: string; methods: string; credentials?: boolean }): Middleware => {
   return (req, res, next) => {

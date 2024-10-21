@@ -1,3 +1,3 @@
-export { default as CategoryService } from './category-service';
-export { default as CommodityService } from './commodity-service';
-export { default as UserService } from './user-service';
+export { default as CategoryService } from './category-service.ts';
+export { default as CommodityService } from './commodity-service.ts';
+export { default as UserService } from './user-service.ts';

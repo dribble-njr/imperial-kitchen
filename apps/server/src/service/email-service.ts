@@ -1,6 +1,6 @@
 import { Transporter, createTransport } from 'nodemailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import config from '../config';
+import config from '../config/index.ts';
 
 class EmailService {
   transporter: Transporter;

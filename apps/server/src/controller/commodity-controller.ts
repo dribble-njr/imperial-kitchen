@@ -1,9 +1,9 @@
 import { ServerResponse } from 'node:http';
 import { Commodity } from '@imperial-kitchen/types';
-import { CommodityService } from '../service';
-import { BaseController } from './base-controller';
-import { getRequestBody } from '../util';
-import { CustomIncomingMessage } from '../types';
+import { CommodityService } from '../service/index.ts';
+import { BaseController } from './base-controller.ts';
+import { getRequestBody } from '../util.ts';
+import { CustomIncomingMessage } from '../types.ts';
 
 export default class CommodityController extends BaseController {
   private commodityService: CommodityService;

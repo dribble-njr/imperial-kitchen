@@ -1,7 +1,7 @@
 // middleware/auth.ts
-import config from '../config';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import config from '../config/index.ts';
 
 interface JwtUserData {
   id: number;

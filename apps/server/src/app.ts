@@ -1,8 +1,8 @@
 import express from 'express';
-import router from './router';
+import router from './router/index.ts';
 import bodyParser from 'body-parser';
 import listEndpoints from 'express-list-endpoints';
-import { errorHandlerMiddleware } from './middleware';
+import { errorHandlerMiddleware } from './middleware/index.ts';
 
 const app = express();
 

@@ -1,8 +1,8 @@
 import { ServerResponse } from 'node:http';
-import { BaseController } from './base-controller';
-import { getRequestBody } from '../util';
-import { CategoryService } from '../service';
-import { CustomIncomingMessage } from '../types';
+import { BaseController } from './base-controller.ts';
+import { getRequestBody } from '../util.ts';
+import { CategoryService } from '../service/index.ts';
+import { CustomIncomingMessage } from '../types.ts';
 import { Category } from '@imperial-kitchen/types';
 
 export default class CategoryController extends BaseController {

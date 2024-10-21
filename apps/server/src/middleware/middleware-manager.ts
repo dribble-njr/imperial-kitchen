@@ -1,5 +1,5 @@
 import { ServerResponse } from 'node:http';
-import { CustomIncomingMessage, Middleware } from '../types';
+import { CustomIncomingMessage, Middleware } from '../types.ts';
 
 /**
  * Manage the execution order of middleware functions.

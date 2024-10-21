@@ -1,10 +1,10 @@
 import { CommonResponse } from '@imperial-kitchen/types';
-import { UserDao } from '../dao/user-dao';
-import { AppError, ERROR_CODES } from '../errors';
-import redisService from './redis-service';
-import emailService from './email-service';
-import { md5 } from '../util';
-import { RegisterUserDto, LoginUserDto } from '../dto';
+import { UserDao } from '../dao/user-dao.ts';
+import { AppError, ERROR_CODES } from '../errors/index.ts';
+import redisService from './redis-service.ts';
+import emailService from './email-service.ts';
+import { md5 } from '../util.ts';
+import { RegisterUserDto, LoginUserDto } from '../dto/index.ts';
 
 export default class UserService {
   private userDao: UserDao;
