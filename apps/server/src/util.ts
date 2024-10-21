@@ -1,5 +1,5 @@
 import querystring from 'node:querystring';
-import { CustomIncomingMessage } from './types';
+import { CustomIncomingMessage } from './types.ts';
 import * as crypto from 'crypto';
 
 /**

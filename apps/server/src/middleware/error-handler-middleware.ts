@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../errors';
+import { AppError } from '../errors/index.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ErrorHandlerMiddleware = (err: unknown, req: Request, res: Response, next: NextFunction): void => {

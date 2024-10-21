@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { UserController } from '../controller';
-import { authMiddleware } from '../middleware';
+import { UserController } from '../controller/index.ts';
+import { authMiddleware } from '../middleware/index.ts';
 
 class UserRouter {
   public router: Router;

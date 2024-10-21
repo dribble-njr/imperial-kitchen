@@ -1,4 +1,4 @@
-import { Response } from '@imperial-kitchen/types';
+import { CommonResponse } from '@imperial-kitchen/types';
 import { ServerResponse } from 'node:http';
 
 export abstract class BaseController {
@@ -18,7 +18,7 @@ export abstract class BaseController {
       responseData = data;
     }
 
-    const response: Response = {
+    const response: CommonResponse = {
       code: statusCode,
       message: 'OK',
       data: responseData
@@ -31,7 +31,7 @@ export abstract class BaseController {
   protected sendError(statusCode: number, message: string, res: ServerResponse) {
     res.setHeader('content-type', 'application/json');
     res.writeHead(statusCode);
-    const response: Response = {
+    const response: CommonResponse = {
       code: statusCode,
       message: JSON.stringify({ error: message })
     };

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { BaseController } from './base-controller';
-import { UserService } from '../service';
-import { RegisterUserDto, LoginUserDto } from '../dto';
-import { generateToken } from '../middleware/auth';
 import jwt from 'jsonwebtoken';
-import config from '../config';
-import { AppError } from '../errors';
+import { BaseController } from './base-controller.ts';
+import { UserService } from '../service/index.ts';
+import { generateToken } from '../middleware/auth.ts';
+import config from '../config/index.ts';
+import { AppError } from '../errors/index.ts';
+import { LoginUserDto, RegisterUserDto } from '../dto/index.ts';
 
 export default class UserController extends BaseController {
   private userService: UserService;
