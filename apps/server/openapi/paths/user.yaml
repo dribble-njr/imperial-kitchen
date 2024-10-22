@@ -22,7 +22,33 @@
         content:
           application/json:
             schema:
-              type: string
+              type: object
+              properties:
+                message:
+                  type: string
+                  default: success
+                code:
+                  type: number
+                  default: 200
+                data:
+                  type: boolean
+                  default: true
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  default: Email is required
+                code:
+                  type: number
+                  default: 400
+                data:
+                  type: object
+                  default: null
 
 /api/v1/user/login:
   post:
