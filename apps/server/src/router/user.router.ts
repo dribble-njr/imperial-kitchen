@@ -14,7 +14,11 @@ class UserRouter {
   }
 
   private initializeRoutes() {
-    this.router.post('/register/admin', validateDtoMiddleware(RegisterAdminDto), this.userController.registerAdmin);
+    this.router.post(
+      '/register/admin',
+      validateDtoMiddleware(RegisterAdminDto),
+      this.userController.registerAdmin.bind(this.userController)
+    );
     this.router.post(
       '/register/member',
       async (req, res, next) => await this.userController.registerMember(req, res, next)
