@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
 import { ERROR_CODES } from '@imperial-kitchen/types';
 
 import { BaseController } from './base.controller.ts';
@@ -21,19 +19,7 @@ export default class UserController extends BaseController {
 
   async registerAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const userDto = plainToInstance(RegisterAdminDto, req.body);
-      const errors = await validate(userDto);
-      if (errors.length > 0) {
-        const detailedErrors = errors.map((error) => {
-          return {
-            property: error.property,
-            constraints: error.constraints
-          };
-        });
-        next(new AppError({ message: ERROR_CODES.INVALID_REQUEST, code: 400, errors: detailedErrors }));
-      }
-
-      const data = await this.userService.registerAdmin(userDto);
+      const data = await this.userService.registerAdmin(req.body as RegisterAdminDto);
       res.json(data);
       next();
     } catch (error) {
