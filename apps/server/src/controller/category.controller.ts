@@ -1,5 +1,5 @@
 import { ServerResponse } from 'node:http';
-import { BaseController } from './base-controller.ts';
+import { BaseController } from './base.controller.ts';
 import { getRequestBody } from '../util.ts';
 import { CategoryService } from '../service/index.ts';
 import { CustomIncomingMessage } from '../types.ts';
