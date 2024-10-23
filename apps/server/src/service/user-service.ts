@@ -1,6 +1,6 @@
-import { CommonResponse } from '@imperial-kitchen/types';
+import { CommonResponse, ERROR_CODES } from '@imperial-kitchen/types';
 import { UserDao } from '../dao/user-dao.ts';
-import { AppError, ERROR_CODES } from '../errors/index.ts';
+import { AppError } from '../lib/index.ts';
 import { MailClient, RedisClient } from '../lib/index.ts';
 import { md5 } from '../util.ts';
 import { RegisterUserDto, LoginUserDto } from '../dto/index.ts';
@@ -68,20 +68,16 @@ export default class UserService {
   }
 
   async captcha(address: string): Promise<CommonResponse<boolean | null>> {
-    try {
-      const code = Math.random().toString().slice(2, 8);
+    const code = Math.random().toString().slice(2, 8);
 
-      await this.redisClient.set(`captcha_${address}`, code, 5 * 60);
+    await this.redisClient.set(`captcha_${address}`, code, 5 * 60);
 
-      await this.mailClient.sendEmail({
-        to: address,
-        subject: '注册验证码',
-        html: `<p>你的注册验证码是 ${code}</p>`
-      });
-      return { code: 200, message: 'success', data: true };
-    } catch (error) {
-      throw new AppError('发送失败', 500);
-    }
+    await this.mailClient.sendEmail({
+      to: address,
+      subject: '注册验证码',
+      html: `<p>你的注册验证码是 ${code}</p>`
+    });
+    return { code: 200, message: 'success', data: true };
   }
 
   async login(data: LoginUserDto) {
