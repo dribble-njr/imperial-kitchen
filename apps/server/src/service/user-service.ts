@@ -3,7 +3,7 @@ import { UserDao } from '../dao/user-dao.ts';
 import { AppError } from '../lib/index.ts';
 import { MailClient, RedisClient } from '../lib/index.ts';
 import { md5 } from '../util.ts';
-import { RegisterUserDto, LoginUserDto } from '../dto/index.ts';
+import { RegisterUserDto, LoginUserDto, RegisterAdminDto } from '../dto/index.ts';
 
 export default class UserService {
   private userDao: UserDao;
@@ -16,12 +16,12 @@ export default class UserService {
     this.mailClient = MailClient.getInstance();
   }
 
-  async registerAdmin(data: RegisterUserDto): Promise<CommonResponse<boolean | null>> {
+  async registerAdmin(data: RegisterAdminDto): Promise<CommonResponse<boolean | null>> {
     const { name, password, email } = data;
     const user = await this.userDao.findUserByEmailOrPhone(email);
     console.log(user, 'registerAdmin');
     if (user) {
-      throw new AppError(ERROR_CODES.USER_EXISTS, 409);
+      throw new AppError({ message: ERROR_CODES.USER_EXISTS, code: 409 });
     }
 
     const newUser = await this.userDao.createUser({
@@ -44,10 +44,10 @@ export default class UserService {
   async register(user: RegisterUserDto): Promise<CommonResponse<boolean | null>> {
     const captcha = await this.redisClient.get(`captcha_${user.email}`);
     if (!captcha) {
-      throw new AppError(ERROR_CODES.CAPTCHA_EXPIRED, 400);
+      throw new AppError({ message: ERROR_CODES.CAPTCHA_EXPIRED, code: 400 });
     }
     if (captcha !== user.captcha) {
-      throw new AppError(ERROR_CODES.CAPTCHA_ERROR, 400);
+      throw new AppError({ message: ERROR_CODES.CAPTCHA_ERROR, code: 400 });
     }
 
     console.log(
@@ -83,10 +83,10 @@ export default class UserService {
   async login(data: LoginUserDto) {
     const user = await this.userDao.findUserByName(data.name);
     if (!user) {
-      throw new AppError(ERROR_CODES.USER_NOT_FOUND, 400);
+      throw new AppError({ message: ERROR_CODES.USER_NOT_FOUND, code: 400 });
     }
     if (md5(data.password) !== user.password) {
-      throw new AppError(ERROR_CODES.INVALID_PASSWORD, 400);
+      throw new AppError({ message: ERROR_CODES.INVALID_PASSWORD, code: 400 });
     }
     const vo = {};
     // vo.userInfo = {
@@ -107,7 +107,7 @@ export default class UserService {
   async findUserById(id: number) {
     const user = await this.userDao.findUserById(id);
     if (!user) {
-      throw new AppError(ERROR_CODES.USER_NOT_FOUND, 400);
+      throw new AppError({ message: ERROR_CODES.USER_NOT_FOUND, code: 400 });
     }
     const vo = {};
     // vo.userInfo = {

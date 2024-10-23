@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { plainToInstance } from 'class-transformer';
+import { validate } from 'class-validator';
+import { ERROR_CODES } from '@imperial-kitchen/types';
+
 import { BaseController } from './base-controller.ts';
 import { UserService } from '../service/index.ts';
 import { generateToken } from '../middleware/auth.ts';
 import config from '../config/index.ts';
 import { AppError } from '../lib/index.ts';
-import { LoginUserDto, RegisterUserDto } from '../dto/index.ts';
-import { ERROR_CODES } from '@imperial-kitchen/types';
+import { LoginUserDto, RegisterAdminDto, RegisterUserDto } from '../dto/index.ts';
 
 export default class UserController extends BaseController {
   private userService: UserService;
@@ -18,15 +21,24 @@ export default class UserController extends BaseController {
 
   async registerAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await this.userService.registerAdmin(req.body as RegisterUserDto);
-      res.json(user);
+      const userDto = plainToInstance(RegisterAdminDto, req.body);
+      const errors = await validate(userDto);
+      if (errors.length > 0) {
+        const detailedErrors = errors.map((error) => {
+          return {
+            property: error.property,
+            constraints: error.constraints
+          };
+        });
+        next(new AppError({ message: ERROR_CODES.INVALID_REQUEST, code: 400, errors: detailedErrors }));
+      }
+
+      const data = await this.userService.registerAdmin(userDto);
+      res.json(data);
       next();
     } catch (error) {
       next(error);
     }
-    const data = await req.body;
-
-    console.log(data, 'body');
   }
 
   async registerMember(req: Request, res: Response, next: NextFunction) {
@@ -37,9 +49,6 @@ export default class UserController extends BaseController {
     } catch (error) {
       next(error);
     }
-    const data = await req.body;
-
-    console.log(data, 'body');
   }
 
   async captcha(req: Request, res: Response, next: NextFunction) {
@@ -49,7 +58,7 @@ export default class UserController extends BaseController {
         res.json(await this.userService.captcha(req.query.email as string));
         next();
       } else {
-        next(new AppError(ERROR_CODES.EMAIL_IS_REQUIRED, 400));
+        next(new AppError({ message: ERROR_CODES.EMAIL_IS_REQUIRED, code: 400 }));
       }
     } catch (error) {
       next(error);
