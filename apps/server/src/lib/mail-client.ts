@@ -2,10 +2,11 @@ import { Transporter, createTransport } from 'nodemailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 import config from '../config/index.ts';
 
-class EmailService {
-  transporter: Transporter;
+export default class Mailer {
+  private transporter: Transporter;
+  private static instance: Mailer;
 
-  constructor() {
+  private constructor() {
     const smtpConfig: SMTPTransport.Options = {
       host: config.NODEMAILER_HOST,
       port: 465,
@@ -21,6 +22,13 @@ class EmailService {
     };
 
     this.transporter = createTransport(smtpConfig);
+  }
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new Mailer();
+    }
+    return this.instance;
   }
 
   async sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
@@ -39,5 +47,3 @@ class EmailService {
     }
   }
 }
-
-export default new EmailService();

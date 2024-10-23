@@ -28,7 +28,7 @@ export default class UserController extends BaseController {
     console.log(data, 'body');
   }
 
-  async register(req: Request, res: Response, next: NextFunction) {
+  async registerMember(req: Request, res: Response, next: NextFunction) {
     try {
       const user = await this.userService.register(req.body as RegisterUserDto);
       res.json(user);
