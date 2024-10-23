@@ -1,5 +1,5 @@
 import { CommonResponse, ERROR_CODES } from '@imperial-kitchen/types';
-import { UserDao } from '../dao/user-dao.ts';
+import { UserDao } from '../dao/user.dao.ts';
 import { AppError } from '../lib/index.ts';
 import { MailClient, RedisClient } from '../lib/index.ts';
 import { md5 } from '../util.ts';

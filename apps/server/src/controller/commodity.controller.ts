@@ -1,7 +1,7 @@
 import { ServerResponse } from 'node:http';
 import { Commodity } from '@imperial-kitchen/types';
 import { CommodityService } from '../service/index.ts';
-import { BaseController } from './base-controller.ts';
+import { BaseController } from './base.controller.ts';
 import { getRequestBody } from '../util.ts';
 import { CustomIncomingMessage } from '../types.ts';
 

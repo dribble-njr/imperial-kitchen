@@ -4,9 +4,9 @@ import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { ERROR_CODES } from '@imperial-kitchen/types';
 
-import { BaseController } from './base-controller.ts';
+import { BaseController } from './base.controller.ts';
 import { UserService } from '../service/index.ts';
-import { generateToken } from '../middleware/auth.ts';
+import { generateToken } from '../middleware/auth.middleware.ts';
 import config from '../config/index.ts';
 import { AppError } from '../lib/index.ts';
 import { LoginUserDto, RegisterAdminDto, RegisterUserDto } from '../dto/index.ts';
