@@ -10,13 +10,15 @@ const ErrorHandlerMiddleware = (err: unknown, req: Request, res: Response, next:
     res.status(err.code).json({
       message: err.message,
       data: err.data || null,
-      code: err.code
+      code: err.code,
+      errors: err.errors || []
     });
   } else {
     res.status(500).json({
       message: 'Internal Server Error',
       data: null,
-      code: 500
+      code: 500,
+      errors: []
     });
   }
 };

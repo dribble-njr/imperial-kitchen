@@ -29,6 +29,7 @@
     "@prisma/adapter-libsql": "^5.19.1",
     "@prisma/client": "^5.19.1",
     "body-parser": "^1.20.3",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "express": "^4.21.0",
     "js-yaml": "^4.1.0",
