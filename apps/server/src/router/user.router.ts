@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { UserController } from '../controller/index.ts';
-import { authMiddleware } from '../middleware/index.ts';
+import { authMiddleware, validateDtoMiddleware } from '../middleware/index.ts';
+import { RegisterAdminDto } from '../dto/user.dto.ts';
 
 class UserRouter {
   public router: Router;
@@ -13,10 +14,7 @@ class UserRouter {
   }
 
   private initializeRoutes() {
-    this.router.post(
-      '/register/admin',
-      async (req, res, next) => await this.userController.registerAdmin(req, res, next)
-    );
+    this.router.post('/register/admin', validateDtoMiddleware(RegisterAdminDto), this.userController.registerAdmin);
     this.router.post(
       '/register/member',
       async (req, res, next) => await this.userController.registerMember(req, res, next)
