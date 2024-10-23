@@ -1,10 +1,12 @@
 import { createClient, RedisClientType } from 'redis';
 import config from '../config/index.ts';
 
-class RedisService {
+export default class RedisClient {
+  private static instance: RedisClient;
   private client: RedisClientType;
   private isConnected: boolean = false;
-  constructor() {
+
+  private constructor() {
     this.client = createClient({
       password: config.REDIS_PASSWORD,
       socket: {
@@ -22,6 +24,13 @@ class RedisService {
     this.client.on('end', () => {
       this.isConnected = false;
     });
+  }
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new RedisClient();
+    }
+    return this.instance;
   }
 
   onError(error: Error) {
@@ -60,4 +69,3 @@ class RedisService {
     }
   }
 }
-export default new RedisService();

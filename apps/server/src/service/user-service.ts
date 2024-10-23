@@ -1,20 +1,19 @@
 import { CommonResponse } from '@imperial-kitchen/types';
 import { UserDao } from '../dao/user-dao.ts';
 import { AppError, ERROR_CODES } from '../errors/index.ts';
-import redisService from './redis-service.ts';
-import emailService from './email-service.ts';
+import { MailClient, RedisClient } from '../lib/index.ts';
 import { md5 } from '../util.ts';
 import { RegisterUserDto, LoginUserDto } from '../dto/index.ts';
 
 export default class UserService {
   private userDao: UserDao;
-  private redisService;
-  private emailService;
+  private redisClient: RedisClient;
+  private mailClient: MailClient;
 
   constructor() {
     this.userDao = new UserDao();
-    this.redisService = redisService;
-    this.emailService = emailService;
+    this.redisClient = RedisClient.getInstance();
+    this.mailClient = MailClient.getInstance();
   }
 
   async registerAdmin(data: RegisterUserDto): Promise<CommonResponse<boolean | null>> {
@@ -43,7 +42,7 @@ export default class UserService {
   }
 
   async register(user: RegisterUserDto): Promise<CommonResponse<boolean | null>> {
-    const captcha = await this.redisService.get(`captcha_${user.email}`);
+    const captcha = await this.redisClient.get(`captcha_${user.email}`);
     if (!captcha) {
       throw new AppError(ERROR_CODES.CAPTCHA_EXPIRED, 400);
     }
@@ -72,9 +71,9 @@ export default class UserService {
     try {
       const code = Math.random().toString().slice(2, 8);
 
-      await this.redisService.set(`captcha_${address}`, code, 5 * 60);
+      await this.redisClient.set(`captcha_${address}`, code, 5 * 60);
 
-      await this.emailService.sendEmail({
+      await this.mailClient.sendEmail({
         to: address,
         subject: '注册验证码',
         html: `<p>你的注册验证码是 ${code}</p>`
