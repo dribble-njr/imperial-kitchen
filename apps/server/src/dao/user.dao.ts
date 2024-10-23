@@ -1,10 +1,10 @@
 import prisma from './index.ts';
-import { RegisterUserDto } from '../dto/index.ts';
+import { RegisterAdminDto, RegisterMemberDto } from '../dto/index.ts';
 
 export class UserDao {
   constructor() {}
 
-  async findUserByEmailOrPhone(email?: string, phone?: string) {
+  async findUserByEmailOrPhone({ email, phone }: { email?: string; phone?: string }) {
     return await prisma.user.findFirst({
       where: {
         OR: [{ email: email || undefined }, { phone: phone || undefined }]
@@ -12,7 +12,7 @@ export class UserDao {
     });
   }
 
-  async createUser(data: RegisterUserDto) {
+  async createUser(data: RegisterAdminDto | RegisterMemberDto) {
     try {
       return await prisma.user.create({
         data

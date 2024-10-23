@@ -17,20 +17,14 @@ export default class UserService {
   }
 
   async registerAdmin(data: RegisterAdminDto): Promise<CommonResponse<boolean | null>> {
-    const { name, password, email } = data;
-    const user = await this.userDao.findUserByEmailOrPhone(email);
-    console.log(user, 'registerAdmin');
+    const { email } = data;
+
+    const user = await this.userDao.findUserByEmailOrPhone({ email });
     if (user) {
       throw new AppError({ message: ERROR_CODES.USER_EXISTS, code: 409 });
     }
 
-    const newUser = await this.userDao.createUser({
-      name,
-      password,
-      email,
-      phone,
-      role: 'ADMIN'
-    });
+    const newUser = await this.userDao.createUser(data);
 
     console.log(newUser, 'registerAdmin');
 
