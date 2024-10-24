@@ -7,7 +7,7 @@ import * as yaml from 'js-yaml';
 
 import router from './router/index.ts';
 import { errorHandlerMiddleware } from './middleware/index.ts';
-import { generateHtmlTable } from './util.ts';
+import { generateHtmlTable } from './util/index.ts';
 import { mergeYamlFiles } from '../openapi/index.js';
 
 const __filename = fileURLToPath(import.meta.url);

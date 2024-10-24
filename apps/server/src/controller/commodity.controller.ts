@@ -1,8 +1,6 @@
 import { ServerResponse } from 'node:http';
-import { Commodity } from '@imperial-kitchen/types';
 import { CommodityService } from '../service/index.ts';
 import { BaseController } from './base.controller.ts';
-import { getRequestBody } from '../util.ts';
 import { CustomIncomingMessage } from '../types.ts';
 
 export default class CommodityController extends BaseController {
@@ -11,18 +9,6 @@ export default class CommodityController extends BaseController {
   constructor() {
     super();
     this.commodityService = new CommodityService();
-  }
-
-  async create(req: CustomIncomingMessage, res: ServerResponse) {
-    const commodity = await getRequestBody<Commodity>(req);
-    const id = await this.commodityService.createCommodity(commodity);
-    CommodityController.sendResponse(200, id, res);
-  }
-
-  async update(req: CustomIncomingMessage, res: ServerResponse) {
-    const commodity = await getRequestBody<Commodity>(req);
-    const updatedCommodity = await this.commodityService.updateCommodity(commodity);
-    CommodityController.sendResponse(200, updatedCommodity, res);
   }
 
   async delete(req: CustomIncomingMessage, res: ServerResponse) {
