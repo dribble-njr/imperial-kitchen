@@ -1,5 +1,5 @@
 import prisma from './index.ts';
-import { RegisterAdminDto, RegisterMemberDto } from '../type/dto/index.ts';
+import { FamiliesOnUsersCreateInput, FamilyCreateInput, UserCreateInput } from '../type/model/index.ts';
 
 export class UserDao {
   constructor() {}
@@ -12,14 +12,10 @@ export class UserDao {
     });
   }
 
-  async createUser(data: RegisterAdminDto | RegisterMemberDto) {
-    try {
-      return await prisma.user.create({
-        data
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  async createUser(data: UserCreateInput) {
+    return await prisma.user.create({
+      data
+    });
   }
 
   async findUserByName(name: string) {
@@ -40,5 +36,25 @@ export class UserDao {
 
   async findAllUser() {
     return await prisma.user.findMany();
+  }
+
+  async createFamily(data: FamilyCreateInput) {
+    return await prisma.family.create({
+      data
+    });
+  }
+
+  async createFamilyOnUsers(data: FamiliesOnUsersCreateInput) {
+    return await prisma.familiesOnUsers.create({
+      data
+    });
+  }
+
+  async findFamilyByInviteCode(inviteCode: string) {
+    return await prisma.family.findFirst({
+      where: {
+        inviteCode
+      }
+    });
   }
 }

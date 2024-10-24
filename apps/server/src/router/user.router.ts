@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { UserController } from '../controller/index.ts';
-import { authMiddleware, validateDtoMiddleware } from '../middleware/index.ts';
+import { validateDtoMiddleware } from '../middleware/index.ts';
 import { RegisterAdminDto } from '../type/dto/index.ts';
 
 class UserRouter {
@@ -25,8 +25,6 @@ class UserRouter {
     );
     this.router.get('/register/captcha', async (req, res, next) => await this.userController.captcha(req, res, next));
     this.router.post('/login', async (req, res, next) => await this.userController.login(req, res, next));
-    this.router.get('/aaa', authMiddleware, async (req, res, next) => await this.userController.aaa(req, res, next));
-    this.router.get('/all', async (req, res, next) => await this.userController.findAllUser(req, res, next));
     this.router.get('/refresh', async (req, res, next) => await this.userController.refresh(req, res, next));
   }
 }

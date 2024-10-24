@@ -1,9 +1,13 @@
 /api/v1/user/register:
   post:
-    summary: 注册新用户
+    summary: 注册用户，创建新家庭，并设置为管理员
     tags:
       - User
-    # ... 其他详细信息
+    responses:
+      '200':
+        description: 成功注册
+      '400':
+        description: 参数错误
 
 /api/vi/user/register/captcha:
   get:

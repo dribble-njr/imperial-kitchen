@@ -42,17 +42,12 @@ export class RegisterUserDto {
 
 export class RegisterAdminDto extends RegisterUserDto {
   @IsNotEmpty({
-    message: '角色不能为空'
+    message: '家庭名称不能为空'
   })
-  role: 'ADMIN';
+  familyName: string;
 }
 
 export class RegisterMemberDto extends RegisterUserDto {
-  @IsNotEmpty({
-    message: '角色不能为空'
-  })
-  role: 'MEMBER';
-
   @IsNotEmpty({
     message: '邀请码不能为空'
   })

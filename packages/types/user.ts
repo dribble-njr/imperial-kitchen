@@ -10,7 +10,7 @@ export interface User {
 
 export enum Role {
   ADMIN = 'ADMIN',
-  USER = 'USER'
+  MEMBER = 'MEMBER'
 }
 
 export interface SignInParams {
@@ -33,7 +33,7 @@ export interface UserInfo {
   email: string;
   phone?: string;
   createdAt: Date;
-  role: string;
+  role: Role;
 }
 
 export interface LoginUserVO {

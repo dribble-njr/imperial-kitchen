@@ -1,9 +1,9 @@
-import { CommonResponse, ERROR_CODES } from '@imperial-kitchen/types';
+import { CommonResponse, ERROR_CODES, Role } from '@imperial-kitchen/types';
 import { UserDao } from '../dao/user.dao.ts';
 import { AppError } from '../lib/index.ts';
 import { MailClient, RedisClient } from '../lib/index.ts';
-import { md5 } from '../util.ts';
-import { RegisterUserDto, LoginUserDto, RegisterAdminDto } from '../type/dto/index.ts';
+import { LoginUserDto, RegisterAdminDto, RegisterMemberDto } from '../type/dto/index.ts';
+import { comparePassword, generateCaptchaHtml, generateRandomCode, hashPassword } from '../util/index.ts';
 
 export default class UserService {
   private userDao: UserDao;
@@ -16,51 +16,85 @@ export default class UserService {
     this.mailClient = MailClient.getInstance();
   }
 
-  async registerAdmin(data: RegisterAdminDto): Promise<CommonResponse<boolean | null>> {
-    const { email } = data;
-
-    const user = await this.userDao.findUserByEmailOrPhone({ email });
-    if (user) {
-      throw new AppError({ message: ERROR_CODES.USER_EXISTS, code: 409 });
-    }
-
-    const newUser = await this.userDao.createUser(data);
-
-    console.log(newUser, 'registerAdmin');
-
-    return {
-      code: 200,
-      message: 'success',
-      data: true
-    };
-  }
-
-  async register(user: RegisterUserDto): Promise<CommonResponse<boolean | null>> {
+  /**
+   * register user, create family or join family according by the second parameter
+   * @param user
+   * @param createFamily is create family or join family
+   * @returns
+   */
+  async registerUser(user: RegisterAdminDto | RegisterMemberDto, createFamily: boolean) {
+    // validate captcha
     const captcha = await this.redisClient.get(`captcha_${user.email}`);
     if (!captcha) {
-      throw new AppError({ message: ERROR_CODES.CAPTCHA_EXPIRED, code: 400 });
+      throw new AppError({ message: ERROR_CODES.CAPTCHA_EXPIRED, code: 401 });
     }
     if (captcha !== user.captcha) {
       throw new AppError({ message: ERROR_CODES.CAPTCHA_ERROR, code: 400 });
     }
 
-    console.log(
-      await this.userDao.createUser({
-        name: user.name,
-        password: md5(user.password),
-        email: user.email,
-        role: 'MEMBER'
-      }),
-      'register'
-    );
+    const { email, name, password } = user;
+
+    // validate user exists
+    const existingUser = await this.userDao.findUserByEmailOrPhone({ email });
+    if (existingUser) {
+      throw new AppError({ message: ERROR_CODES.USER_EXISTS, code: 409 });
+    }
+
+    // create user
+    const hashedPassword = await hashPassword(password);
+    const newUser = await this.userDao.createUser({
+      email,
+      name,
+      password: hashedPassword
+    });
+
+    // create or find existing family
+    let newFamily;
+    if (createFamily && 'familyName' in user) {
+      newFamily = await this.createFamily(user.familyName, newUser.id);
+    }
+    if (!createFamily && 'inviteCode' in user) {
+      newFamily = await this.findFamilyByInviteCode(user.inviteCode);
+    }
+
+    if (!newFamily) {
+      throw new Error();
+    }
+
+    // join family
+    const newFamilyOnUsers = await this.userDao.createFamilyOnUsers({
+      userId: newUser.id,
+      familyId: newFamily.id,
+      role: createFamily ? Role.ADMIN : Role.MEMBER
+    });
 
     return {
       code: 200,
-      message: 'success',
-      data: true
+      message: 'Success',
+      data: newFamilyOnUsers
     };
   }
 
+  private async createFamily(familyName: string, adminId: number) {
+    const inviteCode = generateRandomCode();
+    const newFamily = await this.userDao.createFamily({
+      name: familyName,
+      adminId,
+      inviteCode
+    });
+    return newFamily;
+  }
+
+  private async findFamilyByInviteCode(inviteCode: string) {
+    const family = await this.userDao.findFamilyByInviteCode(inviteCode);
+    return family;
+  }
+
+  /**
+   * send captcha to user's email
+   * @param address
+   * @returns
+   */
   async captcha(address: string): Promise<CommonResponse<boolean | null>> {
     const code = Math.random().toString().slice(2, 8);
 
@@ -69,49 +103,21 @@ export default class UserService {
     await this.mailClient.sendEmail({
       to: address,
       subject: '注册验证码',
-      html: `<p>你的注册验证码是 ${code}</p>`
+      html: generateCaptchaHtml(code)
     });
-    return { code: 200, message: 'success', data: true };
+    return { code: 200, message: 'Success', data: true };
   }
 
   async login(data: LoginUserDto) {
     const user = await this.userDao.findUserByName(data.name);
     if (!user) {
-      throw new AppError({ message: ERROR_CODES.USER_NOT_FOUND, code: 400 });
+      throw new AppError({ message: ERROR_CODES.USER_NOT_FOUND, code: 401 });
     }
-    if (md5(data.password) !== user.password) {
-      throw new AppError({ message: ERROR_CODES.INVALID_PASSWORD, code: 400 });
+    const isPasswordValid = await comparePassword(data.password, user.password);
+    if (isPasswordValid) {
+      throw new AppError({ message: ERROR_CODES.INVALID_PASSWORD, code: 401 });
     }
-    const vo = {};
-    // vo.userInfo = {
-    //   id: user.id,
-    //   name: user.name,
-    //   email: user.email,
-    //   phone: user.phone ? user.phone : undefined,
-    //   createdAt: user.createdAt,
-    //   role: user.role
-    // };
-    return vo;
-  }
 
-  async findAllUser() {
-    return await this.userDao.findAllUser();
-  }
-
-  async findUserById(id: number) {
-    const user = await this.userDao.findUserById(id);
-    if (!user) {
-      throw new AppError({ message: ERROR_CODES.USER_NOT_FOUND, code: 400 });
-    }
-    const vo = {};
-    // vo.userInfo = {
-    //   id: user.id,
-    //   name: user.name,
-    //   email: user.email,
-    //   phone: user.phone ? user.phone : undefined,
-    //   createdAt: user.createdAt,
-    //   role: user.role
-    // };
-    return vo;
+    return user;
   }
 }

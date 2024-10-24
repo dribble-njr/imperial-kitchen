@@ -7,7 +7,7 @@ import { UserService } from '../service/index.ts';
 import { generateToken } from '../middleware/auth.middleware.ts';
 import config from '../config/index.ts';
 import { AppError } from '../lib/index.ts';
-import { LoginUserDto, RegisterAdminDto, RegisterUserDto } from '../type/dto/index.ts';
+import { LoginUserDto, RegisterAdminDto, RegisterMemberDto } from '../type/dto/index.ts';
 
 export default class UserController extends BaseController {
   private userService: UserService;
@@ -19,7 +19,7 @@ export default class UserController extends BaseController {
 
   async registerAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await this.userService.registerAdmin(req.body as RegisterAdminDto);
+      const data = await this.userService.registerUser(req.body as RegisterAdminDto, true);
       res.json(data);
       next();
     } catch (error) {
@@ -29,7 +29,7 @@ export default class UserController extends BaseController {
 
   async registerMember(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await this.userService.register(req.body as RegisterUserDto);
+      const user = await this.userService.registerUser(req.body as RegisterMemberDto, false);
       res.json(user);
       next();
     } catch (error) {
@@ -97,25 +97,6 @@ export default class UserController extends BaseController {
         '7d'
       );
       res.json(vo);
-      next();
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async aaa(req: Request, res: Response, next: NextFunction) {
-    try {
-      res.json('success');
-      next();
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async findAllUser(req: Request, res: Response, next: NextFunction) {
-    try {
-      const users = await this.userService.findAllUser();
-      res.json(users);
       next();
     } catch (error) {
       next(error);
