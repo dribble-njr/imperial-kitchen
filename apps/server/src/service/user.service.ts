@@ -3,7 +3,7 @@ import { UserDao } from '../dao/user.dao.ts';
 import { AppError } from '../lib/index.ts';
 import { MailClient, RedisClient } from '../lib/index.ts';
 import { md5 } from '../util.ts';
-import { RegisterUserDto, LoginUserDto, RegisterAdminDto } from '../dto/index.ts';
+import { RegisterUserDto, LoginUserDto, RegisterAdminDto } from '../type/dto/index.ts';
 
 export default class UserService {
   private userDao: UserDao;

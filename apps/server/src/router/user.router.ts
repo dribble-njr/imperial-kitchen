@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { UserController } from '../controller/index.ts';
 import { authMiddleware, validateDtoMiddleware } from '../middleware/index.ts';
-import { RegisterAdminDto } from '../dto/user.dto.ts';
+import { RegisterAdminDto } from '../type/dto/index.ts';
 
 class UserRouter {
   public router: Router;

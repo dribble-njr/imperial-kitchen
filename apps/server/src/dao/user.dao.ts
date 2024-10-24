@@ -1,5 +1,5 @@
 import prisma from './index.ts';
-import { RegisterAdminDto, RegisterMemberDto } from '../dto/index.ts';
+import { RegisterAdminDto, RegisterMemberDto } from '../type/dto/index.ts';
 
 export class UserDao {
   constructor() {}
