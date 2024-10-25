@@ -102,4 +102,13 @@ export default class UserController extends BaseController {
       next(error);
     }
   }
+
+  async getUserById(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.json(await this.userService.getUserById(Number(req.params.id)));
+      next();
+    } catch (error) {
+      next(error);
+    }
+  }
 }

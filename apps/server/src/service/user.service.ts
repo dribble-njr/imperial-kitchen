@@ -48,6 +48,9 @@ export default class UserService {
       password: hashedPassword
     });
 
+    // TODO: add transaction to control the consistency of the data
+    console.log(newUser, 'newUser');
+
     // create or find existing family
     let newFamily;
     if (createFamily && 'familyName' in user) {
@@ -118,6 +121,12 @@ export default class UserService {
       throw new AppError({ message: ERROR_CODES.INVALID_PASSWORD, code: 401 });
     }
 
+    return user;
+  }
+
+  async getUserById(id: number) {
+    console.log(id, 'id');
+    const user = await this.userDao.findUserById(id);
     return user;
   }
 }
