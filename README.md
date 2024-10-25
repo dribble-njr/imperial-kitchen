@@ -35,13 +35,13 @@ yarn install
 3. Generate types.
 
 ```sh
-yarn types:build
+yarn build:types
 ```
 
 4. Run mobile.
 
 ```sh
-yarn mobile:dev
+yarn dev:mobile
 ```
 
 5. Configure database env.
@@ -57,5 +57,5 @@ TURSO_AUTH_TOKEN="YOUR_TURSO_AUTH_TOKEN"
 6. Run server.
 
 ```sh
-yarn server:dev
+yarn dev:server
 ```
