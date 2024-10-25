@@ -1,7 +1,7 @@
 export interface User {
   id?: number;
   name?: string;
-  email?: string;
+  email: string;
   phone?: string;
   role?: Role;
   createdAt?: string;
@@ -10,7 +10,7 @@ export interface User {
 
 export enum Role {
   ADMIN = 'ADMIN',
-  USER = 'USER'
+  MEMBER = 'MEMBER'
 }
 
 export interface SignInParams {
@@ -25,4 +25,19 @@ export interface RegisterRequest {
   password: string;
   familyName?: string;
   inviteCode?: string;
+}
+
+export interface UserInfo {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  createdAt: Date;
+  role: Role;
+}
+
+export interface LoginUserVO {
+  userInfo: UserInfo;
+  accessToken: string;
+  refreshToken: string;
 }

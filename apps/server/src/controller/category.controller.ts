@@ -1,9 +1,7 @@
 import { ServerResponse } from 'node:http';
-import { BaseController } from './base-controller';
-import { getRequestBody } from '../util';
-import { CategoryService } from '../service';
-import { CustomIncomingMessage } from '../types';
-import { Category } from '@imperial-kitchen/types';
+import { BaseController } from './base.controller.ts';
+import { CategoryService } from '../service/index.ts';
+import { CustomIncomingMessage } from '../types.ts';
 
 export default class CategoryController extends BaseController {
   private categoryService: CategoryService;
@@ -16,12 +14,6 @@ export default class CategoryController extends BaseController {
   async list(req: CustomIncomingMessage, res: ServerResponse) {
     const categories = await this.categoryService.getAllCategories();
     CategoryController.sendResponse(200, categories, res);
-  }
-
-  async create(req: CustomIncomingMessage, res: ServerResponse) {
-    const { name } = await getRequestBody<Category>(req);
-    const id = await this.categoryService.createCategory(name as string);
-    CategoryController.sendResponse(200, id, res);
   }
 
   async delete(req: CustomIncomingMessage, res: ServerResponse) {

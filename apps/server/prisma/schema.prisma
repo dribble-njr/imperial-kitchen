@@ -34,13 +34,13 @@ model Commodity {
 
 model User {
   id        Int      @id @default(autoincrement())
-  email     String?  @unique
+  email     String   @unique
   phone     String?  @unique
   name      String
   password  String
-  role      String   @default("MEMBER")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  isActive Boolean   @default(true)
 
   families FamiliesOnUsers[]
 }
@@ -52,6 +52,7 @@ model Family {
   inviteCode String   @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  isActive Boolean   @default(true)
 
   users FamiliesOnUsers[]
 }
