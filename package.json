@@ -6,6 +6,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "yarn workspace mobile start",
     "dev:mobile": "yarn workspace mobile dev",
     "dev:server": "yarn workspace server dev",
     "build:types": "yarn workspace @imperial-kitchen/types build",
