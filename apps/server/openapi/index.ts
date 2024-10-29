@@ -1,8 +1,7 @@
-import fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
 import * as yaml from 'js-yaml';
 import $RefParser from '@apidevtools/json-schema-ref-parser';
+import { readFileSync } from 'node:fs';
 
 interface OpenAPISpec {
   paths?: Record<string, unknown>;
@@ -11,12 +10,9 @@ interface OpenAPISpec {
   };
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 function loadYamlFile(filePath: string) {
   const fullPath = join(__dirname, filePath);
-  return yaml.load(fs.readFileSync(fullPath, 'utf8'));
+  return yaml.load(readFileSync(fullPath, 'utf8'));
 }
 
 export async function mergeYamlFiles() {

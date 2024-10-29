@@ -1,12 +1,13 @@
-import { Transporter, createTransport } from 'nodemailer';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import config from '../config/index.ts';
+import { Injectable } from '@nestjs/common';
+import { createTransport, Transporter } from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import config from 'src/config';
 
-export default class Mailer {
+@Injectable()
+export class MailService {
   private transporter: Transporter;
-  private static instance: Mailer;
 
-  private constructor() {
+  constructor() {
     const smtpConfig: SMTPTransport.Options = {
       host: config.NODEMAILER_HOST,
       port: 465,
@@ -22,13 +23,6 @@ export default class Mailer {
     };
 
     this.transporter = createTransport(smtpConfig);
-  }
-
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new Mailer();
-    }
-    return this.instance;
   }
 
   async sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {

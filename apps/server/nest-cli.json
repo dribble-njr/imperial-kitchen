@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "../openapi/openapi.yaml",
+        "outDir": "dist/openapi"
+      },
+      {
+        "include": "../openapi/redoc.html",
+        "outDir": "dist/openapi"
+      }
+    ]
+  }
+}
+ 
