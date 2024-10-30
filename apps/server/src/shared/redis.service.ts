@@ -1,12 +1,13 @@
+import { Injectable } from '@nestjs/common';
 import { createClient, RedisClientType } from 'redis';
-import config from '../config/index.ts';
+import config from 'src/config';
 
-export default class RedisClient {
-  private static instance: RedisClient;
+@Injectable()
+export class RedisService {
   private client: RedisClientType;
   private isConnected: boolean = false;
 
-  private constructor() {
+  constructor() {
     this.client = createClient({
       password: config.REDIS_PASSWORD,
       socket: {
@@ -24,13 +25,6 @@ export default class RedisClient {
     this.client.on('end', () => {
       this.isConnected = false;
     });
-  }
-
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new RedisClient();
-    }
-    return this.instance;
   }
 
   onError(error: Error) {

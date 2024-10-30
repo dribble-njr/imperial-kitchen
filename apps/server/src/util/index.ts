@@ -1,2 +1,2 @@
-export * from './crypt.ts';
-export * from './template-helper.ts';
+export * from './crypt';
+export * from './template-helper';
