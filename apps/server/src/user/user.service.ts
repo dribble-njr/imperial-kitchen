@@ -111,16 +111,16 @@ export class UserService {
 
   /**
    * send captcha to user's email
-   * @param address
+   * @param email
    * @returns
    */
-  async captcha(address: string) {
+  async captcha(email: string) {
     const code = Math.random().toString().slice(2, 8);
 
-    await this.redisService.set(`captcha_${address}`, code, 5 * 60);
+    await this.redisService.set(`captcha_${email}`, code, 5 * 60);
 
     await this.mailService.sendEmail({
-      to: address,
+      to: email,
       subject: '注册验证码',
       html: generateCaptchaHtml(code)
     });
