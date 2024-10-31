@@ -32,16 +32,10 @@ export class UserService {
     // validate captcha
     const captcha = await this.redisService.get(`captcha_${user.email}`);
     if (!captcha) {
-      throw new HttpException(
-        { error: ERROR_CODES.CAPTCHA_EXPIRED, code: HttpStatus.UNAUTHORIZED },
-        HttpStatus.UNAUTHORIZED
-      );
+      throw new HttpException(ERROR_CODES.CAPTCHA_EXPIRED, HttpStatus.UNAUTHORIZED);
     }
     if (captcha !== user.captcha) {
-      throw new HttpException(
-        { error: ERROR_CODES.CAPTCHA_ERROR, code: HttpStatus.BAD_REQUEST },
-        HttpStatus.BAD_REQUEST
-      );
+      throw new HttpException(ERROR_CODES.CAPTCHA_ERROR, HttpStatus.BAD_REQUEST);
     }
 
     const { email, name, password } = user;
@@ -53,7 +47,7 @@ export class UserService {
       }
     });
     if (existingUser) {
-      throw new HttpException({ error: ERROR_CODES.USER_EXISTS, code: 409 }, HttpStatus.CONFLICT);
+      throw new HttpException(ERROR_CODES.USER_EXISTS, HttpStatus.CONFLICT);
     }
 
     // create user
@@ -79,7 +73,7 @@ export class UserService {
     }
 
     if (!newFamily) {
-      throw new HttpException({ error: 'Family not found', code: HttpStatus.NOT_FOUND }, HttpStatus.NOT_FOUND);
+      throw new HttpException(ERROR_CODES.FAMILY_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     // join family
@@ -91,11 +85,7 @@ export class UserService {
       }
     });
 
-    return {
-      code: 200,
-      message: 'Success',
-      data: newFamilyOnUsers
-    };
+    return newFamilyOnUsers;
   }
 
   private async createFamily(familyName: string, adminId: number) {
@@ -134,6 +124,6 @@ export class UserService {
       subject: '注册验证码',
       html: generateCaptchaHtml(code)
     });
-    return { code: 200, message: 'Success', data: true };
+    return true;
   }
 }

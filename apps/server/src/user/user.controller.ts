@@ -1,14 +1,15 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterAdminDto, RegisterMemberDto } from './dto/register-user.dto';
+import { ERROR_CODES } from '@imperial-kitchen/types';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get(':id')
-  getUserById(@Param('id') id: string) {
-    const user = this.userService.getUserById(Number(id));
+  async getUserById(@Param('id', ParseIntPipe) id: string) {
+    const user = await this.userService.getUserById(Number(id));
     return user;
   }
 
@@ -26,6 +27,11 @@ export class UserController {
 
   @Get('register/captcha')
   async captcha(@Query('email') email: string) {
+    const reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+    if (!reg.test(email)) {
+      throw new BadRequestException(ERROR_CODES.INVALID_EMAIL);
+    }
+
     const data = await this.userService.captcha(email);
     return data;
   }
