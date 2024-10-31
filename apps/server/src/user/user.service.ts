@@ -49,43 +49,40 @@ export class UserService {
     if (existingUser) {
       throw new HttpException(ERROR_CODES.USER_EXISTS, HttpStatus.CONFLICT);
     }
+    return this.prismaService.$transaction(async (tx) => {
+      // 1. create user
+      const hashedPassword = await hashPassword(password);
+      const newUser = await tx.user.create({
+        data: {
+          email,
+          name,
+          password: hashedPassword
+        }
+      });
 
-    // create user
-    const hashedPassword = await hashPassword(password);
-    const newUser = await this.prismaService.user.create({
-      data: {
-        email,
-        name,
-        password: hashedPassword
+      // 2. create or find existing family
+      let newFamily;
+      if (createFamily && 'familyName' in user) {
+        newFamily = await this.createFamily(user.familyName, newUser.id);
       }
-    });
-
-    // TODO: add transaction to control the consistency of the data
-    console.log(newUser, 'newUser');
-
-    // create or find existing family
-    let newFamily;
-    if (createFamily && 'familyName' in user) {
-      newFamily = await this.createFamily(user.familyName, newUser.id);
-    }
-    if (!createFamily && 'inviteCode' in user) {
-      newFamily = await this.findFamilyByInviteCode(user.inviteCode);
-    }
-
-    if (!newFamily) {
-      throw new HttpException(ERROR_CODES.FAMILY_NOT_FOUND, HttpStatus.NOT_FOUND);
-    }
-
-    // join family
-    const newFamilyOnUsers = await this.prismaService.familiesOnUsers.create({
-      data: {
-        userId: newUser.id,
-        familyId: newFamily.id,
-        role: createFamily ? Role.ADMIN : Role.MEMBER
+      if (!createFamily && 'inviteCode' in user) {
+        newFamily = await this.findFamilyByInviteCode(user.inviteCode);
       }
-    });
+      if (!newFamily) {
+        throw new HttpException(ERROR_CODES.FAMILY_NOT_FOUND, HttpStatus.NOT_FOUND);
+      }
 
-    return newFamilyOnUsers;
+      // 3. join family
+      const newFamilyOnUsers = await tx.familiesOnUsers.create({
+        data: {
+          userId: newUser.id,
+          familyId: newFamily.id,
+          role: createFamily ? Role.ADMIN : Role.MEMBER
+        }
+      });
+
+      return newFamilyOnUsers;
+    });
   }
 
   private async createFamily(familyName: string, adminId: number) {
