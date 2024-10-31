@@ -1,9 +1,21 @@
-import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+  UseInterceptors
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterAdminDto, RegisterMemberDto } from './dto/register-user.dto';
 import { ERROR_CODES } from '@imperial-kitchen/types';
+import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
 
 @Controller('user')
+@UseInterceptors(TransformResponseInterceptor)
 export class UserController {
   constructor(private userService: UserService) {}
 
