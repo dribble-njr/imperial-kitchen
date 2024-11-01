@@ -3,6 +3,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { SessionProvider } from '@/context/AuthContext';
+import { PaperProvider } from 'react-native-paper';
 import '@/i8n';
 
 export default function Root() {
@@ -12,7 +13,9 @@ export default function Root() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SessionProvider>
-        <Slot />
+        <PaperProvider>
+          <Slot />
+        </PaperProvider>
       </SessionProvider>
     </ThemeProvider>
   );
