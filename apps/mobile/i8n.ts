@@ -26,7 +26,7 @@ const getUserLanguage = async () => {
       }
     }
   } catch (error) {
-    console.error('Error retrieving language preference:', error);
+    // console.error('Error retrieving language preference:', error);
     return 'zh';
   }
 };
