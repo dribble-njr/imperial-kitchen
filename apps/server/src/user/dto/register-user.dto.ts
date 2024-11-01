@@ -1,40 +1,41 @@
-import { IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
 export class RegisterUserDto {
   @IsNotEmpty({
-    message: '用户名不能为空'
+    message: 'Username is required'
   })
   name: string;
 
+  @IsEmail()
   @IsNotEmpty({
-    message: '邮箱不能为空'
+    message: 'Email is required'
   })
   email: string;
 
   @IsNotEmpty({
-    message: '密码不能为空'
+    message: 'Password is required'
   })
   @MinLength(6, {
-    message: '密码长度不能小于6位'
+    message: 'Password length must be greater than 6'
   })
   password: string;
 
   @IsNotEmpty({
-    message: '验证码不能为空'
+    message: 'Captcha is required'
   })
   captcha: string;
 }
 
 export class RegisterAdminDto extends RegisterUserDto {
   @IsNotEmpty({
-    message: '家庭名称不能为空'
+    message: 'Family name is required'
   })
   familyName: string;
 }
 
 export class RegisterMemberDto extends RegisterUserDto {
   @IsNotEmpty({
-    message: '邀请码不能为空'
+    message: 'Invite code is required'
   })
   inviteCode: string;
 }
