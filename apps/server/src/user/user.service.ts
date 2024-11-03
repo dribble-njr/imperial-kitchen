@@ -22,6 +22,14 @@ export class UserService {
     });
   }
 
+  async getUserByEmail(email: string) {
+    return this.prismaService.user.findUnique({
+      where: {
+        email
+      }
+    });
+  }
+
   /**
    * register user, create family or join family according by the second parameter
    * @param user
