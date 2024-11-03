@@ -5,6 +5,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { SessionProvider } from '@/context/AuthContext';
 import { PaperProvider } from 'react-native-paper';
 import '@/i8n';
+import '../global.css';
 
 export default function Root() {
   const colorScheme = useColorScheme();

@@ -1,8 +1,9 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Button } from 'react-native-paper';
+import { ThemedText } from '@/components/ThemedText';
 
 export default function TabTwoScreen() {
   return (
@@ -13,6 +14,9 @@ export default function TabTwoScreen() {
       <Button mode="contained" onPress={() => console.log('clicked')}>
         Click Test
       </Button>
+
+      <Text className="text-2xl color-white">Explore</Text>
+      <ThemedText className="text-2xl">Explore</ThemedText>
     </ParallaxScrollView>
   );
 }

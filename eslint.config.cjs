@@ -1,9 +1,9 @@
-import js from '@eslint/js';
-import ts from 'typescript-eslint';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import eslintConfigPrettier from 'eslint-config-prettier';
+const js = require('@eslint/js');
+const ts = require('typescript-eslint');
+const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
+const eslintConfigPrettier = require('eslint-config-prettier');
 
-export default [
+module.exports = [
   js.configs.recommended,
   ...ts.configs.recommended,
   eslintPluginPrettierRecommended,
@@ -12,7 +12,7 @@ export default [
     languageOptions: {
       parserOptions: {
         project: ['./apps/*/tsconfig.json', './packages/*/tsconfig.json'],
-        tsconfigRootDir: import.meta.dirname
+        tsconfigRootDir: __dirname
       }
     }
   },
