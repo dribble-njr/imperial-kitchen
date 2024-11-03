@@ -5,14 +5,16 @@
   "main": ".dist/index.js",
   "scripts": {
     "build": "nest build",
-    "dev": "nest start --watch",
+    "dev": "yarn bundle:openapi && nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "bundle:openapi": "redocly bundle ./openapi/openapi.yaml -o ./openapi/bundled.yaml",
+    "lint:doc": "redocly lint ./openapi/openapi.yaml"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     "@nestjs/cli": "^10.4.5",
     "@nestjs/schematics": "^10.2.3",
     "@nestjs/testing": "^10.4.6",
+    "@redocly/cli": "^1.25.10",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
@@ -42,7 +45,6 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "^11.7.2",
     "@imperial-kitchen/types": "1.0.0",
     "@libsql/client": "^0.13.0",
     "@nestjs/common": "^10.4.6",

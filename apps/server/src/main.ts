@@ -14,7 +14,7 @@ async function bootstrap() {
     exclude: [
       { path: '', method: RequestMethod.GET },
       { path: 'api-docs', method: RequestMethod.GET },
-      { path: 'api-docs/openapi.yaml', method: RequestMethod.GET }
+      { path: 'api-docs/bundled.yaml', method: RequestMethod.GET }
     ]
   });
   await app.listen(PORT);

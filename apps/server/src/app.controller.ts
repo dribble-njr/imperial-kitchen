@@ -18,7 +18,7 @@ export class AppController {
 
   @Public()
   @Header('Content-Type', 'application/x-yaml')
-  @Get('api-docs/openapi.yaml')
+  @Get('api-docs/bundled.yaml')
   async getOpenApi() {
     const mergedYaml = await mergeYamlFiles();
     return yaml.dump(mergedYaml);

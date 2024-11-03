@@ -3,10 +3,17 @@ info:
   title: Imperial Kitchen API
   version: 1.0.0
 paths:
-  $ref: './openapi/paths/user.yaml'
+  /api/auth/login:
+    $ref: './paths/auth.yaml#/login'
+  /api/user/register:
+    $ref: './paths/user.yaml#/register'
+  /api/user/register/captcha:
+    $ref: './paths/user.yaml#/captcha'
 components:
-  schemas:
-    $ref: './openapi/components/schemas.yaml'
+  # schemas:
+  #   $ref: './components/schemas.yaml'
 tags:
+  - name: Auth
+    description: 认证相关接口
   - name: User
     description: 用户相关接口
