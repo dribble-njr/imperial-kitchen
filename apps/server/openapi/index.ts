@@ -1,6 +1,5 @@
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import $RefParser from '@apidevtools/json-schema-ref-parser';
 import { readFileSync } from 'node:fs';
 
 interface OpenAPISpec {
@@ -16,7 +15,6 @@ function loadYamlFile(filePath: string) {
 }
 
 export async function mergeYamlFiles() {
-  const mainYaml = loadYamlFile('../openapi/openapi.yaml') as OpenAPISpec;
-  const parsedYaml = await $RefParser.bundle(mainYaml);
-  return parsedYaml;
+  const mainYaml = loadYamlFile('./bundled.yaml') as OpenAPISpec;
+  return mainYaml;
 }

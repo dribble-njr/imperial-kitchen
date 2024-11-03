@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: Imperial Kitchen API
+  version: 1.0.0
+tags:
+  - name: Auth
+    description: 认证相关接口
+  - name: User
+    description: 用户相关接口
+paths:
+  /api/auth/login:
+    post:
+      summary: 用户登录
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+        '401':
+          description: 密码错误
+        '404':
+          description: 用户不存在
+  /api/user/register:
+    post:
+      summary: 注册用户，创建新家庭，并设置为管理员
+      tags:
+        - User
+      responses:
+        '200':
+          description: 成功注册
+        '400':
+          description: 参数错误
+  /api/user/register/captcha:
+    get:
+      summary: 获取注册验证码
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 成功获取验证码
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: success
+                  code:
+                    type: number
+                    default: 200
+                  data:
+                    type: boolean
+                    default: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: Email is required
+                  code:
+                    type: number
+                    default: 400
+                  data:
+                    type: object
+                    default: null
+components: {}
