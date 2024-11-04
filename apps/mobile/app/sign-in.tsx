@@ -1,11 +1,11 @@
 import { router } from 'expo-router';
 
-import { useSession } from '@/context/AuthContext';
+import { useToken } from '@/context/AuthContext';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
 export default function SignIn() {
-  const { signIn } = useSession();
+  const { signIn } = useToken();
 
   return (
     <ThemedView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
