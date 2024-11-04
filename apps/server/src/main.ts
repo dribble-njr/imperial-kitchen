@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { RequestMethod, VersioningType } from '@nestjs/common';
+import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 import { AppModule } from './app.module';
 import config from './config';
 
@@ -17,6 +17,7 @@ async function bootstrap() {
       { path: 'api-docs/bundled.yaml', method: RequestMethod.GET }
     ]
   });
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(PORT);
 }
 bootstrap();

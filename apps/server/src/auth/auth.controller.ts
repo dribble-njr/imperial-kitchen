@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { Public } from './decorators/public.decorator';
@@ -16,7 +16,7 @@ export class AuthController {
 
   @Public()
   @Post('refresh')
-  async refreshToken(@Body(new ValidationPipe()) { refresh_token }: RefreshTokenDto) {
+  async refreshToken(@Body() { refresh_token }: RefreshTokenDto) {
     return this.authService.refreshToken(refresh_token);
   }
 
