@@ -2,7 +2,6 @@ import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseInterceptor
 import { UserService } from './user.service';
 import { RegisterAdminDto, RegisterMemberDto } from './dto/register-user.dto';
 import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
-import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 import { CaptchaDto } from './dto/captcha';
 
 @Controller('user')
@@ -17,19 +16,19 @@ export class UserController {
   }
 
   @Post('register/admin')
-  async registerAdmin(@Body(new ValidationPipe()) body: RegisterAdminDto) {
+  async registerAdmin(@Body() body: RegisterAdminDto) {
     const data = await this.userService.registerUser(body, true);
     return data;
   }
 
   @Post('register/member')
-  async registerMember(@Body(new ValidationPipe()) body: RegisterMemberDto) {
+  async registerMember(@Body() body: RegisterMemberDto) {
     const data = await this.userService.registerUser(body, false);
     return data;
   }
 
   @Get('register/captcha')
-  async captcha(@Query(new ValidationPipe()) query: CaptchaDto) {
+  async captcha(@Query() query: CaptchaDto) {
     const data = await this.userService.captcha(query.email);
     return data;
   }
