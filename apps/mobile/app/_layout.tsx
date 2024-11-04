@@ -1,6 +1,6 @@
 import { ComponentColors } from '@/constants/Colors';
-import { SessionProvider } from '@/context/AuthContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { TokenProvider } from '@/context/AuthContext';
 import '@/i8n';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Slot } from 'expo-router';
@@ -18,11 +18,11 @@ export default function Root() {
   // Set up the auth context and render our layout inside of it.
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SessionProvider>
+      <TokenProvider>
         <PaperProvider theme={paperTheme}>
           <Slot />
         </PaperProvider>
-      </SessionProvider>
+      </TokenProvider>
     </ThemeProvider>
   );
 }
