@@ -1,8 +1,8 @@
 import { Controller, Get, Header, Res } from '@nestjs/common';
 import * as yaml from 'js-yaml';
+import { readFileSync } from 'node:fs';
 import { Response } from 'express';
 import { join } from 'node:path';
-import { mergeYamlFiles } from 'openapi';
 import { AppService } from './app.service';
 import { Public } from './auth/decorators/public.decorator';
 
@@ -20,8 +20,9 @@ export class AppController {
   @Header('Content-Type', 'application/x-yaml')
   @Get('api-docs/bundled.yaml')
   async getOpenApi() {
-    const mergedYaml = await mergeYamlFiles();
-    return yaml.dump(mergedYaml);
+    const fullPath = join(__dirname, '../openapi/bundled.yaml');
+    const yamlContent = yaml.load(readFileSync(fullPath, 'utf8'));
+    return yaml.dump(yamlContent);
   }
 
   @Public()

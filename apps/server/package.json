@@ -5,7 +5,7 @@
   "main": ".dist/index.js",
   "scripts": {
     "build": "nest build",
-    "dev": "yarn bundle:openapi && nest start --watch",
+    "dev": "nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
     "test": "jest",
