@@ -1,4 +1,4 @@
-import { Commodity } from './commodity';
+import { Commodity } from '../commodity/commodity.vo';
 
 export interface Category {
   id?: number;

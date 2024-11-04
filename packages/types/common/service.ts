@@ -1,6 +1,5 @@
 export interface CommonResponse<T = unknown> {
   statusCode: number;
-  message: string;
+  message: string | string[];
   data?: T;
-  error?: string;
 }
