@@ -1,4 +1,4 @@
-import { Response } from '@imperial-kitchen/types';
+import { CommonResponse } from '@imperial-kitchen/types';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 class HttpClient {
@@ -33,6 +33,9 @@ class HttpClient {
   }
 
   private handleError(error: AxiosError): Promise<AxiosError> {
+    if (error.response?.status === 401) {
+      // refresh token
+    }
     return Promise.reject(error);
   }
 
@@ -45,10 +48,12 @@ class HttpClient {
     return new Promise((resolve, reject) => {
       const finalConfig = this.mergeConfig(config);
       this.axiosInstance
-        .request<Response<T>>(finalConfig)
+        .request<CommonResponse<T>>(finalConfig)
         .then((response) => {
-          if (response.data.code !== 200) {
-            throw new Error(response.data.message);
+          if (response.data.statusCode !== 200) {
+            throw new Error(
+              typeof response.data.message === 'string' ? response.data.message : response.data.message.join(',')
+            );
           }
           resolve(response.data.data as T);
         })
@@ -58,15 +63,15 @@ class HttpClient {
     });
   }
 
-  public get<T, P = object>(url: string, params?: P, config?: AxiosRequestConfig) {
+  public get<T, P = Record<string, unknown>>(url: string, params?: P, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'GET', params });
   }
 
-  public post<T, D>(url: string, data?: D, config?: AxiosRequestConfig) {
+  public post<T, D = Record<string, unknown>>(url: string, data?: D, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'POST', data });
   }
 
-  public put<T, D>(url: string, data?: D, config?: AxiosRequestConfig) {
+  public put<T, D = Record<string, unknown>>(url: string, data?: D, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'PUT', data });
   }
 
