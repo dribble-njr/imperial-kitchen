@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseInterceptor
 import { UserService } from './user.service';
 import { RegisterAdminDto, RegisterMemberDto } from './dto/register-user.dto';
 import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
-import { CaptchaDto } from './dto/captcha';
+import { CaptchaDto } from './dto/captcha.dto';
 
 @Controller('user')
 @UseInterceptors(TransformResponseInterceptor)
