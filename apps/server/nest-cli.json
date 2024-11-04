@@ -6,6 +6,10 @@
     "deleteOutDir": true,
     "assets": [
       {
+        "include": "../openapi/bundled.yaml",
+        "outDir": "dist/openapi"
+      },
+      {
         "include": "../openapi/redoc.html",
         "outDir": "dist/openapi"
       }
