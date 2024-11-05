@@ -35,14 +35,14 @@ export function TokenProvider(props: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          AuthService.signIn({
+        signIn: async () => {
+          const { accessToken, refreshToken } = await AuthService.signIn({
             email: 'test@test.com',
             password: 'test'
           });
 
-          setAccessToken('xxx');
-          setRefreshToken('xxx');
+          setAccessToken(accessToken);
+          setRefreshToken(refreshToken);
         },
         signOut: () => {
           setAccessToken(null);
