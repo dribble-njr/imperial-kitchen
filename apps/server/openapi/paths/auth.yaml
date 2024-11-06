@@ -1,4 +1,4 @@
-login: &login
+sign-in: &sign-in
   post:
     summary: 用户登录
     tags:

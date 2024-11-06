@@ -3,8 +3,8 @@ info:
   title: Imperial Kitchen API
   version: 1.0.0
 paths:
-  /api/auth/login:
-    $ref: './paths/auth.yaml#/login'
+  /api/auth/sign-in:
+    $ref: './paths/auth.yaml#/sign-in'
   /api/user/register:
     $ref: './paths/user.yaml#/register'
   /api/user/register/captcha:
