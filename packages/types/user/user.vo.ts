@@ -36,7 +36,7 @@ export interface UserInfo {
   role: Role;
 }
 
-export interface LoginUserVO {
+export interface SignInUserVO {
   userInfo: UserInfo;
   accessToken: string;
   refreshToken: string;

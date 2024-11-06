@@ -25,7 +25,7 @@ export default function SignIn() {
           router.replace('/');
         }}
       >
-        {t('signin')}
+        {t('signIn')}
       </ThemedText>
 
       <Text style={styles.title}>Find interesting projects easily</Text>
@@ -57,8 +57,8 @@ export default function SignIn() {
         </Button>
       </View>
 
-      <Text style={styles.loginText} onPress={() => signIn()}>
-        Already have an account? Log In
+      <Text style={styles.signInText} onPress={() => signIn()}>
+        Already have an account? Sign In
       </Text>
     </ThemedView>
   );
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   buttonLabel: {
     fontSize: 16
   },
-  loginText: {
+  signInText: {
     fontSize: 14,
     color: '#4a90e2',
     textAlign: 'center',
