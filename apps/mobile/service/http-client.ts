@@ -1,5 +1,7 @@
+import { getStorageItemAsync } from '@/hooks/useStorageState';
 import { CommonResponse } from '@imperial-kitchen/types';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import AuthService from './auth.service';
 
 class HttpClient {
   private static instance: HttpClient;
@@ -32,9 +34,17 @@ class HttpClient {
     return response;
   }
 
-  private handleError(error: AxiosError): Promise<AxiosError> {
-    if (error.response?.status === 401) {
-      // refresh token
+  private async handleError(error: AxiosError<CommonResponse>): Promise<AxiosError> {
+    if (error.response?.status === 401 && error.response?.data.message === 'Invalid token') {
+      const refreshToken = await getStorageItemAsync('refreshToken');
+      if (refreshToken) {
+        // refresh token
+        const response = await AuthService.refreshToken(refreshToken);
+        console.log(response, 'response');
+        // if (response.statusCode === 200) {
+        //   await setStorageItemAsync('refreshToken', response.data.data.refreshToken);
+        // }
+      }
     }
     return Promise.reject(error);
   }
