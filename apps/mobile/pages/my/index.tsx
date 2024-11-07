@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Button } from 'react-native-paper';
 
-export default function TabTwoScreen() {
+export const MyPage = () => {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -28,7 +28,7 @@ export default function TabTwoScreen() {
       </Button>
     </ParallaxScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   headerImage: {
