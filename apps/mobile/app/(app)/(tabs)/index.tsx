@@ -13,6 +13,7 @@ export default function HomeScreen() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategoryId, setActiveCategoryId] = useState(0);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getCategories = async () => {
     const categories = await CategoryService.getList();
     setActiveCategoryId(categories[0].id!);
@@ -20,7 +21,7 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
-    getCategories();
+    // getCategories();
   }, []);
 
   return (

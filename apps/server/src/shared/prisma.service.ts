@@ -13,7 +13,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     });
 
     const adapter = new PrismaLibSQL(libsql);
-    super({ adapter });
+    super({ adapter, transactionOptions: { timeout: 10000 } });
   }
 
   async onModuleInit() {

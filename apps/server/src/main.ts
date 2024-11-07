@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { RequestMethod, VersioningType } from '@nestjs/common';
+import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 import { AppModule } from './app.module';
 import config from './config';
 
@@ -14,9 +14,10 @@ async function bootstrap() {
     exclude: [
       { path: '', method: RequestMethod.GET },
       { path: 'api-docs', method: RequestMethod.GET },
-      { path: 'api-docs/openapi.yaml', method: RequestMethod.GET }
+      { path: 'api-docs/bundled.yaml', method: RequestMethod.GET }
     ]
   });
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(PORT);
 }
 bootstrap();

@@ -1,4 +1,4 @@
-/api/v1/user/register:
+register: &register
   post:
     summary: 注册用户，创建新家庭，并设置为管理员
     tags:
@@ -9,7 +9,7 @@
       '400':
         description: 参数错误
 
-/api/vi/user/register/captcha:
+captcha: &captcha
   get:
     summary: 获取注册验证码
     tags:
@@ -53,10 +53,3 @@
                 data:
                   type: object
                   default: null
-
-/api/v1/user/login:
-  post:
-    summary: 用户登录
-    tags:
-      - User
-    # ... 其他详细信息

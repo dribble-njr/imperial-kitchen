@@ -1,9 +1,10 @@
 {
   "welcome": "Welcome to Imperial Kitchen",
-  "startTip": "Sign up or login to get started",
-  "login": "Login",
+  "skip": "Skip",
+  "startTip": "Sign up or sign in to get started",
+  "signIn": "Sign In",
   "logout": "Logout",
-  "signup": "Sign Up",
+  "signUp": "Sign Up",
   "enterEmail": "Enter your email",
   "enterPhone": "Enter your phone number",
   "enterName": "Enter your name",

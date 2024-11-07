@@ -1,10 +1,10 @@
 import { IsNotEmpty, MinLength } from 'class-validator';
 
-export class LoginUserDto {
+export class SignInDto {
   @IsNotEmpty({
-    message: 'Username is required'
+    message: 'Email is required'
   })
-  name: string;
+  email: string;
 
   @IsNotEmpty({
     message: 'Password is required'

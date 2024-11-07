@@ -1,5 +1,7 @@
-import { Response } from '@imperial-kitchen/types';
+import { getStorageItemAsync, removeStorageItemAsync, setStorageItemAsync } from '@/hooks/useStorageState';
+import { CommonResponse } from '@imperial-kitchen/types';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import AuthService from './auth.service';
 
 class HttpClient {
   private static instance: HttpClient;
@@ -24,7 +26,11 @@ class HttpClient {
     this.axiosInstance.interceptors.response.use(this.handleResponse, this.handleError);
   }
 
-  private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
+  private async handleRequest(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
+    const accessToken = await getStorageItemAsync('accessToken');
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
     return config;
   }
 
@@ -32,7 +38,32 @@ class HttpClient {
     return response;
   }
 
-  private handleError(error: AxiosError): Promise<AxiosError> {
+  private async handleError(error: AxiosError<CommonResponse>) {
+    if (error.response?.status === 401 && error.response?.data.message === 'Invalid token') {
+      const refreshToken = await getStorageItemAsync('refreshToken');
+      if (refreshToken) {
+        try {
+          // refresh token
+          const response = await AuthService.refreshToken(refreshToken);
+          console.log(response, 'response');
+          if (response) {
+            await setStorageItemAsync('accessToken', response.accessToken);
+            await setStorageItemAsync('refreshToken', response.refreshToken);
+
+            const originalRequest = error.config as AxiosRequestConfig;
+            originalRequest.headers = {
+              ...originalRequest.headers,
+              Authorization: `Bearer ${response.accessToken}`
+            };
+            return this.axiosInstance.request(originalRequest);
+          }
+        } catch (error) {
+          await removeStorageItemAsync('accessToken');
+          await removeStorageItemAsync('refreshToken');
+          return Promise.reject(error);
+        }
+      }
+    }
     return Promise.reject(error);
   }
 
@@ -45,12 +76,18 @@ class HttpClient {
     return new Promise((resolve, reject) => {
       const finalConfig = this.mergeConfig(config);
       this.axiosInstance
-        .request<Response<T>>(finalConfig)
+        .request<CommonResponse<T>>(finalConfig)
         .then((response) => {
-          if (response.data.code !== 200) {
-            throw new Error(response.data.message);
+          if (response.data.statusCode !== 200) {
+            throw new Error(
+              typeof response.data.message === 'string' ? response.data.message : response.data.message.join(',')
+            );
           }
-          resolve(response.data.data as T);
+          if (response.data.data) {
+            resolve(response.data.data);
+          } else {
+            reject(new Error('No data in response'));
+          }
         })
         .catch((e: Error | AxiosError) => {
           reject(e);
@@ -58,15 +95,15 @@ class HttpClient {
     });
   }
 
-  public get<T, P = object>(url: string, params?: P, config?: AxiosRequestConfig) {
+  public get<T, P = Record<string, unknown>>(url: string, params?: P, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'GET', params });
   }
 
-  public post<T, D>(url: string, data?: D, config?: AxiosRequestConfig) {
+  public post<T, D = Record<string, unknown>>(url: string, data?: D, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'POST', data });
   }
 
-  public put<T, D>(url: string, data?: D, config?: AxiosRequestConfig) {
+  public put<T, D = Record<string, unknown>>(url: string, data?: D, config?: AxiosRequestConfig) {
     return this.request<T>({ ...config, url, method: 'PUT', data });
   }
 
