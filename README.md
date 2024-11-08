@@ -38,16 +38,10 @@ yarn install
 yarn build:types
 ```
 
-4.1. Run mobile (macOS).
+4. Run mobile.
 
 ```sh
 yarn dev:mobile
-```
-
-4.2. Run mobile (Windows).
-
-```sh
-yarn start
 ```
 
 5. Configure database env.
