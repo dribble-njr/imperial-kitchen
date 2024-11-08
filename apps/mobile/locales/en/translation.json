@@ -12,5 +12,8 @@
   "enterInviteCode": "Enter your invite code",
   "forgotPassword": "Forgot Password?",
   "sendVerificationCode": "Send Verification Code",
-  "greeting": "Hello, {{name}}!"
+  "greeting": "Hello, {{name}}!",
+
+  "home": "Home",
+  "profile": "Profile"
 }

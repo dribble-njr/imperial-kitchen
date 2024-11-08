@@ -12,5 +12,8 @@
   "enterInviteCode": "输入邀请码",
   "forgotPassword": "忘记密码？",
   "sendVerificationCode": "发送验证码",
-  "greeting": "你好, {{name}}!"
+  "greeting": "你好, {{name}}!",
+
+  "home": "首页",
+  "profile": "我的"
 }
