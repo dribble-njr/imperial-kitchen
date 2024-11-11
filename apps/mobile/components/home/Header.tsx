@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import { HelloWave } from "../HelloWave";
-import { ThemedText } from "../ThemedText";
-import { ThemedView } from "../ThemedView";
+import { HelloWave } from '../HelloWave';
+import { ThemedText } from '../ThemedText';
+import { ThemedView } from '../ThemedView';
 
 const Header = () => {
   return (
@@ -17,10 +17,10 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8
+  }
 });
 
 export default Header;
