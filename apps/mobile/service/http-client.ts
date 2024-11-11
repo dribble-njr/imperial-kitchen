@@ -1,7 +1,6 @@
 import { getStorageItemAsync, removeStorageItemAsync, setStorageItemAsync } from '@/hooks/useStorageState';
-import { CommonResponse } from '@imperial-kitchen/types';
+import { CommonResponse, RefreshTokenResponseVo } from '@imperial-kitchen/types';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import AuthService from './auth.service';
 
 class HttpClient {
   private static instance: HttpClient;
@@ -44,7 +43,7 @@ class HttpClient {
       if (refreshToken) {
         try {
           // refresh token
-          const response = await AuthService.refreshToken(refreshToken);
+          const response = await httpClient.post<RefreshTokenResponseVo>('/auth/refresh-token', { refreshToken });
           console.log(response, 'response');
           if (response) {
             await setStorageItemAsync('accessToken', response.accessToken);

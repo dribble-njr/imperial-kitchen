@@ -1,15 +1,16 @@
 import { router } from 'expo-router';
 import { Text, Button, Card } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useColorScheme } from 'react-native';
 import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { ThemedView } from '@/components/ThemedView';
 import { setStorageItemAsync } from '@/hooks/useStorageState';
+import { ComponentColors } from '@/constants/Colors';
 
 export default function Guide() {
   const { signIn } = useToken();
   const { t } = useTranslation();
-  // const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
   const skip = async () => {
     await setStorageItemAsync('skipGuide', 'true');
     router.replace('/');
@@ -54,10 +55,10 @@ export default function Guide() {
           {t('alreadyHaveAccount')}
           <Text
             style={[
-              styles.signInText
-              // {
-              //   color: colorScheme === 'dark' ? ComponentColors.dark?.primary : ComponentColors.light?.primary
-              // }
+              styles.signInText,
+              {
+                color: colorScheme === 'dark' ? ComponentColors.dark?.primary : ComponentColors.light?.primary
+              }
             ]}
             className="text-base"
             onPress={async () => {
