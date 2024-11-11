@@ -34,7 +34,7 @@ export default function Guide() {
       <ThemedView className="flex flex-col justify-around w-full items-center gap-4">
         <Button
           mode="contained"
-          onPress={() => console.log('Create Kitchen pressed')}
+          onPress={() => router.push('/create-kitchen')}
           style={{ width: '100%' }}
           contentStyle={{ width: '100%' }}
           labelStyle={{ fontSize: 16 }}
