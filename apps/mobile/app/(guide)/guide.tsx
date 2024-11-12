@@ -4,7 +4,6 @@ import { StyleSheet, useColorScheme } from 'react-native';
 import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { ThemedView } from '@/components/ThemedView';
-import { setStorageItemAsync } from '@/hooks/useStorageState';
 import { ComponentColors } from '@/constants/Colors';
 
 export default function Guide() {
@@ -12,7 +11,8 @@ export default function Guide() {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const skip = async () => {
-    await setStorageItemAsync('skipGuide', 'true');
+    // TODO: Add skip guide logic
+    // sign in a test user
     router.replace('/');
   };
 
