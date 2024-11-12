@@ -1,7 +1,12 @@
 {
   "welcome": "欢迎来到御膳房",
   "skip": "跳过",
-  "startTip": "登陆或注册开始使用",
+  "startTip": "登录或注册开始使用",
+  "slogan": "定制您的厨房菜单",
+  "createKitchen": "创建厨房",
+  "joinKitchen": "加入厨房",
+
+  "alreadyHaveAccount": "已有账号？",
   "signIn": "登录",
   "logout": "登出",
   "signUp": "注册",

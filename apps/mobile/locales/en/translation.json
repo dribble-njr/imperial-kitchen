@@ -2,6 +2,11 @@
   "welcome": "Welcome to Imperial Kitchen",
   "skip": "Skip",
   "startTip": "Sign up or sign in to get started",
+  "slogan": "Customize your kitchen menu easily",
+  "createKitchen": "Create Kitchen",
+  "joinKitchen": "Join Kitchen",
+
+  "alreadyHaveAccount": "Already have an account?",
   "signIn": "Sign In",
   "logout": "Logout",
   "signUp": "Sign Up",

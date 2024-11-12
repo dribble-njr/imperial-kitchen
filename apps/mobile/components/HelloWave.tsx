@@ -4,7 +4,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   withRepeat,
-  withSequence,
+  withSequence
 } from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -18,7 +18,7 @@ export function HelloWave() {
   );
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotationAnimation.value}deg` }],
+    transform: [{ rotate: `${rotationAnimation.value}deg` }]
   }));
 
   return (
@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 28,
     lineHeight: 32,
-    marginTop: -6,
-  },
+    marginTop: -6
+  }
 });

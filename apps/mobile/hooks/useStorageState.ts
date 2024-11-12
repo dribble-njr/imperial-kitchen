@@ -41,7 +41,11 @@ export async function removeStorageItemAsync(key: string) {
 
 export async function getStorageItemAsync(key: string) {
   if (Platform.OS === 'web') {
-    return localStorage.getItem(key);
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      console.error('Local storage is unavailable:', e);
+    }
   }
   return await SecureStore.getItemAsync(key);
 }

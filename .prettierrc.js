@@ -5,5 +5,6 @@ export default {
   printWidth: 120,
   singleQuote: true,
   trailingComma: 'none',
-  semi: true
+  semi: true,
+  endOfLine: 'lf'
 };
