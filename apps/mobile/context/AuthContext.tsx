@@ -1,4 +1,4 @@
-import { createContext, useContext, PropsWithChildren, useState } from 'react';
+import { createContext, useContext, PropsWithChildren } from 'react';
 import { useStorageState } from '../hooks/useStorageState';
 import AuthService from '@/service/auth.service';
 
@@ -29,15 +29,13 @@ export function useToken() {
 }
 
 export function TokenProvider(props: PropsWithChildren) {
-  const [accessToken, setAccessToken] = useStorageState('accessToken');
-  const [refreshToken, setRefreshToken] = useStorageState('refreshToken');
-  const [isLoading, setIsLoading] = useState(false);
+  const [[isLoading, accessToken], setAccessToken] = useStorageState('accessToken');
+  const [[, refreshToken], setRefreshToken] = useStorageState('refreshToken');
 
   return (
     <AuthContext.Provider
       value={{
         signIn: async () => {
-          setIsLoading(true);
           const { accessToken, refreshToken } = await AuthService.signIn({
             email: 'test@test.com',
             password: 'test'
@@ -45,7 +43,6 @@ export function TokenProvider(props: PropsWithChildren) {
 
           setAccessToken(accessToken);
           setRefreshToken(refreshToken);
-          setIsLoading(false);
         },
         signOut: () => {
           setAccessToken(null);
