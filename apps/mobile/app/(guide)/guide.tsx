@@ -45,7 +45,7 @@ export default function Guide() {
           contentStyle={{ width: '100%' }}
           labelStyle={{ fontSize: 16 }}
         >
-          {t('createKitchen')}
+          {t('createKitchen.title')}
         </Button>
 
         <Button

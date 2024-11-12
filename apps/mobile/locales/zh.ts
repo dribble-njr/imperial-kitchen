@@ -3,7 +3,21 @@ const Chinese = {
   skip: '跳过',
   startTip: '登录或注册开始使用',
   slogan: '定制您的厨房菜单',
-  createKitchen: '创建厨房',
+
+  common: {
+    confirm: '确认',
+    cancel: '取消',
+    captcha: '发送验证码'
+  },
+
+  createKitchen: {
+    title: '创建厨房',
+    username: '用户名',
+    password: '密码',
+    confirmPassword: '确认密码',
+    create: '创建'
+  },
+
   joinKitchen: '加入厨房',
 
   alreadyHaveAccount: '已有账号？',

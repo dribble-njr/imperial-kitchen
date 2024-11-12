@@ -3,10 +3,23 @@ const English = {
   skip: 'Skip',
   startTip: 'Sign up or sign in to get started',
   slogan: 'Customize your kitchen menu easily',
-  createKitchen: 'Create Kitchen',
   joinKitchen: 'Join Kitchen',
-
   alreadyHaveAccount: 'Already have an account?',
+
+  common: {
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    captcha: 'Send Captcha'
+  },
+
+  createKitchen: {
+    title: 'Create Kitchen',
+    username: 'Username',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    create: 'Create'
+  },
+
   signIn: 'Sign In',
   logout: 'Logout',
   signUp: 'Sign Up',
