@@ -17,10 +17,16 @@ export default function Guide() {
   };
 
   return (
-    <ThemedView className="flex justify-between items-center w-full h-full p-4 px-8">
+    <ThemedView safeArea className="flex justify-between items-center w-full h-full p-4 px-8">
       <ThemedView className="flex flex-row justify-between w-full items-center">
         <Text className="text-sm">{t('welcome')}</Text>
-        <Button mode="contained-tonal" contentStyle={{ height: 30 }} style={{ borderRadius: 5 }} onPress={skip}>
+        <Button
+          mode="contained-tonal"
+          contentStyle={{ height: 30 }}
+          labelStyle={{ height: 30, lineHeight: 30 }}
+          style={{ borderRadius: 5 }}
+          onPress={skip}
+        >
           {t('skip')}
         </Button>
       </ThemedView>
