@@ -17,7 +17,7 @@ export default function CreateKitchen() {
 
         <ThemedView className="my-8 w-full flex-1 gap-2">
           <Formik
-            initialValues={{ username: '', email: '', captcha: '', password: '', comfiredPassword: '' }}
+            initialValues={{ username: '', email: '', captcha: '', password: '', confirmedPassword: '' }}
             onSubmit={(values) => {
               // TODO: Create kitchen
               console.log(values);
@@ -102,13 +102,13 @@ export default function CreateKitchen() {
                     maxLength={64}
                     mode="outlined"
                     label="Confirmed Password"
-                    value={values.comfiredPassword}
-                    error={!!errors.comfiredPassword}
+                    value={values.confirmedPassword}
+                    error={!!errors.confirmedPassword}
                     placeholder="Confirm your password..."
-                    onChangeText={handleChange('comfiredPassword')}
+                    onChangeText={handleChange('confirmedPassword')}
                   />
-                  <HelperText type="error" visible={!!errors.comfiredPassword}>
-                    {errors.comfiredPassword}
+                  <HelperText type="error" visible={!!errors.confirmedPassword}>
+                    {errors.confirmedPassword}
                   </HelperText>
                 </ThemedView>
 
