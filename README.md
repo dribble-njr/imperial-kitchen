@@ -1,6 +1,6 @@
 # Imperial Kitchen
 
-A food ordering platform. It's just for a family, so it does't have `SHOP` model.
+A food ordering app for family kitchen.
 
 ## Features
 
@@ -12,7 +12,7 @@ A food ordering platform. It's just for a family, so it does't have `SHOP` model
 
 - fe: Use `Expo` and `React Native` develop mobile app.
 - server: Use vanilla `Node.js` develop server interface.
-- database: Use cloud database [`turso`](https://github.com/tursodatabase/libsql).
+- database: Use cloud database [`MySQL`](https://www.mysql.com/) and [`Prisma`](https://www.prisma.io/).
 - others: Use `TypeScript` and `yarn` to manage monorepo.
 
 ## How to use
@@ -44,14 +44,13 @@ yarn build:types
 yarn dev:mobile
 ```
 
-5. Configure database env.
+5. Configure server env.
 
-**server/.env.local**
+**server/.env**
 
 ```
 PORT=8000
-TURSO_URL="YOUR_TURSO_URL"
-TURSO_AUTH_TOKEN="YOUR_TURSO_AUTH_TOKEN"
+DB_URL="YOUR_DATABASE_URL"
 ```
 
 6. Run server.

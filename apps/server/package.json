@@ -46,12 +46,10 @@
   },
   "dependencies": {
     "@imperial-kitchen/types": "1.0.0",
-    "@libsql/client": "^0.13.0",
     "@nestjs/common": "^10.4.6",
     "@nestjs/core": "^10.4.6",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/platform-express": "^10.4.6",
-    "@prisma/adapter-libsql": "^5.19.1",
     "@prisma/client": "^5.19.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",

@@ -3,7 +3,6 @@ import 'dotenv/config';
 const config = {
   PORT: process.env.PORT || 8000,
   DB_URL: process.env.DB_URL || '',
-  DB_TOKEN: process.env.DB_TOKEN || '',
   NODEMAILER_HOST: process.env.nodemailer_host || '',
   NODEMAILER_AUTH_USER: process.env.nodemailer_auth_user || '',
   NODEMAILER_AUTH_PASS: process.env.nodemailer_auth_pass || '',
