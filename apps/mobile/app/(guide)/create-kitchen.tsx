@@ -1,14 +1,29 @@
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
+import { UserService } from '@/service';
+import { RegisterAdminDto } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Alert } from 'react-native';
 import { Button, HelperText, Text, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
 
 export default function CreateKitchen() {
   const { t } = useTranslation();
-  const sendCaptcha = () => {
-    console.log('sendCaptcha');
+  const sendCaptcha = async (email: string) => {
+    const res = await UserService.sendCaptcha(email);
+    if (res) {
+      console.log(res);
+      Alert.alert('Success', 'Captcha sent successfully');
+    }
+  };
+
+  const registerAdmin = async (values: RegisterAdminDto) => {
+    const res = await UserService.registerAdmin(values);
+    if (res) {
+      console.log(res);
+      Alert.alert('Success', 'Admin registered successfully');
+    }
   };
 
   return (
@@ -17,13 +32,16 @@ export default function CreateKitchen() {
         <Text className="text-2xl font-bold mb-4">{t('createKitchen.title')}</Text>
 
         <Formik
-          initialValues={{ username: '', email: '', captcha: '', password: '', confirmedPassword: '' }}
+          initialValues={{ name: '', email: '', captcha: '', password: '', confirmedPassword: '' }}
           onSubmit={(values) => {
-            // TODO: Create kitchen
-            console.log(values);
+            const dto: RegisterAdminDto = {
+              ...values,
+              familyName: `${values.name}'s Kitchen`
+            };
+            registerAdmin(dto);
           }}
           validationSchema={Yup.object().shape({
-            username: Yup.string().min(6, 'Too Short!').max(64, 'Too Long!').required('Please enter a username.'),
+            name: Yup.string().max(64, 'Too Long!').required('Please enter a name.'),
             password: Yup.string()
               .min(6, 'Too Short! must be at least 8 characters.')
               .max(64, 'Too Long!')
@@ -38,14 +56,14 @@ export default function CreateKitchen() {
                 <TextInput
                   maxLength={64}
                   mode="outlined"
-                  label="Username"
-                  value={values.username}
-                  error={!!errors.username}
-                  placeholder="Enter your username..."
-                  onChangeText={handleChange('username')}
+                  label="name"
+                  value={values.name}
+                  error={!!errors.name}
+                  placeholder="Enter your name..."
+                  onChangeText={handleChange('name')}
                 />
-                <HelperText type="error" visible={!!errors.username}>
-                  {errors.username}
+                <HelperText type="error" visible={!!errors.name}>
+                  {errors.name}
                 </HelperText>
               </ThemedView>
 
@@ -56,7 +74,7 @@ export default function CreateKitchen() {
                   label="Email"
                   value={values.email}
                   error={!!errors.email}
-                  right={<TextInput.Affix onPress={sendCaptcha} text={t('common.captcha')} />}
+                  right={<TextInput.Affix onPress={() => sendCaptcha(values.email)} text={t('common.captcha')} />}
                   placeholder="Enter your email..."
                   onChangeText={handleChange('email')}
                 />
@@ -89,26 +107,12 @@ export default function CreateKitchen() {
                   label="Password"
                   value={values.password}
                   error={!!errors.password}
+                  right={<TextInput.Icon icon="eye" onPress={() => {}} />}
                   placeholder="Enter your password..."
                   onChangeText={handleChange('password')}
                 />
                 <HelperText type="error" visible={!!errors.password}>
                   {errors.password}
-                </HelperText>
-              </ThemedView>
-
-              <ThemedView>
-                <TextInput
-                  maxLength={64}
-                  mode="outlined"
-                  label="Confirmed Password"
-                  value={values.confirmedPassword}
-                  error={!!errors.confirmedPassword}
-                  placeholder="Confirm your password..."
-                  onChangeText={handleChange('confirmedPassword')}
-                />
-                <HelperText type="error" visible={!!errors.confirmedPassword}>
-                  {errors.confirmedPassword}
                 </HelperText>
               </ThemedView>
 

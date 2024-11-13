@@ -49,11 +49,14 @@ export class UserService {
     const { email, name, password } = user;
 
     // validate user exists
+    const time = new Date().getTime();
     const existingUser = await this.prismaService.user.findFirst({
       where: {
         OR: [{ email: email || undefined }]
       }
     });
+    const time2 = new Date().getTime();
+    console.log('time2', time2 - time);
     if (existingUser) {
       throw new HttpException(ERROR_CODES.USER_EXISTS, HttpStatus.CONFLICT);
     }
@@ -67,18 +70,35 @@ export class UserService {
           password: hashedPassword
         }
       });
-
+      const time3 = new Date().getTime();
+      console.log('time3', time3 - time2);
       // 2. create or find existing family
       let newFamily;
       if (createFamily && 'familyName' in user) {
-        newFamily = await this.createFamily(user.familyName, newUser.id);
+        // newFamily = await this.createFamily(user.familyName, newUser.id);
+        newFamily = await tx.family.create({
+          data: {
+            name: user.familyName,
+            adminId: newUser.id,
+            inviteCode: generateRandomCode()
+          }
+        });
       }
+      const time4 = new Date().getTime();
+      console.log('time4', time4 - time3);
       if (!createFamily && 'inviteCode' in user) {
-        newFamily = await this.findFamilyByInviteCode(user.inviteCode);
+        newFamily = await tx.family.findFirst({
+          where: {
+            inviteCode: user.inviteCode
+          }
+        });
       }
       if (!newFamily) {
         throw new HttpException(ERROR_CODES.FAMILY_NOT_FOUND, HttpStatus.NOT_FOUND);
       }
+
+      const time5 = new Date().getTime();
+      console.log('time5', time5 - time4);
 
       // 3. join family
       const newFamilyOnUsers = await tx.familiesOnUsers.create({
@@ -93,27 +113,6 @@ export class UserService {
     });
   }
 
-  private async createFamily(familyName: string, adminId: number) {
-    const inviteCode = generateRandomCode();
-    const newFamily = await this.prismaService.family.create({
-      data: {
-        name: familyName,
-        adminId,
-        inviteCode
-      }
-    });
-    return newFamily;
-  }
-
-  private async findFamilyByInviteCode(inviteCode: string) {
-    const family = await this.prismaService.family.findFirst({
-      where: {
-        inviteCode
-      }
-    });
-    return family;
-  }
-
   /**
    * send captcha to user's email
    * @param email
@@ -124,7 +123,7 @@ export class UserService {
 
     await this.redisService.set(`captcha_${email}`, code, 5 * 60);
 
-    await this.mailService.sendEmail({
+    this.mailService.sendEmail({
       to: email,
       subject: '注册验证码',
       html: generateCaptchaHtml(code)
