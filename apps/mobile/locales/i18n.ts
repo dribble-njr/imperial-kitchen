@@ -27,6 +27,7 @@ const language = getUserLanguage();
 
 i18n.use(initReactI18next).init({
   resources,
+  compatibilityJSON: 'v3',
   lng: language,
   fallbackLng: 'zh',
   interpolation: {
