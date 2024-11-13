@@ -1,11 +1,10 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "mysql"
+  url      = env("DB_URL")
 }
 
 model Category {
@@ -58,14 +57,14 @@ model Family {
 }
 
 model FamiliesOnUsers {
-  user      User      @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   userId    Int
-  family    Family    @relation(fields: [familyId], references: [id])
+  family    Family   @relation(fields: [familyId], references: [id])
   familyId  Int
   role      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  isActive  Boolean   @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true)
 
   @@id([userId, familyId])
 }
