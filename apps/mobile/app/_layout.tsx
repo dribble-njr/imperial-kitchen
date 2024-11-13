@@ -1,4 +1,5 @@
 import { useColorScheme } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ComponentColors } from '@/constants/Colors';
 import { TokenProvider } from '@/context/AuthContext';
 import '@/i18n';
@@ -16,10 +17,12 @@ export default function Root() {
 
   // Set up the auth context and render our layout inside of it.
   return (
-    <TokenProvider>
-      <PaperProvider theme={paperTheme}>
-        <Slot />
-      </PaperProvider>
-    </TokenProvider>
+    <SafeAreaProvider>
+      <TokenProvider>
+        <PaperProvider theme={paperTheme}>
+          <Slot />
+        </PaperProvider>
+      </TokenProvider>
+    </SafeAreaProvider>
   );
 }
