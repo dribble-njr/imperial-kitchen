@@ -3,7 +3,7 @@ import { useStorageState } from '../hooks/useStorageState';
 import AuthService from '@/service/auth.service';
 
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (email?: string, password?: string) => void;
   signOut: () => void;
   accessToken?: string | null;
   refreshToken?: string | null;
@@ -35,10 +35,10 @@ export function TokenProvider(props: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: async () => {
+        signIn: async (email: string = 'test@test.com', password: string = 'test123') => {
           const { accessToken, refreshToken } = await AuthService.signIn({
-            email: 'test@test.com',
-            password: 'test'
+            email,
+            password
           });
 
           setAccessToken(accessToken);
