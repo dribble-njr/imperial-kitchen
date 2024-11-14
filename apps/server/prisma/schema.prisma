@@ -47,7 +47,6 @@ model User {
 model Kitchen {
   id         Int      @id @default(autoincrement())
   name       String
-  adminId    Int
   inviteCode String   @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

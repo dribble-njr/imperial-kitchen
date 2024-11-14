@@ -49,17 +49,15 @@ export class UserService {
     const { email, name, password } = user;
 
     // validate user exists
-    const time = new Date().getTime();
     const existingUser = await this.prismaService.user.findFirst({
       where: {
         OR: [{ email: email || undefined }]
       }
     });
-    const time2 = new Date().getTime();
-    console.log('time2', time2 - time);
     if (existingUser) {
       throw new HttpException(ERROR_CODES.USER_EXISTS, HttpStatus.CONFLICT);
     }
+
     return this.prismaService.$transaction(async (tx) => {
       // 1. create user
       const hashedPassword = await hashPassword(password);
@@ -70,22 +68,17 @@ export class UserService {
           password: hashedPassword
         }
       });
-      const time3 = new Date().getTime();
-      console.log('time3', time3 - time2);
+
       // 2. create or find existing kitchen
       let newKitchen;
       if (createKitchen && 'kitchenName' in user) {
-        // newKitchen = await this.createKitchen(user.kitchenName, newUser.id);
         newKitchen = await tx.kitchen.create({
           data: {
             name: user.kitchenName,
-            adminId: newUser.id,
             inviteCode: generateRandomCode()
           }
         });
       }
-      const time4 = new Date().getTime();
-      console.log('time4', time4 - time3);
       if (!createKitchen && 'inviteCode' in user) {
         newKitchen = await tx.kitchen.findFirst({
           where: {
@@ -96,9 +89,6 @@ export class UserService {
       if (!newKitchen) {
         throw new HttpException(ERROR_CODES.KITCHEN_NOT_FOUND, HttpStatus.NOT_FOUND);
       }
-
-      const time5 = new Date().getTime();
-      console.log('time5', time5 - time4);
 
       // 3. join kitchen
       const newKitchenOnUsers = await tx.kitchensOnUsers.create({

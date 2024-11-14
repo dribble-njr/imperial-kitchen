@@ -7,7 +7,6 @@ export interface UserCreateInput {
 
 export interface KitchenCreateInput {
   name: string;
-  adminId: number;
   inviteCode: string;
 }
 
