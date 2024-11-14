@@ -1,8 +1,12 @@
-import { SignInParams } from '@imperial-kitchen/types';
 import httpClient from './http-client';
+import { RegisterAdminDto } from '@imperial-kitchen/types';
 
 export default class UserService {
-  public static signIn(name: string, password: string) {
-    return httpClient.post<boolean, SignInParams>('/user/sign-in', { name, password });
+  public static registerAdmin(params: RegisterAdminDto) {
+    return httpClient.post<boolean, RegisterAdminDto>('/user/register/admin', params);
+  }
+
+  public static sendCaptcha(email: string) {
+    return httpClient.get<boolean, { email: string }>(`/user/register/captcha?email=${email}`);
   }
 }

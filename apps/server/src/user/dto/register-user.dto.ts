@@ -28,9 +28,9 @@ export class RegisterUserDto {
 
 export class RegisterAdminDto extends RegisterUserDto {
   @IsNotEmpty({
-    message: 'Family name is required'
+    message: 'Kitchen name is required'
   })
-  familyName: string;
+  kitchenName: string;
 }
 
 export class RegisterMemberDto extends RegisterUserDto {

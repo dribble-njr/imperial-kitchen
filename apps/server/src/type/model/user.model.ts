@@ -5,14 +5,13 @@ export interface UserCreateInput {
   password: string;
 }
 
-export interface FamilyCreateInput {
+export interface KitchenCreateInput {
   name: string;
-  adminId: number;
   inviteCode: string;
 }
 
-export interface FamiliesOnUsersCreateInput {
+export interface KitchensOnUsersCreateInput {
   userId: number;
-  familyId: number;
+  kitchenId: number;
   role: string;
 }

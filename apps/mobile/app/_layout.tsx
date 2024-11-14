@@ -2,7 +2,7 @@ import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ComponentColors } from '@/constants/Colors';
 import { TokenProvider } from '@/context/AuthContext';
-import '@/i18n';
+import '@/locales/i18n';
 import { Slot } from 'expo-router';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import '../global.css';

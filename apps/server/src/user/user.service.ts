@@ -31,12 +31,12 @@ export class UserService {
   }
 
   /**
-   * register user, create family or join family according by the second parameter
+   * register user, create kitchen or join kitchen according by the second parameter
    * @param user
-   * @param createFamily is create family or join family
+   * @param createKitchen is create kitchen or join kitchen
    * @returns
    */
-  async registerUser(user: RegisterAdminDto | RegisterMemberDto, createFamily: boolean) {
+  async registerUser(user: RegisterAdminDto | RegisterMemberDto, createKitchen: boolean) {
     // validate captcha
     const captcha = await this.redisService.get(`captcha_${user.email}`);
     if (!captcha) {
@@ -57,6 +57,7 @@ export class UserService {
     if (existingUser) {
       throw new HttpException(ERROR_CODES.USER_EXISTS, HttpStatus.CONFLICT);
     }
+
     return this.prismaService.$transaction(async (tx) => {
       // 1. create user
       const hashedPassword = await hashPassword(password);
@@ -68,50 +69,38 @@ export class UserService {
         }
       });
 
-      // 2. create or find existing family
-      let newFamily;
-      if (createFamily && 'familyName' in user) {
-        newFamily = await this.createFamily(user.familyName, newUser.id);
+      // 2. create or find existing kitchen
+      let newKitchen;
+      if (createKitchen && 'kitchenName' in user) {
+        newKitchen = await tx.kitchen.create({
+          data: {
+            name: user.kitchenName,
+            inviteCode: generateRandomCode()
+          }
+        });
       }
-      if (!createFamily && 'inviteCode' in user) {
-        newFamily = await this.findFamilyByInviteCode(user.inviteCode);
+      if (!createKitchen && 'inviteCode' in user) {
+        newKitchen = await tx.kitchen.findFirst({
+          where: {
+            inviteCode: user.inviteCode
+          }
+        });
       }
-      if (!newFamily) {
-        throw new HttpException(ERROR_CODES.FAMILY_NOT_FOUND, HttpStatus.NOT_FOUND);
+      if (!newKitchen) {
+        throw new HttpException(ERROR_CODES.KITCHEN_NOT_FOUND, HttpStatus.NOT_FOUND);
       }
 
-      // 3. join family
-      const newFamilyOnUsers = await tx.familiesOnUsers.create({
+      // 3. join kitchen
+      const newKitchenOnUsers = await tx.kitchensOnUsers.create({
         data: {
           userId: newUser.id,
-          familyId: newFamily.id,
-          role: createFamily ? Role.ADMIN : Role.MEMBER
+          kitchenId: newKitchen.id,
+          role: createKitchen ? Role.ADMIN : Role.MEMBER
         }
       });
 
-      return newFamilyOnUsers;
+      return newKitchenOnUsers;
     });
-  }
-
-  private async createFamily(familyName: string, adminId: number) {
-    const inviteCode = generateRandomCode();
-    const newFamily = await this.prismaService.family.create({
-      data: {
-        name: familyName,
-        adminId,
-        inviteCode
-      }
-    });
-    return newFamily;
-  }
-
-  private async findFamilyByInviteCode(inviteCode: string) {
-    const family = await this.prismaService.family.findFirst({
-      where: {
-        inviteCode
-      }
-    });
-    return family;
   }
 
   /**
@@ -124,7 +113,7 @@ export class UserService {
 
     await this.redisService.set(`captcha_${email}`, code, 5 * 60);
 
-    await this.mailService.sendEmail({
+    this.mailService.sendEmail({
       to: email,
       subject: '注册验证码',
       html: generateCaptchaHtml(code)
