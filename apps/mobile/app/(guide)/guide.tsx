@@ -68,6 +68,7 @@ export default function Guide() {
             ]}
             className="text-base"
             onPress={async () => {
+              // TODO: add sign-in page
               await signIn();
               router.replace('/');
             }}
