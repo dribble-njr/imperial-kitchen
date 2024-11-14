@@ -31,12 +31,12 @@ export class UserService {
   }
 
   /**
-   * register user, create family or join family according by the second parameter
+   * register user, create kitchen or join kitchen according by the second parameter
    * @param user
-   * @param createFamily is create family or join family
+   * @param createKitchen is create kitchen or join kitchen
    * @returns
    */
-  async registerUser(user: RegisterAdminDto | RegisterMemberDto, createFamily: boolean) {
+  async registerUser(user: RegisterAdminDto | RegisterMemberDto, createKitchen: boolean) {
     // validate captcha
     const captcha = await this.redisService.get(`captcha_${user.email}`);
     if (!captcha) {
@@ -72,13 +72,13 @@ export class UserService {
       });
       const time3 = new Date().getTime();
       console.log('time3', time3 - time2);
-      // 2. create or find existing family
-      let newFamily;
-      if (createFamily && 'familyName' in user) {
-        // newFamily = await this.createFamily(user.familyName, newUser.id);
-        newFamily = await tx.family.create({
+      // 2. create or find existing kitchen
+      let newKitchen;
+      if (createKitchen && 'kitchenName' in user) {
+        // newKitchen = await this.createKitchen(user.kitchenName, newUser.id);
+        newKitchen = await tx.kitchen.create({
           data: {
-            name: user.familyName,
+            name: user.kitchenName,
             adminId: newUser.id,
             inviteCode: generateRandomCode()
           }
@@ -86,30 +86,30 @@ export class UserService {
       }
       const time4 = new Date().getTime();
       console.log('time4', time4 - time3);
-      if (!createFamily && 'inviteCode' in user) {
-        newFamily = await tx.family.findFirst({
+      if (!createKitchen && 'inviteCode' in user) {
+        newKitchen = await tx.kitchen.findFirst({
           where: {
             inviteCode: user.inviteCode
           }
         });
       }
-      if (!newFamily) {
-        throw new HttpException(ERROR_CODES.FAMILY_NOT_FOUND, HttpStatus.NOT_FOUND);
+      if (!newKitchen) {
+        throw new HttpException(ERROR_CODES.KITCHEN_NOT_FOUND, HttpStatus.NOT_FOUND);
       }
 
       const time5 = new Date().getTime();
       console.log('time5', time5 - time4);
 
-      // 3. join family
-      const newFamilyOnUsers = await tx.familiesOnUsers.create({
+      // 3. join kitchen
+      const newKitchenOnUsers = await tx.kitchensOnUsers.create({
         data: {
           userId: newUser.id,
-          familyId: newFamily.id,
-          role: createFamily ? Role.ADMIN : Role.MEMBER
+          kitchenId: newKitchen.id,
+          role: createKitchen ? Role.ADMIN : Role.MEMBER
         }
       });
 
-      return newFamilyOnUsers;
+      return newKitchenOnUsers;
     });
   }
 

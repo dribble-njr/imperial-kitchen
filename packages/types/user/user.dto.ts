@@ -3,5 +3,5 @@ export interface RegisterAdminDto {
   email: string;
   captcha: string;
   password: string;
-  familyName: string;
+  kitchenName: string;
 }

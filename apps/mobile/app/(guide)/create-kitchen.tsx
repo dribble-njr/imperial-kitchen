@@ -36,7 +36,7 @@ export default function CreateKitchen() {
           onSubmit={(values) => {
             const dto: RegisterAdminDto = {
               ...values,
-              familyName: `${values.name}'s Kitchen`
+              kitchenName: `${values.name}'s Kitchen`
             };
             registerAdmin(dto);
           }}
