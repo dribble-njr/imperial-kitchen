@@ -54,7 +54,7 @@
    # REDIS_PASSWORD=
    # REDIS_URL=
    ```
-8. 启动移动端
+8. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
    ```sh
    yarn dev:server
    ```

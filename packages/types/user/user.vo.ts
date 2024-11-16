@@ -1,4 +1,4 @@
-import { SignInResponseVO } from '../auth/auth.vo';
+import { RefreshTokenResponseVO } from '../auth/auth.vo';
 
 export enum Role {
   ADMIN = 'ADMIN',
@@ -19,7 +19,7 @@ export interface User {
 export interface RegisterVO {
   user: User;
   kitchen: Kitchen;
-  signInResponse: SignInResponseVO;
+  tokens: RefreshTokenResponseVO;
 }
 
 export interface Kitchen {

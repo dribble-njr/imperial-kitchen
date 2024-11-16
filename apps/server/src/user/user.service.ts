@@ -123,7 +123,7 @@ export class UserService {
           ...newKitchen,
           inviteCode: newKitchenOnUsers.role === Role.ADMIN ? newKitchen.inviteCode : undefined
         },
-        signInResponse: {
+        tokens: {
           accessToken,
           refreshToken
         }

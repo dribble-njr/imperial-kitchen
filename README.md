@@ -54,7 +54,7 @@ A food ordering app for family kitchen.
    # REDIS_PASSWORD=
    # REDIS_URL=
    ```
-8. Run server.
+8. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
    ```sh
    yarn dev:server
    ```
