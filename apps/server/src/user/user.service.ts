@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { RegisterAdminDto, RegisterMemberDto } from './dto/register-user.dto';
+import { RegisterAdminDTO, RegisterMemberDTO } from './dto/register-user.dto';
 import { ERROR_CODES, Role } from '@imperial-kitchen/types';
 import { generateCaptchaHtml, generateRandomCode, hashPassword } from 'src/util';
 import { RedisService } from 'src/shared/redis.service';
@@ -36,7 +36,7 @@ export class UserService {
    * @param createKitchen is create kitchen or join kitchen
    * @returns
    */
-  async registerUser(user: RegisterAdminDto | RegisterMemberDto, createKitchen: boolean) {
+  async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean) {
     // validate captcha
     const captcha = await this.redisService.get(`captcha_${user.email}`);
     if (!captcha) {
