@@ -1,4 +1,4 @@
-export interface RegisterAdminDto {
+export interface RegisterAdminDTO {
   name: string;
   email: string;
   captcha: string;

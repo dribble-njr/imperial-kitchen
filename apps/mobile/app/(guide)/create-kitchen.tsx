@@ -1,7 +1,7 @@
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { UserService } from '@/service';
-import { RegisterAdminDto } from '@imperial-kitchen/types';
+import { RegisterAdminDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
@@ -18,7 +18,7 @@ export default function CreateKitchen() {
     }
   };
 
-  const registerAdmin = async (values: RegisterAdminDto) => {
+  const registerAdmin = async (values: RegisterAdminDTO) => {
     const res = await UserService.registerAdmin(values);
     if (res) {
       console.log(res);
@@ -34,7 +34,7 @@ export default function CreateKitchen() {
         <Formik
           initialValues={{ name: '', email: '', captcha: '', password: '', confirmedPassword: '' }}
           onSubmit={(values) => {
-            const dto: RegisterAdminDto = {
+            const dto: RegisterAdminDTO = {
               ...values,
               kitchenName: `${values.name}'s Kitchen`
             };

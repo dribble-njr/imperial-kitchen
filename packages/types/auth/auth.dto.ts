@@ -1,8 +1,8 @@
-export interface SignInDto {
+export interface SignInDTO {
   email: string;
   password: string;
 }
 
-export interface RefreshTokenDto {
+export interface RefreshTokenDTO {
   refreshToken: string;
 }

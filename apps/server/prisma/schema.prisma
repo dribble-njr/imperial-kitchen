@@ -60,10 +60,15 @@ model KitchensOnUsers {
   userId    Int
   kitchen   Kitchen  @relation(fields: [kitchenId], references: [id])
   kitchenId Int
-  role      String
+  role      Role
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   isActive  Boolean  @default(true)
 
   @@id([userId, kitchenId])
+}
+
+enum Role {
+  ADMIN
+  MEMBER
 }
