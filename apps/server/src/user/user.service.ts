@@ -1,17 +1,19 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterAdminDTO, RegisterMemberDTO } from './dto/register-user.dto';
-import { ERROR_CODES, Role } from '@imperial-kitchen/types';
+import { ERROR_CODES, Kitchen, RegisterVO, Role } from '@imperial-kitchen/types';
 import { generateCaptchaHtml, generateRandomCode, hashPassword } from 'src/util';
 import { RedisService } from 'src/shared/redis.service';
 import { MailService } from 'src/shared/mail.service';
 import { PrismaService } from 'src/shared/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(
     private redisService: RedisService,
     private mailService: MailService,
-    private prismaService: PrismaService
+    private prismaService: PrismaService,
+    private jwtService: JwtService
   ) {}
 
   async getUserById(id: number) {
@@ -36,7 +38,7 @@ export class UserService {
    * @param createKitchen is create kitchen or join kitchen
    * @returns
    */
-  async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean) {
+  async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean): Promise<RegisterVO> {
     // validate captcha
     const captcha = await this.redisService.get(`captcha_${user.email}`);
     if (!captcha) {
@@ -70,7 +72,7 @@ export class UserService {
       });
 
       // 2. create or find existing kitchen
-      let newKitchen;
+      let newKitchen: Kitchen;
       if (createKitchen && 'kitchenName' in user) {
         newKitchen = await tx.kitchen.create({
           data: {
@@ -99,7 +101,33 @@ export class UserService {
         }
       });
 
-      return newKitchenOnUsers;
+      // 4. generate token
+      const accessToken = await this.jwtService.signAsync(
+        { sub: newUser.id, username: newUser.email },
+        { expiresIn: '1d' }
+      );
+      const refreshToken = await this.jwtService.signAsync(
+        { sub: newUser.id, username: newUser.email },
+        { expiresIn: '30d' }
+      );
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password: _, ...userWithoutPassword } = newUser;
+
+      return {
+        user: {
+          ...userWithoutPassword,
+          role: newKitchenOnUsers.role as Role
+        },
+        kitchen: {
+          ...newKitchen,
+          inviteCode: newKitchenOnUsers.role === Role.ADMIN ? newKitchen.inviteCode : undefined
+        },
+        signInResponse: {
+          accessToken,
+          refreshToken
+        }
+      };
     });
   }
 
