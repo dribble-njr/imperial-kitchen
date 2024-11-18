@@ -1,3 +1,4 @@
+import FieldInput from '@/components/FieldInput';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { UserService } from '@/service';
@@ -5,7 +6,7 @@ import { RegisterAdminDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
-import { Button, HelperText, Text, TextInput } from 'react-native-paper';
+import { Button, Text, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
 
 export default function CreateKitchen() {
@@ -26,6 +27,15 @@ export default function CreateKitchen() {
     }
   };
 
+  const validationSchema = Yup.object({
+    name: Yup.string().required(`${t('common.enter')}${t('createKitchen.name')}`),
+    captcha: Yup.string().required(`${t('common.enter')}${t('createKitchen.captcha')}`),
+    password: Yup.string().required(`${t('common.enter')}${t('createKitchen.password')}`),
+    email: Yup.string()
+      .email(t('common.invalidEmail'))
+      .required(`${t('common.enter')}${t('createKitchen.email')}`)
+  });
+
   return (
     <ParallaxScrollView>
       <ThemedView className="flex-1 flex w-full gap-2 justify-between">
@@ -40,81 +50,36 @@ export default function CreateKitchen() {
             };
             registerAdmin(dto);
           }}
-          validationSchema={Yup.object().shape({
-            name: Yup.string().max(64, 'Too Long!').required('Please enter a name.'),
-            password: Yup.string()
-              .min(6, 'Too Short! must be at least 8 characters.')
-              .max(64, 'Too Long!')
-              .required('Please enter a password'),
-            email: Yup.string().email('Invalid email').required('Please enter an email')
-          })}
-          validateOnBlur={true}
+          validationSchema={validationSchema}
         >
-          {({ handleChange, handleSubmit, values, errors }) => (
+          {({ handleSubmit, values, errors, setFieldTouched }) => (
             <>
-              <ThemedView>
-                <TextInput
-                  maxLength={64}
-                  mode="outlined"
-                  label="name"
-                  value={values.name}
-                  error={!!errors.name}
-                  placeholder="Enter your name..."
-                  onChangeText={handleChange('name')}
-                />
-                <HelperText type="error" visible={!!errors.name}>
-                  {errors.name}
-                </HelperText>
-              </ThemedView>
+              <FieldInput i18nKey="createKitchen" name="name" />
 
-              <ThemedView>
-                <TextInput
-                  maxLength={64}
-                  mode="outlined"
-                  label="Email"
-                  value={values.email}
-                  error={!!errors.email}
-                  right={<TextInput.Affix onPress={() => sendCaptcha(values.email)} text={t('common.captcha')} />}
-                  placeholder="Enter your email..."
-                  onChangeText={handleChange('email')}
-                />
+              <FieldInput
+                i18nKey="createKitchen"
+                name="email"
+                right={
+                  <TextInput.Affix
+                    onPress={async () => {
+                      await setFieldTouched('email', true, true);
+                      if (!errors.email) {
+                        sendCaptcha(values.email);
+                      }
+                    }}
+                    text={t('common.sendCaptcha')}
+                  />
+                }
+              />
 
-                <HelperText type="error" visible={!!errors.email}>
-                  {errors.email}
-                </HelperText>
-              </ThemedView>
+              <FieldInput i18nKey="createKitchen" name="captcha" />
 
-              <ThemedView>
-                <TextInput
-                  maxLength={64}
-                  mode="outlined"
-                  label="Captcha"
-                  value={values.captcha}
-                  error={!!errors.captcha}
-                  right={64 - values.captcha.length}
-                  placeholder="Enter your password..."
-                  onChangeText={handleChange('captcha')}
-                />
-                <HelperText type="error" visible={!!errors.captcha}>
-                  {errors.captcha}
-                </HelperText>
-              </ThemedView>
-
-              <ThemedView>
-                <TextInput
-                  maxLength={64}
-                  mode="outlined"
-                  label="Password"
-                  value={values.password}
-                  error={!!errors.password}
-                  right={<TextInput.Icon icon="eye" onPress={() => {}} />}
-                  placeholder="Enter your password..."
-                  onChangeText={handleChange('password')}
-                />
-                <HelperText type="error" visible={!!errors.password}>
-                  {errors.password}
-                </HelperText>
-              </ThemedView>
+              <FieldInput
+                i18nKey="createKitchen"
+                name="password"
+                secureTextEntry
+                right={<TextInput.Icon icon="eye" onPress={() => {}} />}
+              />
 
               <Button mode="contained" onPress={() => handleSubmit()}>
                 {t('common.confirm')}
