@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+import { Role } from '@imperial-kitchen/types';
 
 export interface UserCreateInput {
   email: string;

@@ -50,11 +50,11 @@ export default function Guide() {
 
         <Button
           mode="contained-tonal"
-          onPress={() => console.log('Join Kitchen pressed')}
+          onPress={() => router.push('/join-kitchen')}
           style={styles.joinKitchen}
           labelStyle={{ fontSize: 16 }}
         >
-          {t('joinKitchen')}
+          {t('joinKitchen.title')}
         </Button>
 
         <Text style={styles.signInText}>
