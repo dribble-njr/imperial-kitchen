@@ -7,14 +7,18 @@ const English = {
   alreadyHaveAccount: 'Already have an account?',
 
   common: {
+    enter: 'Please enter ',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    captcha: 'Send Captcha'
+    sendCaptcha: 'Send Captcha',
+    invalidEmail: 'Invalid email'
   },
 
   createKitchen: {
     title: 'Create Kitchen',
-    username: 'Username',
+    name: 'Name',
+    email: 'Email',
+    captcha: 'Captcha',
     password: 'Password',
     confirmPassword: 'Confirm Password',
     create: 'Create'

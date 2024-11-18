@@ -5,14 +5,18 @@ const Chinese = {
   slogan: '定制您的厨房菜单',
 
   common: {
+    enter: '请输入',
     confirm: '确认',
     cancel: '取消',
-    captcha: '发送验证码'
+    sendCaptcha: '发送验证码',
+    invalidEmail: '无效的邮箱'
   },
 
   createKitchen: {
     title: '创建厨房',
-    username: '用户名',
+    name: '用户名',
+    email: '邮箱',
+    captcha: '验证码',
     password: '密码',
     confirmPassword: '确认密码',
     create: '创建'
