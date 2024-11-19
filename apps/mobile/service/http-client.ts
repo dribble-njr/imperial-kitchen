@@ -77,7 +77,7 @@ class HttpClient {
       this.axiosInstance
         .request<CommonResponse<T>>(finalConfig)
         .then((response) => {
-          if (response.data.statusCode !== 200) {
+          if (!(response.data.statusCode >= 200 && response.data.statusCode < 300)) {
             throw new Error(
               typeof response.data.message === 'string' ? response.data.message : response.data.message.join(',')
             );

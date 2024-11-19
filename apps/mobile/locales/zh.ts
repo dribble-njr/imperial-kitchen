@@ -22,7 +22,16 @@ const Chinese = {
     create: '创建'
   },
 
-  joinKitchen: '加入厨房',
+  joinKitchen: {
+    title: '加入厨房',
+    name: '用户名',
+    password: '密码',
+    confirmPassword: '确认密码',
+    create: '创建',
+    inviteCode: '邀请码',
+    captcha: '验证码',
+    email: '邮箱'
+  },
 
   alreadyHaveAccount: '已有账号？',
   signIn: '登录',

@@ -3,7 +3,6 @@ const English = {
   skip: 'Skip',
   startTip: 'Sign up or sign in to get started',
   slogan: 'Customize your kitchen menu easily',
-  joinKitchen: 'Join Kitchen',
   alreadyHaveAccount: 'Already have an account?',
 
   common: {
@@ -22,6 +21,17 @@ const English = {
     password: 'Password',
     confirmPassword: 'Confirm Password',
     create: 'Create'
+  },
+
+  joinKitchen: {
+    title: 'Join Kitchen',
+    name: 'name',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    create: 'Create',
+    inviteCode: 'Invite Code',
+    captcha: 'Captcha',
+    email: 'Email'
   },
 
   signIn: 'Sign In',
