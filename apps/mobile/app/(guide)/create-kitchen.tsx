@@ -28,12 +28,12 @@ export default function CreateKitchen() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required(`${t('common.enter')}${t('createKitchen.name')}`),
-    captcha: Yup.string().required(`${t('common.enter')}${t('createKitchen.captcha')}`),
-    password: Yup.string().required(`${t('common.enter')}${t('createKitchen.password')}`),
+    name: Yup.string().required(`${t('common.enter')}${t('common.name')}`),
+    captcha: Yup.string().required(`${t('common.enter')}${t('common.captcha')}`),
+    password: Yup.string().required(`${t('common.enter')}${t('common.password')}`),
     email: Yup.string()
       .email(t('common.invalidEmail'))
-      .required(`${t('common.enter')}${t('createKitchen.email')}`)
+      .required(`${t('common.enter')}${t('common.email')}`)
   });
 
   return (
@@ -54,10 +54,10 @@ export default function CreateKitchen() {
         >
           {({ handleSubmit, values, errors, setFieldTouched }) => (
             <>
-              <FieldInput i18nKey="createKitchen" name="name" />
+              <FieldInput i18nKey="common" name="name" />
 
               <FieldInput
-                i18nKey="createKitchen"
+                i18nKey="common"
                 name="email"
                 right={
                   <TextInput.Affix
@@ -72,10 +72,10 @@ export default function CreateKitchen() {
                 }
               />
 
-              <FieldInput i18nKey="createKitchen" name="captcha" />
+              <FieldInput i18nKey="common" name="captcha" />
 
               <FieldInput
-                i18nKey="createKitchen"
+                i18nKey="common"
                 name="password"
                 secureTextEntry
                 right={<TextInput.Icon icon="eye" onPress={() => {}} />}

@@ -8,29 +8,21 @@ const Chinese = {
     enter: '请输入',
     confirm: '确认',
     cancel: '取消',
+    captcha: '验证码',
+    email: '邮箱',
+    name: '用户名',
+    password: '密码',
+    inviteCode: '邀请码',
     sendCaptcha: '发送验证码',
     invalidEmail: '无效的邮箱'
   },
 
   createKitchen: {
-    title: '创建厨房',
-    name: '用户名',
-    email: '邮箱',
-    captcha: '验证码',
-    password: '密码',
-    confirmPassword: '确认密码',
-    create: '创建'
+    title: '创建厨房'
   },
 
   joinKitchen: {
-    title: '加入厨房',
-    name: '用户名',
-    password: '密码',
-    confirmPassword: '确认密码',
-    create: '创建',
-    inviteCode: '邀请码',
-    captcha: '验证码',
-    email: '邮箱'
+    title: '加入厨房'
   },
 
   alreadyHaveAccount: '已有账号？',

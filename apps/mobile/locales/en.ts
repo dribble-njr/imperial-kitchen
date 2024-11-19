@@ -9,29 +9,21 @@ const English = {
     enter: 'Please enter ',
     confirm: 'Confirm',
     cancel: 'Cancel',
+    captcha: 'Captcha',
+    email: 'Email',
+    name: 'Name',
+    password: 'Password',
+    inviteCode: 'Invite Code',
     sendCaptcha: 'Send Captcha',
     invalidEmail: 'Invalid email'
   },
 
   createKitchen: {
-    title: 'Create Kitchen',
-    name: 'Name',
-    email: 'Email',
-    captcha: 'Captcha',
-    password: 'Password',
-    confirmPassword: 'Confirm Password',
-    create: 'Create'
+    title: 'Create Kitchen'
   },
 
   joinKitchen: {
-    title: 'Join Kitchen',
-    name: 'name',
-    password: 'Password',
-    confirmPassword: 'Confirm Password',
-    create: 'Create',
-    inviteCode: 'Invite Code',
-    captcha: 'Captcha',
-    email: 'Email'
+    title: 'Join Kitchen'
   },
 
   signIn: 'Sign In',

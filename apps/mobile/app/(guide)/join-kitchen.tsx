@@ -10,15 +10,6 @@ import { Alert } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
 
-const registerMemberSchema = Yup.object().shape({
-  name: Yup.string().max(64, 'Too Long!').required('Please enter a name.'),
-  password: Yup.string()
-    .min(6, 'Too Short! must be at least 8 characters.')
-    .max(64, 'Too Long!')
-    .required('Please enter a password'),
-  email: Yup.string().email('Invalid email').required('Please enter an email')
-});
-
 export default function JoinKitchen() {
   const { t } = useTranslation();
   const [displayPassword, setDisplayPassword] = useState(false);
@@ -35,19 +26,29 @@ export default function JoinKitchen() {
     try {
       const res = await UserService.registerMember(values);
       if (res) {
-        Alert.alert('Success', 'Admin registered successfully');
+        Alert.alert('Success', 'Member registered successfully');
       }
     } catch (error) {
       Alert.alert('Error');
     }
   };
 
+  const registerMemberSchema = Yup.object().shape({
+    name: Yup.string().required(`${t('common.enter')}${t('common.name')}`),
+    password: Yup.string().required(`${t('common.enter')}${t('common.password')}`),
+    email: Yup.string()
+      .email(t('common.invalidEmail'))
+      .required(`${t('common.enter')}${t('common.email')}`),
+    captcha: Yup.string().required(`${t('common.enter')}${t('common.captcha')}`),
+    inviteCode: Yup.string().required(`${t('common.enter')}${t('common.inviteCode')}`)
+  });
+
   return (
     <ParallaxScrollView>
       <ThemedView className="flex-1 flex w-full gap-2 justify-between">
         <Text className="text-2xl font-bold mb-4">{t('joinKitchen.title')}</Text>
         <Formik
-          initialValues={{ name: '', email: '', captcha: '', password: '', confirmedPassword: '', inviteCode: '' }}
+          initialValues={{ name: '', email: '', captcha: '', password: '', inviteCode: '' }}
           onSubmit={(values) => {
             const dto: RegisterMemberDto = {
               ...values
@@ -55,15 +56,13 @@ export default function JoinKitchen() {
             registerMember(dto);
           }}
           validationSchema={registerMemberSchema}
-          validateOnChange={false}
         >
           {({ handleSubmit, values, setFieldTouched, errors }) => (
             <>
-              <FieldInput i18nKey="joinKitchen" name="name" />
+              <FieldInput i18nKey="common" name="name" />
               <FieldInput
-                i18nKey="joinKitchen"
+                i18nKey="common"
                 name="email"
-                maxLength={64}
                 right={
                   <TextInput.Affix
                     onPress={async () => {
@@ -76,14 +75,14 @@ export default function JoinKitchen() {
                   />
                 }
               />
-              <FieldInput maxLength={64} i18nKey="joinKitchen" name="captcha" right={64 - values.captcha.length} />
+              <FieldInput i18nKey="common" name="captcha" />
               <FieldInput
-                i18nKey="createKitchen"
+                i18nKey="common"
                 name="password"
                 secureTextEntry={displayPassword}
                 right={<TextInput.Icon icon="eye" onPress={() => setDisplayPassword(!displayPassword)} />}
               />
-              <FieldInput maxLength={64} i18nKey="joinKitchen" name="inviteCode" right={64 - values.captcha.length} />
+              <FieldInput i18nKey="common" name="inviteCode" />
               <Button mode="contained" onPress={() => handleSubmit()}>
                 {t('common.confirm')}
               </Button>
