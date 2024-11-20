@@ -31,16 +31,12 @@
    cd imperial-kitchen
    yarn install
    ```
-4. 生成类型；
-   ```sh
-   yarn build:types
-   ```
-5. 启动移动端
+4. 启动移动端
    ```sh
    yarn dev:mobile
    ```
-6. 安装并配置：[`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/)；
-7. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
+5. 安装并配置：[`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/)；
+6. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
    ```sh
    # PORT=8000
    # DB_URL=""
@@ -54,7 +50,7 @@
    # REDIS_PASSWORD=
    # REDIS_URL=
    ```
-8. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
+7. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
    ```sh
    yarn dev:server
    ```
