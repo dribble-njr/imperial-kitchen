@@ -5,13 +5,15 @@ info:
 paths:
   /api/auth/sign-in:
     $ref: './paths/auth.yaml#/sign-in'
-  /api/user/register:
-    $ref: './paths/user.yaml#/register'
+  /api/user/register/admin:
+    $ref: './paths/user.yaml#/register-admin'
+  /api/user/register/member:
+    $ref: './paths/user.yaml#/register-member'
   /api/user/register/captcha:
     $ref: './paths/user.yaml#/captcha'
 components:
-  # schemas:
-  #   $ref: './components/schemas.yaml'
+  schemas:
+    $ref: './components/schemas.yaml#/components/schemas'
 tags:
   - name: Auth
     description: 认证相关接口

@@ -1,3 +1,5 @@
+import { Role } from '@imperial-kitchen/types';
+
 export interface UserCreateInput {
   email: string;
   phone?: string;
@@ -13,5 +15,5 @@ export interface KitchenCreateInput {
 export interface KitchensOnUsersCreateInput {
   userId: number;
   kitchenId: number;
-  role: string;
+  role: Role;
 }

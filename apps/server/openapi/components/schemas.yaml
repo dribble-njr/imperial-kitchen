@@ -1,0 +1,125 @@
+components:
+  schemas:
+    RegisterAdminDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 用户名
+        email:
+          type: string
+          description: 邮箱
+        captcha:
+          type: string
+          description: 验证码
+        password:
+          type: string
+          description: 用户密码
+        kitchenName:
+          type: string
+          description: 家庭名称
+
+    RegisterMemberDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 用户名
+        email:
+          type: string
+          description: 邮箱
+        captcha:
+          type: string
+          description: 验证码
+        password:
+          type: string
+          description: 用户密码
+        inviteCode:
+          type: string
+          description: 邀请码
+
+    RegisterVO:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        kitchen:
+          $ref: '#/components/schemas/Kitchen'
+        tokens:
+          $ref: '#/components/schemas/RefreshTokenResponseVO'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 用户ID
+        name:
+          type: string
+          description: 用户名
+        email:
+          type: string
+          description: 邮箱
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        role:
+          type: string
+          enum:
+            - ADMIN
+            - MEMBER
+          description: 角色
+        isActive:
+          type: boolean
+          description: 是否启用
+
+    Kitchen:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 家庭ID
+        name:
+          type: string
+          description: 家庭名称
+        inviteCode:
+          type: string
+          description: 邀请码
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        isActive:
+          type: boolean
+          description: 是否启用
+
+    RefreshTokenResponseVO:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: 访问令牌
+        refreshToken:
+          type: string
+          description: 刷新令牌
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: 错误信息
+        statusCode:
+          type: integer
+          default: 400
+          description: 错误码
+        data:
+          type: object
+          default: null
+          description: 错误数据

@@ -1,13 +1,70 @@
-register: &register
+register-admin: &register-admin
   post:
     summary: 注册用户，创建新家庭，并设置为管理员
     tags:
       - User
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas.yaml#/components/schemas/RegisterAdminDTO'
     responses:
       '200':
-        description: 成功注册
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '../components/schemas.yaml#/components/schemas/RegisterVO'
+                message:
+                  type: string
+                  default: success
+                statusCode:
+                  type: number
+                  default: 200
       '400':
-        description: 参数错误
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yaml#/components/schemas/ErrorResponse'
+
+register-member: &register-member
+  post:
+    summary: 注册用户，加入家庭
+    tags:
+      - User
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas.yaml#/components/schemas/RegisterMemberDTO'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '../components/schemas.yaml#/components/schemas/RegisterVO'
+                message:
+                  type: string
+                  default: success
+                statusCode:
+                  type: number
+                  default: 200
+      '400':
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yaml#/components/schemas/ErrorResponse'
 
 captcha: &captcha
   get:
@@ -22,7 +79,7 @@ captcha: &captcha
           type: string
     responses:
       '200':
-        description: 成功获取验证码
+        description: OK
         content:
           application/json:
             schema:
@@ -31,7 +88,7 @@ captcha: &captcha
                 message:
                   type: string
                   default: success
-                code:
+                statusCode:
                   type: number
                   default: 200
                 data:
@@ -42,14 +99,4 @@ captcha: &captcha
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                message:
-                  type: string
-                  default: Email is required
-                code:
-                  type: number
-                  default: 400
-                data:
-                  type: object
-                  default: null
+              $ref: '../components/schemas.yaml#/components/schemas/ErrorResponse'

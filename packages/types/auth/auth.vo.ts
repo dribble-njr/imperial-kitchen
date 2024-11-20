@@ -1,9 +1,9 @@
-export interface SignInResponseVo {
+export interface SignInResponseVO {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface RefreshTokenResponseVo {
+export interface RefreshTokenResponseVO {
   accessToken: string;
   refreshToken: string;
 }

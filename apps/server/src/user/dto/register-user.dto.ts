@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
-export class RegisterUserDto {
+export class RegisterUserDTO {
   @IsNotEmpty({
     message: 'Username is required'
   })
@@ -26,14 +26,14 @@ export class RegisterUserDto {
   captcha: string;
 }
 
-export class RegisterAdminDto extends RegisterUserDto {
+export class RegisterAdminDTO extends RegisterUserDTO {
   @IsNotEmpty({
     message: 'Kitchen name is required'
   })
   kitchenName: string;
 }
 
-export class RegisterMemberDto extends RegisterUserDto {
+export class RegisterMemberDTO extends RegisterUserDTO {
   @IsNotEmpty({
     message: 'Invite code is required'
   })

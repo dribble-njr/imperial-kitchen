@@ -3,21 +3,27 @@ const English = {
   skip: 'Skip',
   startTip: 'Sign up or sign in to get started',
   slogan: 'Customize your kitchen menu easily',
-  joinKitchen: 'Join Kitchen',
   alreadyHaveAccount: 'Already have an account?',
 
   common: {
+    enter: 'Please enter ',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    captcha: 'Send Captcha'
+    captcha: 'Captcha',
+    email: 'Email',
+    name: 'Name',
+    password: 'Password',
+    inviteCode: 'Invite Code',
+    sendCaptcha: 'Send Captcha',
+    invalidEmail: 'Invalid email'
   },
 
   createKitchen: {
-    title: 'Create Kitchen',
-    username: 'Username',
-    password: 'Password',
-    confirmPassword: 'Confirm Password',
-    create: 'Create'
+    title: 'Create Kitchen'
+  },
+
+  joinKitchen: {
+    title: 'Join Kitchen'
   },
 
   signIn: 'Sign In',

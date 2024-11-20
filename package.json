@@ -9,6 +9,7 @@
     "dev:mobile": "yarn workspace mobile dev",
     "dev:server": "yarn workspace server dev",
     "build:types": "yarn workspace @imperial-kitchen/types build",
+    "pre build:android": "yarn workspace mobile pre build:android",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "husky"
   },

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { UserService } from 'src/user/user.service';
-import { SignInDto } from './dto/sign-in.dto';
+import { SignInDTO, RefreshTokenResponseVO, SignInResponseVO } from '@imperial-kitchen/types';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +11,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async signIn(signInDto: SignInDto) {
+  async signIn(signInDto: SignInDTO): Promise<SignInResponseVO> {
     const user = await this.userService.getUserByEmail(signInDto.email);
 
     if (!user) {
@@ -27,12 +27,12 @@ export class AuthService {
     const payload = { sub: user.id, username: user.email };
 
     return {
-      access_token: await this.jwtService.signAsync(payload, { expiresIn: '1d' }),
-      refresh_token: await this.jwtService.signAsync(payload, { expiresIn: '30d' })
+      accessToken: await this.jwtService.signAsync(payload, { expiresIn: '1d' }),
+      refreshToken: await this.jwtService.signAsync(payload, { expiresIn: '30d' })
     };
   }
 
-  async refreshToken(refreshToken: string) {
+  async refreshToken(refreshToken: string): Promise<RefreshTokenResponseVO> {
     try {
       const payload = await this.jwtService.verifyAsync(refreshToken);
       const newAccessToken = await this.jwtService.signAsync(
@@ -44,7 +44,7 @@ export class AuthService {
         { expiresIn: '30d' }
       );
 
-      return { access_token: newAccessToken, refresh_token: newRefreshToken };
+      return { accessToken: newAccessToken, refreshToken: newRefreshToken };
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
     }

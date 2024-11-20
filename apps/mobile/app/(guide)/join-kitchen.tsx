@@ -2,60 +2,64 @@ import FieldInput from '@/components/FieldInput';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { UserService } from '@/service';
-import { RegisterAdminDTO } from '@imperial-kitchen/types';
+import { RegisterMemberDto } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
 
-export default function CreateKitchen() {
+export default function JoinKitchen() {
   const { t } = useTranslation();
+  const [displayPassword, setDisplayPassword] = useState(false);
   const sendCaptcha = async (email: string) => {
-    const res = await UserService.sendCaptcha(email);
-    if (res) {
-      console.log(res);
+    try {
+      await UserService.sendCaptcha(email);
       Alert.alert('Success', 'Captcha sent successfully');
+    } catch (error) {
+      Alert.alert('Error');
     }
   };
 
-  const registerAdmin = async (values: RegisterAdminDTO) => {
-    const res = await UserService.registerAdmin(values);
-    if (res) {
-      console.log(res);
-      Alert.alert('Success', 'Admin registered successfully');
+  const registerMember = async (values: RegisterMemberDto) => {
+    try {
+      const res = await UserService.registerMember(values);
+      if (res) {
+        Alert.alert('Success', 'Member registered successfully');
+      }
+    } catch (error) {
+      Alert.alert('Error');
     }
   };
 
-  const validationSchema = Yup.object({
+  const registerMemberSchema = Yup.object().shape({
     name: Yup.string().required(`${t('common.enter')}${t('common.name')}`),
-    captcha: Yup.string().required(`${t('common.enter')}${t('common.captcha')}`),
     password: Yup.string().required(`${t('common.enter')}${t('common.password')}`),
     email: Yup.string()
       .email(t('common.invalidEmail'))
-      .required(`${t('common.enter')}${t('common.email')}`)
+      .required(`${t('common.enter')}${t('common.email')}`),
+    captcha: Yup.string().required(`${t('common.enter')}${t('common.captcha')}`),
+    inviteCode: Yup.string().required(`${t('common.enter')}${t('common.inviteCode')}`)
   });
 
   return (
     <ParallaxScrollView>
       <ThemedView className="flex-1 flex w-full gap-2 justify-between">
-        <Text className="text-2xl font-bold mb-4">{t('createKitchen.title')}</Text>
-
+        <Text className="text-2xl font-bold mb-4">{t('joinKitchen.title')}</Text>
         <Formik
-          initialValues={{ name: '', email: '', captcha: '', password: '', confirmedPassword: '' }}
+          initialValues={{ name: '', email: '', captcha: '', password: '', inviteCode: '' }}
           onSubmit={(values) => {
-            const dto: RegisterAdminDTO = {
-              ...values,
-              kitchenName: `${values.name}'s Kitchen`
+            const dto: RegisterMemberDto = {
+              ...values
             };
-            registerAdmin(dto);
+            registerMember(dto);
           }}
-          validationSchema={validationSchema}
+          validationSchema={registerMemberSchema}
         >
-          {({ handleSubmit, values, errors, setFieldTouched }) => (
+          {({ handleSubmit, values, setFieldTouched, errors }) => (
             <>
               <FieldInput i18nKey="common" name="name" />
-
               <FieldInput
                 i18nKey="common"
                 name="email"
@@ -71,16 +75,14 @@ export default function CreateKitchen() {
                   />
                 }
               />
-
               <FieldInput i18nKey="common" name="captcha" />
-
               <FieldInput
                 i18nKey="common"
                 name="password"
-                secureTextEntry
-                right={<TextInput.Icon icon="eye" onPress={() => {}} />}
+                secureTextEntry={displayPassword}
+                right={<TextInput.Icon icon="eye" onPress={() => setDisplayPassword(!displayPassword)} />}
               />
-
+              <FieldInput i18nKey="common" name="inviteCode" />
               <Button mode="contained" onPress={() => handleSubmit()}>
                 {t('common.confirm')}
               </Button>
