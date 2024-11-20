@@ -31,16 +31,12 @@ A food ordering app for family kitchen.
    cd imperial-kitchen
    yarn install
    ```
-4. Generate types to ensure type safety.
-   ```sh
-   yarn build:types
-   ```
-5. Run mobile.
+4. Run mobile.
    ```sh
    yarn dev:mobile
    ```
-6. Install and configure [`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/).
-7. Configure server env: rename **server/.env.example** to **server/.env**.
+5. Install and configure [`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/).
+6. Configure server env: rename **server/.env.example** to **server/.env**.
    ```shell
    # PORT=8000
    # DB_URL=""
@@ -54,7 +50,7 @@ A food ordering app for family kitchen.
    # REDIS_PASSWORD=
    # REDIS_URL=
    ```
-8. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
+7. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
    ```sh
    yarn dev:server
    ```
