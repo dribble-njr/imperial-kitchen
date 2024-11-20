@@ -21,37 +21,48 @@ const TAB_CONFIG: TabConfig[] = [
     name: 'index',
     title: 'Home',
     label: '首页',
-    icon: 'home',
-    activeIcon: 'home-outline'
+    icon: 'storefront',
+    activeIcon: 'storefront-outline'
   },
   {
-    name: 'explore',
-    title: 'Explore',
+    name: 'menu',
+    title: 'Menu',
+    label: '试毒',
+    icon: 'flask',
+    activeIcon: 'flask-outline'
+  },
+  {
+    name: 'profile',
+    title: 'Profile',
     label: '我的',
-    icon: 'code-slash',
-    activeIcon: 'code-slash-outline'
+    icon: 'person-circle',
+    activeIcon: 'person-circle-outline'
   }
 ];
 
-const renderTab = (config: TabConfig) => (
-  <Tabs.Screen
-    key={config.name}
-    name={config.name}
-    options={{
-      title: config.title,
-      tabBarIcon: ({ color, focused }) => (
-        <View style={[styles.iconContainer, focused && styles.activeIconContainer]}>
-          <TabBarIcon name={focused ? config.icon : config.activeIcon} color={color} style={styles.icon} />
-          {focused && (
-            <View style={styles.labelContainer}>
-              <Text style={[styles.label, { color }]}>{config.label}</Text>
+const renderTabItem = (config: TabConfig) => {
+  return (
+    <Tabs.Screen
+      key={config.name}
+      name={config.name}
+      options={{
+        title: config.title,
+        tabBarIcon: ({ color, focused }) => {
+          return (
+            <View style={[styles.iconContainer, focused && styles.activeIconContainer]}>
+              <TabBarIcon name={focused ? config.icon : config.activeIcon} color={color} style={styles.icon} />
+              {focused && (
+                <View style={styles.labelContainer}>
+                  <Text style={[styles.label, { color }]}>{config.label}</Text>
+                </View>
+              )}
             </View>
-          )}
-        </View>
-      )
-    }}
-  />
-);
+          );
+        }
+      }}
+    />
+  );
+};
 
 export default function TabLayout() {
   const theme = useTheme();
@@ -59,7 +70,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: theme.colors.primary,
+        tabBarActiveTintColor: theme.colors.secondary,
         headerShown: false,
         tabBarStyle: styles.tabBar,
         tabBarItemStyle: styles.item,
@@ -67,7 +78,7 @@ export default function TabLayout() {
         tabBarShowLabel: false
       }}
     >
-      {TAB_CONFIG.map(renderTab)}
+      {TAB_CONFIG.map(renderTabItem)}
     </Tabs>
   );
 }
@@ -106,6 +117,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18
   },
   activeIconContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)'
+    backgroundColor: 'rgba(116, 90, 26, 0.1)'
   }
 });
