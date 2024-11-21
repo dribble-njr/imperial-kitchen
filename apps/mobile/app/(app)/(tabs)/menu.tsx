@@ -1,10 +1,5 @@
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { Text } from 'react-native-paper';
+import DishesPage from '@/app/modules/dishes';
 
 export default function MenuScreen() {
-  return (
-    <ParallaxScrollView>
-      <Text>配菜间</Text>
-    </ParallaxScrollView>
-  );
+  return <DishesPage />;
 }
