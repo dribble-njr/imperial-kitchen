@@ -29,3 +29,21 @@ export interface SidebarConfig {
   position?: 'top' | 'center' | 'bottom';
   onSelect?: () => void; // 选中后执行的回调
 }
+
+export enum FoodDifficulty {
+  Easy = 'easy',
+  Middle = 'middle',
+  Hard = 'hard'
+}
+
+export interface TagVO {
+  id: number;
+  name: string;
+}
+
+export interface CreateDishForm {
+  name: string;
+  tags: TagVO[];
+  steps: string[];
+  difficulty?: FoodDifficulty;
+}

@@ -33,7 +33,7 @@ export default function DishesPage() {
   const [selectedKey, setSelectedKey] = useState<SidebarItemType>(SidebarConfigs[0].type);
 
   return (
-    <ThemedView className="w-full h-full flex flex-row">
+    <ThemedView className="w-full h-full flex flex-row relative">
       <SideBar configs={SidebarConfigs} selectedKey={selectedKey} onSelect={setSelectedKey} />
       {selectedKey === CreateDish ? <CreateDishGuide /> : <FoodListLayout type={selectedKey} />}
     </ThemedView>

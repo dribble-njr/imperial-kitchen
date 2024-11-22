@@ -1,6 +1,6 @@
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import { Tabs, usePathname } from 'expo-router';
 import { type ComponentProps } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
@@ -40,6 +40,8 @@ const TAB_CONFIG: TabConfig[] = [
   }
 ];
 
+const HiddenPaths = ['/menu/recipe'];
+
 const renderTabItem = (config: TabConfig) => {
   return (
     <Tabs.Screen
@@ -66,6 +68,8 @@ const renderTabItem = (config: TabConfig) => {
 
 export default function TabLayout() {
   const theme = useTheme();
+  const pathname = usePathname();
+  const isHidden = HiddenPaths.includes(pathname);
 
   return (
     <Tabs
@@ -73,7 +77,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: theme.colors.outlineVariant,
         tabBarActiveTintColor: theme.colors.secondary,
         headerShown: false,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [styles.tabBar, isHidden && { display: 'none' }],
         tabBarItemStyle: styles.item,
         tabBarHideOnKeyboard: true,
         tabBarShowLabel: false
