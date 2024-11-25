@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-export const CreateDishGuide = () => {
+export const CreateRecipeGuide = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>

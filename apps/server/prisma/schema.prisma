@@ -72,3 +72,19 @@ enum Role {
   ADMIN
   MEMBER
 }
+
+enum TagType {
+  recipe
+  dish
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(10)
+  type      TagType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([type])
+}

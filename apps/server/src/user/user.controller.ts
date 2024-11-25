@@ -1,12 +1,10 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseInterceptors } from '@nestjs/common';
-import { UserService } from './user.service';
-import { RegisterAdminDTO, RegisterMemberDTO } from './dto/register-user.dto';
-import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
-import { CaptchaDTO } from './dto/captcha.dto';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { CaptchaDTO } from './dto/captcha.dto';
+import { RegisterAdminDTO, RegisterMemberDTO } from './dto/register-user.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
-@UseInterceptors(TransformResponseInterceptor)
 export class UserController {
   constructor(private userService: UserService) {}
 

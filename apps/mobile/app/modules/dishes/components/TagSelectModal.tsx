@@ -1,8 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { useAsync } from '@/hooks/useAsync';
+import TagService from '@/service/tag.service';
+import { TagVO } from '@imperial-kitchen/types';
+import { ReactNode, useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-import { ALL_TAGS } from '../mock';
-import { TagVO } from '../types';
 import { TagItem } from './TagItem';
 
 export const TagSelectModal = ({
@@ -20,6 +21,12 @@ export const TagSelectModal = ({
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+
+  const getData = useCallback(async () => {
+    return await TagService.getAllTags();
+  }, []);
+  const { result: tags } = useAsync(getData, true);
+
   return (
     <>
       <Portal>
@@ -42,9 +49,18 @@ export const TagSelectModal = ({
             borderRadius: 30
           }}
         >
-          <View style={{ display: 'flex', width: '100%', backgroundColor: '#fff', borderRadius: 30, padding: 20 }}>
+          <View
+            style={{
+              display: 'flex',
+              minHeight: 200,
+              width: '100%',
+              backgroundColor: '#fff',
+              borderRadius: 30,
+              padding: 20
+            }}
+          >
             <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-              {ALL_TAGS.map((tag) => (
+              {tags?.map((tag) => (
                 <TagItem
                   active={activeTags.some((t) => t.id === tag.id)}
                   key={tag.id}

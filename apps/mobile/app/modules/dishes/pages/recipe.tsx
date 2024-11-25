@@ -1,9 +1,9 @@
+import { CreateRecipeVO } from '@/types';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { RecipeDifficultyRadioSelector } from '../components/RecipeDifficultyRadioSelector';
 import { RecipeNameInputBox } from '../components/RecipeNameInputBox';
 import { RecipeTagsBox } from '../components/RecipeTagsBox';
-import { CreateDishForm } from '../types';
 
 const CardItem = ({ title, children }: { title: string; children: ReactNode }) => {
   return (
@@ -16,7 +16,7 @@ const CardItem = ({ title, children }: { title: string; children: ReactNode }) =
 
 const CardItems: {
   title: string;
-  content: (form: CreateDishForm, setForm: Dispatch<SetStateAction<CreateDishForm>>) => ReactNode;
+  content: (form: CreateRecipeVO, setForm: Dispatch<SetStateAction<CreateRecipeVO>>) => ReactNode;
 }[] = [
   {
     title: '1. 料理名称',
@@ -33,18 +33,9 @@ const CardItems: {
 ];
 
 export const RecipePage = () => {
-  const [form, setForm] = useState<CreateDishForm>({
+  const [form, setForm] = useState<CreateRecipeVO>({
     name: '',
-    tags: [
-      {
-        id: 1,
-        name: '中餐'
-      },
-      {
-        id: 2,
-        name: '高热量'
-      }
-    ],
+    tags: [],
     steps: [],
     difficulty: undefined
   });

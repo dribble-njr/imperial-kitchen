@@ -79,7 +79,7 @@ class HttpClient {
         .then((response) => {
           if (!(response.data.statusCode >= 200 && response.data.statusCode < 300)) {
             throw new Error(
-              typeof response.data.message === 'string' ? response.data.message : response.data.message.join(',')
+              typeof response.data.message === 'string' ? response.data.message : response.data.message?.join(',')
             );
           }
           if (response.data.data) {

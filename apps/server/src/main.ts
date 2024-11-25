@@ -1,6 +1,7 @@
-import { NestFactory } from '@nestjs/core';
 import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor';
 import config from './config';
 
 const PORT = config.PORT || 8000;
@@ -19,6 +20,8 @@ async function bootstrap() {
     ]
   });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalInterceptors(new TransformResponseInterceptor());
+
   await app.listen(PORT);
 }
 bootstrap();

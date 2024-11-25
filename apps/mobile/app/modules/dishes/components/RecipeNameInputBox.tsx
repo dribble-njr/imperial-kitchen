@@ -1,10 +1,10 @@
+import CutleryIcon from '@/assets/icons/cutlery-icon.svg';
 import { useBlurOnKeyboardDismiss } from '@/hooks/useBlurOnKeyBoardDismiss';
+import { CreateRecipeVO } from '@/types';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import { CreateDishForm } from '../types';
-import CutleryIcon from '@/assets/icons/cutlery-icon.svg';
 
 const SPRING_CONFIG = {
   damping: 10,
@@ -16,8 +16,8 @@ export const RecipeNameInputBox = ({
   form,
   setForm
 }: {
-  form: CreateDishForm;
-  setForm: Dispatch<SetStateAction<CreateDishForm>>;
+  form: CreateRecipeVO;
+  setForm: Dispatch<SetStateAction<CreateRecipeVO>>;
 }) => {
   const inputRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);

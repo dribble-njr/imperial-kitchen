@@ -5,3 +5,5 @@ export * from './commodity/commodity.vo';
 export * from './auth/auth.vo';
 export * from './auth/auth.dto';
 export * from './common';
+export * from './tag/tag.vo';
+export * from './tag/tag.dto';

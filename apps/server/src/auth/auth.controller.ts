@@ -1,12 +1,10 @@
-import { Body, Controller, Get, Post, Request, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDTO } from './dto/sign-in.dto';
 import { Public } from './decorators/public.decorator';
-import { TransformResponseInterceptor } from 'src/common/interceptors/transform-response.interceptor';
-import { RefreshTokenDTO } from '@imperial-kitchen/types';
+import { RefreshTokenDTO } from './dto/refresh-token.dto';
+import { SignInDTO } from './dto/sign-in.dto';
 
 @Controller('auth')
-@UseInterceptors(TransformResponseInterceptor)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
