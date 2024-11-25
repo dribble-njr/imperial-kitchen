@@ -1,6 +1,6 @@
 import CloseIcon from '@/assets/icons/close-icon.svg';
+import { TagVO } from '@imperial-kitchen/types';
 import { Chip } from 'react-native-paper';
-import { TagVO } from '../types';
 
 export const TagItem = ({
   tag,

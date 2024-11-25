@@ -1,5 +1,5 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { FoodType, FoodType2Slogan } from '../types';
+import { FoodType, FoodType2Slogan } from '@/types';
+import { StyleSheet, Text, View } from 'react-native';
 
 const Header = ({ title }: { title: string }) => {
   return (

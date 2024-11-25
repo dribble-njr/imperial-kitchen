@@ -1,3 +1,4 @@
+import { TagVO } from '@imperial-kitchen/types';
 import { SvgProps } from 'react-native-svg';
 
 export enum FoodType {
@@ -20,8 +21,8 @@ export const FoodType2Slogan = {
   [FoodType.Dessert]: '嘿，腻不死你'
 };
 
-export const CreateDish = '_CreateDish' as const;
-export type SidebarItemType = FoodType | typeof CreateDish;
+export const CreateRecipe = '_CreateRecipe' as const;
+export type SidebarItemType = FoodType | typeof CreateRecipe;
 
 export interface SidebarConfig {
   type: SidebarItemType;
@@ -36,14 +37,12 @@ export enum FoodDifficulty {
   Hard = 'hard'
 }
 
-export interface TagVO {
+export interface RecipeVO {
   id: number;
-  name: string;
-}
-
-export interface CreateDishForm {
   name: string;
   tags: TagVO[];
   steps: string[];
   difficulty?: FoodDifficulty;
 }
+
+export type CreateRecipeVO = Omit<RecipeVO, 'id'>;

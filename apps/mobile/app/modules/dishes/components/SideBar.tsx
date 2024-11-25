@@ -1,5 +1,6 @@
 import CloseMenuIcon from '@/assets/icons/close-menu-icon.svg';
 import OpenMenuIcon from '@/assets/icons/open-menu-icon.svg';
+import { SidebarConfig, SidebarItemType } from '@/types';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
@@ -9,7 +10,6 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
-import { SidebarConfig, SidebarItemType } from '../types';
 
 const ANIMATE_DURATION = 400;
 
