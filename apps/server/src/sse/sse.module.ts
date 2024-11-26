@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from 'src/auth/auth.module';
-import { SseController } from './sse.controller';
-import { SseService } from './sse.service';
+import { SSEController } from './sse.controller';
+import { SSEService } from './sse.service';
 
 @Module({
   imports: [AuthModule],
-  controllers: [SseController],
-  providers: [SseService],
-  exports: [SseService]
+  controllers: [SSEController],
+  providers: [SSEService],
+  exports: [SSEService]
 })
-export class SseModule {}
+export class SSEModule {}

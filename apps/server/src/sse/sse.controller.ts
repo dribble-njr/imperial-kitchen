@@ -1,13 +1,13 @@
 import { Body, Controller, Post, Sse, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { Token } from 'src/common/decorator/token.decorator';
-import { PushSseEventDTO } from './dto/push-event.dto';
-import { SseService } from './sse.service';
+import { PushSSEEventDTO } from './dto/push-event.dto';
+import { SSEService } from './sse.service';
 
 @Controller('sse')
-export class SseController {
+export class SSEController {
   constructor(
-    private sseService: SseService,
+    private sseService: SSEService,
     private AuthService: AuthService
   ) {}
 
@@ -25,7 +25,7 @@ export class SseController {
 
   // 推送事件
   @Post('push')
-  pushEvent(@Body() data: PushSseEventDTO) {
+  pushEvent(@Body() data: PushSSEEventDTO) {
     try {
       this.sseService.pushEvent(data, data.targetIds, data.type);
       return true;

@@ -1,7 +1,7 @@
-export enum SseEventType {
+export enum SSEEventType {
   MESSAGE = 'message'
 }
 
-export interface SseEventData {
+export interface SSEEventData {
   message: string;
 }

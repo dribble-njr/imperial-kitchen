@@ -1,8 +1,8 @@
-import { SseEventType } from '@imperial-kitchen/types';
+import { SSEEventType } from '@imperial-kitchen/types';
 
 import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class PushSseEventDTO {
+export class PushSSEEventDTO {
   @IsString()
   @IsNotEmpty()
   message: string;
@@ -13,6 +13,6 @@ export class PushSseEventDTO {
   targetIds?: number[];
 
   @IsOptional()
-  @IsEnum(SseEventType)
-  type?: SseEventType;
+  @IsEnum(SSEEventType)
+  type?: SSEEventType;
 }

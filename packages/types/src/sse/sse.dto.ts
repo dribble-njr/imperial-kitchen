@@ -1,7 +1,7 @@
-import { SseEventType } from './sse.vo';
+import { SSEEventType } from './sse.vo';
 
-export interface PushSseEventDTO {
+export interface PushSSEEventDTO {
   message: string;
   targetIds?: number[];
-  type?: SseEventType;
+  type?: SSEEventType;
 }

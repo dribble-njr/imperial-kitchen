@@ -1,9 +1,9 @@
-import { SseEventData, SseEventType } from '@imperial-kitchen/types';
+import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { Injectable, MessageEvent } from '@nestjs/common';
 import { Subject } from 'rxjs';
 
 @Injectable()
-export class SseService {
+export class SSEService {
   private readonly events = new Map<number, Subject<MessageEvent>>();
 
   getOrCreateUserEventStream(userId: number) {
@@ -13,7 +13,7 @@ export class SseService {
     return this.events.get(userId);
   }
 
-  pushEvent(data: SseEventData, targetIds?: number[], type: SseEventType = SseEventType.MESSAGE) {
+  pushEvent(data: SSEEventData, targetIds?: number[], type: SSEEventType = SSEEventType.MESSAGE) {
     const message: MessageEvent = {
       id: String(Date.now()),
       data,
