@@ -1,6 +1,6 @@
 import { ComponentColors } from '@/constants/Colors';
 import { TokenProvider } from '@/context/AuthContext';
-import { SseProvider } from '@/context/SseContext';
+import { SSEProvider } from '@/context/SseContext';
 import '@/locales/i18n';
 import { Slot } from 'expo-router';
 import { useColorScheme } from 'react-native';
@@ -21,9 +21,9 @@ export default function Root() {
     <SafeAreaProvider>
       <TokenProvider>
         <PaperProvider theme={paperTheme}>
-          <SseProvider>
+          <SSEProvider>
             <Slot />
-          </SseProvider>
+          </SSEProvider>
         </PaperProvider>
       </TokenProvider>
     </SafeAreaProvider>

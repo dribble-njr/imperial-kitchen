@@ -6,15 +6,15 @@ import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource from 'react-native-sse';
 
-type SseMessage = {
+type SSEMessage = {
   id: string;
   data: SSEEventData;
   type: SSEEventType;
 };
 
-type SseContextType = {
+type SSEContextType = {
   sse: EventSource | null;
-  messages: SseMessage[];
+  messages: SSEMessage[];
   connected: boolean;
   reconnect: () => void;
   clearMessages: () => void;
@@ -23,7 +23,7 @@ type SseContextType = {
 const MaxReconnectAttempts = 5;
 const MaxMessages = 100; // 只保留最新的100条历史消息
 
-export const SseContext = createContext<SseContextType>({
+export const SSEContext = createContext<SSEContextType>({
   sse: null,
   messages: [],
   connected: false,
@@ -31,8 +31,8 @@ export const SseContext = createContext<SseContextType>({
   clearMessages: () => {}
 });
 
-export const useSse = (type: SSEEventType) => {
-  const { messages, connected, reconnect } = useContext(SseContext);
+export const useSSE = (type: SSEEventType) => {
+  const { messages, connected, reconnect } = useContext(SSEContext);
   const allMessages = messages.filter((msg) => msg.type === type);
   return {
     allMessages,
@@ -42,9 +42,9 @@ export const useSse = (type: SSEEventType) => {
   };
 };
 
-export const SseProvider = ({ children }: { children: ReactNode }) => {
+export const SSEProvider = ({ children }: { children: ReactNode }) => {
   const [sse, setSse] = useState<EventSource | null>(null);
-  const [messages, setMessages] = useState<SseMessage[]>([]);
+  const [messages, setMessages] = useState<SSEMessage[]>([]);
   const [connected, setConnected] = useState(false);
   const token = useToken();
   const reconnectAttempts = useRef(0);
@@ -68,7 +68,7 @@ export const SseProvider = ({ children }: { children: ReactNode }) => {
 
     const handleMessage = (event: any) => {
       try {
-        const data: SseMessage = JSON.parse(event.data);
+        const data: SSEMessage = JSON.parse(event.data);
         console.log(`接收到消息: ${JSON.stringify(data)}`);
         setMessages((prev) => {
           const newMessages = [...prev, data];
@@ -138,7 +138,7 @@ export const SseProvider = ({ children }: { children: ReactNode }) => {
   }, [createConnection]);
 
   return (
-    <SseContext.Provider
+    <SSEContext.Provider
       value={{
         sse,
         messages,
@@ -148,6 +148,6 @@ export const SseProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </SseContext.Provider>
+    </SSEContext.Provider>
   );
 };

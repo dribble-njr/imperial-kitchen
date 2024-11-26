@@ -1,6 +1,6 @@
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { CartProvider } from '@/context/CartContext';
-import { useSse } from '@/context/SseContext';
+import { useSSE } from '@/context/SseContext';
 import { SSEService } from '@/service';
 import { SSEEventType } from '@imperial-kitchen/types';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 
 export default function HomeScreen() {
-  const { allMessages, connected } = useSse(SSEEventType.MESSAGE);
+  const { allMessages, connected } = useSSE(SSEEventType.MESSAGE);
   const [message, setMessage] = useState('');
 
   return (
