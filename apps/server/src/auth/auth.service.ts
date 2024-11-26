@@ -1,14 +1,16 @@
+import { RefreshTokenResponseVO, SignInDTO, SignInResponseVO } from '@imperial-kitchen/types';
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
+import { PrismaService } from 'src/shared/prisma.service';
 import { UserService } from 'src/user/user.service';
-import { SignInDTO, RefreshTokenResponseVO, SignInResponseVO } from '@imperial-kitchen/types';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private prismaService: PrismaService
   ) {}
 
   async signIn(signInDto: SignInDTO): Promise<SignInResponseVO> {
@@ -48,5 +50,12 @@ export class AuthService {
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
     }
+  }
+
+  async getUserInfoByToken(token: string) {
+    const payload = await this.jwtService.verifyAsync(token);
+    return this.prismaService.user.findUnique({
+      where: { id: payload.sub }
+    });
   }
 }

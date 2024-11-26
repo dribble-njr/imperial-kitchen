@@ -2,14 +2,14 @@
 
 import { useToken } from '@/context/AuthContext';
 import { getSseBaseURL } from '@/service/http-client';
-import { SseEventData, SseType } from '@imperial-kitchen/types';
+import { SseEventData, SseEventType } from '@imperial-kitchen/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource from 'react-native-sse';
 
 type SseMessage = {
   id: string;
   data: SseEventData;
-  type: SseType;
+  type: SseEventType;
 };
 
 type SseContextType = {
@@ -31,7 +31,7 @@ export const SseContext = createContext<SseContextType>({
   clearMessages: () => {}
 });
 
-export const useSse = (type: SseType) => {
+export const useSse = (type: SseEventType) => {
   const { messages, connected, reconnect } = useContext(SseContext);
   const allMessages = messages.filter((msg) => msg.type === type);
   return {
@@ -55,7 +55,8 @@ export const SseProvider = ({ children }: { children: ReactNode }) => {
 
     const es = new EventSource(getSseBaseURL(), {
       headers: {
-        Authorization: `Bearer ${token.accessToken}`
+        Authorization: `Bearer ${token.accessToken}`,
+        'Content-Type': 'application/json'
       }
     });
 

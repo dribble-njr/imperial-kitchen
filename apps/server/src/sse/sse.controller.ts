@@ -1,21 +1,33 @@
-import { Body, Controller, Post, Sse } from '@nestjs/common';
+import { Body, Controller, Post, Sse, UnauthorizedException } from '@nestjs/common';
+import { AuthService } from 'src/auth/auth.service';
+import { Token } from 'src/common/decorator/token.decorator';
+import { PushSseEventDTO } from './dto/push-event.dto';
 import { SseService } from './sse.service';
 
 @Controller('sse')
 export class SseController {
-  constructor(private sseService: SseService) {}
+  constructor(
+    private sseService: SseService,
+    private AuthService: AuthService
+  ) {}
 
   // 订阅事件
   @Sse('events')
-  events() {
-    return this.sseService.getEventObservable();
+  async events(@Token() token: string) {
+    const user = await this.AuthService.getUserInfoByToken(token);
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    const eventStream = this.sseService.getOrCreateUserEventStream(user.id);
+    return eventStream.asObservable();
   }
 
   // 推送事件
   @Post('push')
-  pushEvent(@Body() data: { message: string; type?: string; target?: string }) {
+  pushEvent(@Body() data: PushSseEventDTO) {
     try {
-      this.sseService.pushEvent(data);
+      this.sseService.pushEvent(data, data.targetIds, data.type);
       return true;
     } catch (error) {
       return false;

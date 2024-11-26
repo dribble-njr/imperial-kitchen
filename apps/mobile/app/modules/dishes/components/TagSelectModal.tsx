@@ -1,5 +1,5 @@
 import { useAsync } from '@/hooks/useAsync';
-import TagService from '@/service/tag.service';
+import { TagService } from '@/service';
 import { TagVO } from '@imperial-kitchen/types';
 import { ReactNode, useCallback, useState } from 'react';
 import { View } from 'react-native';

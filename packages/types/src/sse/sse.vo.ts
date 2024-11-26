@@ -1,4 +1,4 @@
-export enum SseType {
+export enum SseEventType {
   MESSAGE = 'message'
 }
 

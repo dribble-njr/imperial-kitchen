@@ -9,4 +9,5 @@ export * from './tag/tag.dto';
 export * from './tag/tag.vo';
 export * from './user/user.dto';
 export * from './user/user.vo';
+export * from './sse/sse.dto';
 export * from './sse/sse.vo';

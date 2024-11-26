@@ -19,7 +19,14 @@ async function bootstrap() {
       { path: 'api-docs/bundled.yaml', method: RequestMethod.GET }
     ]
   });
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true
+      }
+    })
+  );
   app.useGlobalInterceptors(new TransformResponseInterceptor());
 
   await app.listen(PORT);
