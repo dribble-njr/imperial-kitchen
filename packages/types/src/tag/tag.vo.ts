@@ -7,6 +7,4 @@ export interface TagVO {
   id: number;
   name: string;
   type: TagType;
-  createdAt: Date;
-  updatedAt: Date;
 }

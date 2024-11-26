@@ -1,11 +1,5 @@
-import { TagVO } from '@imperial-kitchen/types';
+import { FoodType } from '@imperial-kitchen/types';
 import { SvgProps } from 'react-native-svg';
-
-export enum FoodType {
-  Drink = 'drink',
-  Dish = 'dish',
-  Dessert = 'dessert'
-}
 
 export const FoodTypeList = Object.values(FoodType);
 
@@ -30,19 +24,3 @@ export interface SidebarConfig {
   position?: 'top' | 'center' | 'bottom';
   onSelect?: () => void; // 选中后执行的回调
 }
-
-export enum FoodDifficulty {
-  Easy = 'easy',
-  Middle = 'middle',
-  Hard = 'hard'
-}
-
-export interface RecipeVO {
-  id: number;
-  name: string;
-  tags: TagVO[];
-  steps: string[];
-  difficulty?: FoodDifficulty;
-}
-
-export type CreateRecipeVO = Omit<RecipeVO, 'id'>;

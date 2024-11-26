@@ -1,6 +1,6 @@
 import CutleryIcon from '@/assets/icons/cutlery-icon.svg';
 import { useBlurOnKeyboardDismiss } from '@/hooks/useBlurOnKeyBoardDismiss';
-import { CreateRecipeVO } from '@/types';
+import { CreateRecipeDTO } from '@imperial-kitchen/types';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
@@ -16,8 +16,8 @@ export const RecipeNameInputBox = ({
   form,
   setForm
 }: {
-  form: CreateRecipeVO;
-  setForm: Dispatch<SetStateAction<CreateRecipeVO>>;
+  form: CreateRecipeDTO;
+  setForm: Dispatch<SetStateAction<CreateRecipeDTO>>;
 }) => {
   const inputRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);

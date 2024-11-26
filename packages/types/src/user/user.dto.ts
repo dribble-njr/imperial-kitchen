@@ -6,7 +6,7 @@ export interface RegisterAdminDTO {
   kitchenName: string;
 }
 
-export interface RegisterMemberDto {
+export interface RegisterMemberDTO {
   name: string;
   email: string;
   captcha: string;

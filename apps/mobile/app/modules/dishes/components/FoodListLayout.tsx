@@ -1,4 +1,5 @@
-import { FoodType, FoodType2Slogan } from '@/types';
+import { FoodType2Slogan } from '@/types';
+import { FoodType } from '@imperial-kitchen/types';
 import { StyleSheet, Text, View } from 'react-native';
 
 const Header = ({ title }: { title: string }) => {
