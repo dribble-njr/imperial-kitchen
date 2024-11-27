@@ -1,10 +1,11 @@
-import { useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ComponentColors } from '@/constants/Colors';
 import { TokenProvider } from '@/context/AuthContext';
+import { SSEProvider } from '@/context/SSEContext';
 import '@/locales/i18n';
 import { Slot } from 'expo-router';
+import { useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
 
 export default function Root() {
@@ -20,7 +21,9 @@ export default function Root() {
     <SafeAreaProvider>
       <TokenProvider>
         <PaperProvider theme={paperTheme}>
-          <Slot />
+          <SSEProvider>
+            <Slot />
+          </SSEProvider>
         </PaperProvider>
       </TokenProvider>
     </SafeAreaProvider>

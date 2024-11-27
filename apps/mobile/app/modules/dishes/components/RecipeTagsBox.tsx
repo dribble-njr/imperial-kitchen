@@ -1,5 +1,4 @@
-import { CreateRecipeVO } from '@/types';
-import { TagVO } from '@imperial-kitchen/types';
+import { CreateRecipeDTO, TagVO } from '@imperial-kitchen/types';
 import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TagItem } from './TagItem';
@@ -17,8 +16,8 @@ export const RecipeTagsBox = ({
   form,
   setForm
 }: {
-  form: CreateRecipeVO;
-  setForm: Dispatch<SetStateAction<CreateRecipeVO>>;
+  form: CreateRecipeDTO;
+  setForm: Dispatch<SetStateAction<CreateRecipeDTO>>;
 }) => {
   const { tags } = form;
   const onItemDelete = (tag: TagVO) => {

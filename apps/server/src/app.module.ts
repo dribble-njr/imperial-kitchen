@@ -5,9 +5,10 @@ import { UserModule } from './user/user.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { TagModule } from './tag/tag.module';
+import { SSEModule } from './sse/sse.module';
 
 @Module({
-  imports: [SharedModule, UserModule, AuthModule, TagModule],
+  imports: [SharedModule, UserModule, AuthModule, TagModule, SSEModule],
   controllers: [AppController],
   providers: [AppService]
 })

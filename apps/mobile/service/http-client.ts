@@ -117,4 +117,8 @@ const httpClient = HttpClient.getInstance({
   headers: { 'Content-Type': 'application/json' }
 });
 
+export const getSSEBaseURL = () => {
+  return process.env.EXPO_PUBLIC_BASE_URL + '/api/sse/events';
+};
+
 export default httpClient;

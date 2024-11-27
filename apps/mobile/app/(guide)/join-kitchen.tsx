@@ -2,7 +2,7 @@ import FieldInput from '@/components/FieldInput';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { UserService } from '@/service';
-import { RegisterMemberDto } from '@imperial-kitchen/types';
+import { RegisterMemberDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,7 @@ export default function JoinKitchen() {
     }
   };
 
-  const registerMember = async (values: RegisterMemberDto) => {
+  const registerMember = async (values: RegisterMemberDTO) => {
     try {
       const res = await UserService.registerMember(values);
       if (res) {
@@ -50,7 +50,7 @@ export default function JoinKitchen() {
         <Formik
           initialValues={{ name: '', email: '', captcha: '', password: '', inviteCode: '' }}
           onSubmit={(values) => {
-            const dto: RegisterMemberDto = {
+            const dto: RegisterMemberDTO = {
               ...values
             };
             registerMember(dto);

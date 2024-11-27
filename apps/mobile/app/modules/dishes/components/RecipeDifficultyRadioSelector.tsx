@@ -1,7 +1,7 @@
 import EasyFoodIcon from '@/assets/icons/easy-food-icon.svg';
 import HardFoodIcon from '@/assets/icons/hard-food-icon.svg';
 import MiddleFoodIcon from '@/assets/icons/middle-food-icon.svg';
-import { CreateRecipeVO, FoodDifficulty } from '@/types';
+import { CreateRecipeDTO, FoodDifficulty } from '@imperial-kitchen/types';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
@@ -72,8 +72,8 @@ export const RecipeDifficultyRadioSelector = ({
   form,
   setForm
 }: {
-  form: CreateRecipeVO;
-  setForm: Dispatch<SetStateAction<CreateRecipeVO>>;
+  form: CreateRecipeDTO;
+  setForm: Dispatch<SetStateAction<CreateRecipeDTO>>;
 }) => {
   const { difficulty } = form;
 

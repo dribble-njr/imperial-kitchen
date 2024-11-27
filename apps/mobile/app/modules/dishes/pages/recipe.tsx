@@ -1,4 +1,4 @@
-import { CreateRecipeVO } from '@/types';
+import { CreateRecipeDTO } from '@imperial-kitchen/types';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { RecipeDifficultyRadioSelector } from '../components/RecipeDifficultyRadioSelector';
@@ -16,7 +16,7 @@ const CardItem = ({ title, children }: { title: string; children: ReactNode }) =
 
 const CardItems: {
   title: string;
-  content: (form: CreateRecipeVO, setForm: Dispatch<SetStateAction<CreateRecipeVO>>) => ReactNode;
+  content: (form: CreateRecipeDTO, setForm: Dispatch<SetStateAction<CreateRecipeDTO>>) => ReactNode;
 }[] = [
   {
     title: '1. 料理名称',
@@ -33,7 +33,7 @@ const CardItems: {
 ];
 
 export const RecipePage = () => {
-  const [form, setForm] = useState<CreateRecipeVO>({
+  const [form, setForm] = useState<CreateRecipeDTO>({
     name: '',
     tags: [],
     steps: [],
