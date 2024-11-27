@@ -1,6 +1,6 @@
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { CartProvider } from '@/context/CartContext';
-import { useSSE } from '@/context/SseContext';
+import { useSSE } from '@/context/SSEContext';
 import { SSEService } from '@/service';
 import { SSEEventType } from '@imperial-kitchen/types';
 import { useState } from 'react';

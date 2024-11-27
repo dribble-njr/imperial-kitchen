@@ -1,6 +1,6 @@
 import { ComponentColors } from '@/constants/Colors';
 import { TokenProvider } from '@/context/AuthContext';
-import { SSEProvider } from '@/context/SseContext';
+import { SSEProvider } from '@/context/SSEContext';
 import '@/locales/i18n';
 import { Slot } from 'expo-router';
 import { useColorScheme } from 'react-native';

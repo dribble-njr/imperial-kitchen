@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useToken } from '@/context/AuthContext';
-import { getSseBaseURL } from '@/service/http-client';
+import { getSSEBaseURL } from '@/service/http-client';
 import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource from 'react-native-sse';
@@ -43,7 +43,7 @@ export const useSSE = (type: SSEEventType) => {
 };
 
 export const SSEProvider = ({ children }: { children: ReactNode }) => {
-  const [sse, setSse] = useState<EventSource | null>(null);
+  const [sse, setSSE] = useState<EventSource | null>(null);
   const [messages, setMessages] = useState<SSEMessage[]>([]);
   const [connected, setConnected] = useState(false);
   const token = useToken();
@@ -53,7 +53,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
   const createConnection = useCallback(() => {
     if (!token.accessToken) return;
 
-    const es = new EventSource(getSseBaseURL(), {
+    const es = new EventSource(getSSEBaseURL(), {
       headers: {
         Authorization: `Bearer ${token.accessToken}`,
         'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       console.error('SSE 错误:', error);
       setConnected(false);
       es.close();
-      setSse(null);
+      setSSE(null);
 
       if (reconnectAttempts.current < MaxReconnectAttempts) {
         const timeout = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
@@ -99,7 +99,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
     es.addEventListener('message', handleMessage);
     es.addEventListener('error', handleError);
 
-    setSse(es);
+    setSSE(es);
 
     return () => {
       es.removeEventListener('open', handleOpen);
@@ -112,7 +112,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
   const reconnect = useCallback(() => {
     if (sse) {
       sse.close();
-      setSse(null);
+      setSSE(null);
     }
     reconnectAttempts.current = 0;
     createConnection();
@@ -128,7 +128,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       if (cleanup) {
         cleanup();
-        setSse(null);
+        setSSE(null);
         setConnected(false);
       }
       if (reconnectTimeoutRef.current) {
