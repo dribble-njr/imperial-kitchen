@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useToken } from '@/context/AuthContext';
 import { getSSEBaseURL } from '@/service/http-client';
 import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import EventSource from 'react-native-sse';
+import EventSource, { EventSourceEvent } from 'react-native-sse';
 
 type SSEMessage = {
   id: string;
@@ -66,9 +64,9 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       reconnectAttempts.current = 0;
     };
 
-    const handleMessage = (event: any) => {
+    const handleMessage = (event: EventSourceEvent<'message'>) => {
       try {
-        const data: SSEMessage = JSON.parse(event.data);
+        const data: SSEMessage = JSON.parse(event.data ?? '');
         console.log(`接收到消息: ${JSON.stringify(data)}`);
         setMessages((prev) => {
           const newMessages = [...prev, data];
@@ -79,7 +77,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    const handleError = (error: any) => {
+    const handleError = (error: EventSourceEvent<'error'>) => {
       console.error('SSE 错误:', error);
       setConnected(false);
       es.close();
