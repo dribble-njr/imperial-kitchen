@@ -21,7 +21,9 @@ A food ordering app for family kitchen.
 - ORM: [`Prisma`](https://www.prisma.io/).
 - others: Use `TypeScript` and `yarn` to manage monorepo.
 
-## How to contribute
+## Contributing
+
+To develop Expo, you should read [Tools for development](https://docs.expo.dev/develop/tools/) firstly.
 
 1. Fork this repository to your GitHub account.
 2. Install `yarn@1.22.22` and `node@20.10.0`.
