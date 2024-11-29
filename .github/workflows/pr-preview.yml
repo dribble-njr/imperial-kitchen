@@ -1,24 +1,16 @@
+# https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
 name: EAS Preview Start
 
 on: 
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
   preview:
     runs-on: ubuntu-latest
-    if: github.repository == 'dribble-njr/imperial-kitchen'
+    permissions:
+      pull-requests: write
     steps:
-      - name: Post a preview comment
-        uses: actions-cool/maintain-one-comment@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            ⚡️ Deploying PR Preview...
-            <img src="https://user-images.githubusercontent.com/507615/90240294-8d2abd00-de5b-11ea-8140-4840a0b2d571.gif" width="300" />
-            <!-- Sticky Pull Request Comment -->
-          body-include: '<!-- Sticky Pull Request Comment -->'
-      
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -35,5 +27,9 @@ jobs:
         run: yarn install
 
       - name: Trigger EAS Preview
-        working-directory: ./apps/mobile
-        run: eas build --platform all --non-interactive --no-wait preview
+        uses: expo/expo-github-action/preview@v8
+        id: preview
+        with:
+          working-directory: ./apps/mobile
+          command: eas update --auto --branch ${{ github.event.pull_request.head.ref }}
+      
