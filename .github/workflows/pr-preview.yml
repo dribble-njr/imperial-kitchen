@@ -1,0 +1,39 @@
+name: EAS Preview Start
+
+on: 
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    if: github.repository == 'dribble-njr/imperial-kitchen'
+    steps:
+      - name: Post a preview comment
+        uses: actions-cool/maintain-one-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ⚡️ Deploying PR Preview...
+            <img src="https://user-images.githubusercontent.com/507615/90240294-8d2abd00-de5b-11ea-8140-4840a0b2d571.gif" width="300" />
+            <!-- Sticky Pull Request Comment -->
+          body-include: '<!-- Sticky Pull Request Comment -->'
+      
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+          cache: yarn
+      
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Trigger EAS Preview
+        working-directory: ./apps/mobile
+        run: eas build --platform all --non-interactive --no-wait preview

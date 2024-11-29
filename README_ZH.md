@@ -21,7 +21,9 @@
 - ORM：[`Prisma`](https://www.prisma.io/)；
 - 其他：`TypeScript` 和 `yarn`。
 
-## 如何贡献
+## 贡献
+
+开发 Expo 应用前，请先阅读 [开发工具](https://docs.expo.dev/develop/tools/)。
 
 1. Fork 本仓库；
 2. 安装 `yarn@1.22.22` 和 `node@20.10.0`；
