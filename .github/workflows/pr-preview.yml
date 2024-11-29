@@ -11,16 +11,6 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - name: Post a preview comment
-        uses: actions-cool/maintain-one-comment@v3.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            ⚡️ Deploying PR Preview...
-            <img src="https://user-images.githubusercontent.com/507615/90240294-8d2abd00-de5b-11ea-8140-4840a0b2d571.gif" width="300" />
-            <!-- Sticky Pull Request Comment -->
-          body-include: '<!-- Sticky Pull Request Comment -->'
-      
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -43,14 +33,3 @@ jobs:
           working-directory: ./apps/mobile
           command: eas update --auto --branch ${{ github.event.pull_request.head.ref }}
       
-      - name: Update preview comment
-        uses: actions-cool/maintain-one-comment@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.qr }}'
-            
-            <img width="300" src="https://user-images.githubusercontent.com/507615/90250366-88233900-de6e-11ea-95a5-84f0762ffd39.png">
-
-            <!-- Sticky Pull Request Comment -->
-          body-include: '<!-- Sticky Pull Request Comment -->'
