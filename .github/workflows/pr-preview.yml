@@ -1,9 +1,12 @@
 # https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
 name: EAS Preview Start
 
-on: 
+on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - apps/mobile/**
+      - apps/server/**
 
 jobs:
   preview:
@@ -16,7 +19,7 @@ jobs:
         with:
           node-version: 20.10.0
           cache: yarn
-      
+
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
@@ -32,4 +35,3 @@ jobs:
         with:
           working-directory: ./apps/mobile
           command: eas update --auto --branch ${{ github.event.pull_request.head.ref }}
-      
