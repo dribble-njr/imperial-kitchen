@@ -26,7 +26,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid password');
     }
 
-    const payload = { sub: user.id, username: user.email };
+    const payload = { id: user.id, email: user.email };
 
     return {
       accessToken: await this.jwtService.signAsync(payload, { expiresIn: '1d' }),
@@ -38,11 +38,11 @@ export class AuthService {
     try {
       const payload = await this.jwtService.verifyAsync(refreshToken);
       const newAccessToken = await this.jwtService.signAsync(
-        { sub: payload.sub, username: payload.username },
+        { id: payload.id, email: payload.email },
         { expiresIn: '1d' }
       );
       const newRefreshToken = await this.jwtService.signAsync(
-        { sub: payload.sub, username: payload.username },
+        { id: payload.id, email: payload.email },
         { expiresIn: '30d' }
       );
 
@@ -55,7 +55,7 @@ export class AuthService {
   async getUserInfoByToken(token: string) {
     const payload = await this.jwtService.verifyAsync(token);
     return this.prismaService.user.findUnique({
-      where: { id: payload.sub }
+      where: { id: payload.id }
     });
   }
 }
