@@ -1,0 +1,20 @@
+*.md
+node_modules/
+[a-c].txt
+.git/
+.gitignore
+.DS_Store
+.vscode/
+.dockerignore
+.eslintignore
+.eslint.config.cjs
+.prettierrc
+.prettierignore
+commitlint.config.js
+.editorconfig
+.husky
+.lintstagedrc
+.nvmrc
+
+# use eas to build mobile apps
+/apps/mobile
