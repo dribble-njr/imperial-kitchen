@@ -1,5 +1,4 @@
-# https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
-name: EAS Preview Start
+name: PR Preview
 
 on:
   pull_request:
@@ -9,12 +8,51 @@ on:
       - apps/server/**
 
 jobs:
-  preview:
+  server-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Server
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          PORT=$((8000 + PR_NUMBER))
+          ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
+          mkdir -p $DEPLOY_DIR/pr-$PR_NUMBER
+          cd $DEPLOY_DIR/pr-$PR_NUMBER
+
+          # Clone or pull the latest code
+          if [ ! -d .git ]; then
+            git clone -b ${{ github.event.pull_request.head.ref }} https://github.com/${{ github.repository }}.git .
+          else
+            git pull origin ${{ github.event.pull_request.head.ref }}
+          fi
+
+          # Start container with dynamic port
+          docker-compose down
+          SERVER_PORT=$PORT docker-compose up -d --build --name server-pr-$PR_NUMBER
+          EOF
+        env:
+          DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+
+  # https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
+  eas-preview:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20.10.0
