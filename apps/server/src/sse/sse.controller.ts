@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Sse, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Post, Sse } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
-import { Token } from 'src/common/decorator/token.decorator';
+import { User } from 'src/common/decorator/user.decorator';
 import { PushSSEEventDTO } from './dto/push-event.dto';
 import { SSEService } from './sse.service';
 
@@ -13,13 +13,8 @@ export class SSEController {
 
   // 订阅事件
   @Sse('events')
-  async events(@Token() token: string) {
-    const user = await this.AuthService.getUserInfoByToken(token);
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
-    const eventStream = this.sseService.getOrCreateUserEventStream(user.id);
+  async events(@User('id') userId: number) {
+    const eventStream = this.sseService.getOrCreateUserEventStream(userId);
     return eventStream.asObservable();
   }
 

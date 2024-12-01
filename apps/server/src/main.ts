@@ -1,5 +1,5 @@
 import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor';
 import config from './config';
@@ -27,7 +27,7 @@ async function bootstrap() {
       }
     })
   );
-  app.useGlobalInterceptors(new TransformResponseInterceptor());
+  app.useGlobalInterceptors(new TransformResponseInterceptor(app.get(Reflector)));
 
   await app.listen(PORT);
 }

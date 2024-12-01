@@ -103,11 +103,11 @@ export class UserService {
 
       // 4. generate token
       const accessToken = await this.jwtService.signAsync(
-        { sub: newUser.id, username: newUser.email },
+        { id: newUser.id, email: newUser.email },
         { expiresIn: '1d' }
       );
       const refreshToken = await this.jwtService.signAsync(
-        { sub: newUser.id, username: newUser.email },
+        { id: newUser.id, email: newUser.email },
         { expiresIn: '30d' }
       );
 

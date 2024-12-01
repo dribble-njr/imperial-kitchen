@@ -9,9 +9,11 @@
     "dev:mobile": "yarn build:types && yarn workspace mobile dev",
     "dev:server": "yarn build:types && yarn workspace server dev",
     "build:types": "yarn workspace @imperial-kitchen/types build",
+    "build:server": "yarn workspace server build",
+    "prod:server": "yarn workspace server prod",
     "pre build:android": "yarn workspace mobile pre build:android",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "husky && yarn build:types"
+    "postinstall": "yarn build:types"
   },
   "keywords": [
     "food order",

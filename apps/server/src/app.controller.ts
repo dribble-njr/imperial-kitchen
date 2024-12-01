@@ -5,6 +5,7 @@ import { Response } from 'express';
 import { join } from 'node:path';
 import { AppService } from './app.service';
 import { Public } from './auth/decorators/public.decorator';
+import { NoTransformResponse } from './common/decorator/no-transform-response.decorator';
 
 @Controller()
 export class AppController {
@@ -19,6 +20,7 @@ export class AppController {
   @Public()
   @Header('Content-Type', 'application/x-yaml')
   @Get('api-docs/bundled.yaml')
+  @NoTransformResponse()
   async getOpenApi() {
     const fullPath = join(__dirname, '../openapi/bundled.yaml');
     const yamlContent = yaml.load(readFileSync(fullPath, 'utf8'));

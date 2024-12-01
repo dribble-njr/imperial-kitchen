@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { RefreshTokenDTO } from './dto/refresh-token.dto';
 import { SignInDTO } from './dto/sign-in.dto';
+import { User } from 'src/common/decorator/user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,7 @@ export class AuthController {
 
   @Public()
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@User() user) {
+    return user;
   }
 }
