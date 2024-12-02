@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor';
 import config from './config';
 
+console.log(config, 'config');
 const PORT = config.PORT || 8000;
 
 async function bootstrap() {

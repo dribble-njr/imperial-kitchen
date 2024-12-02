@@ -5,10 +5,17 @@ services:
       dockerfile: ./apps/server/Dockerfile
     depends_on:
       - database
-    env_file:
-      - .env
     ports:
       - ${SERVER_PORT:-8000}:8000
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+    develop:
+      watch:
+        - path: ./apps/server/package.json
+          action: rebuild
+        - path: ./apps/server
+          target: /usr/src/app/apps/server
+          action: sync
 
   database:
     image: mysql:latest
