@@ -13,10 +13,7 @@ COPY packages/ ./packages/
 
 RUN yarn install --frozen-lockfile
 
-RUN chown -R node /usr/src/app
-USER node
-
 EXPOSE 8000
 
 CMD ["sh", "-c", "cd apps/server && npx prisma migrate dev && \
-  if [ \"$NODE_ENV\" = \"development\" ]; then yarn dev; else yarn build && yarn prod; fi"]
+  if [ \"$NODE_ENV\" = \"dev\" ]; then yarn dev; else yarn build && yarn prod; fi"]

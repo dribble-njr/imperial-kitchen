@@ -11,6 +11,8 @@ jobs:
   server-deploy:
     runs-on: ubuntu-latest
 
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'development' }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -34,9 +36,21 @@ jobs:
             git pull origin ${{ github.event.pull_request.head.ref }}
           fi
 
+          cd apps/server
+          cat > .env <<EOL
+          PORT=$PORT
+          DB_URL=${{ secrets.DB_URL }}
+          nodemailer_host=smtp.163.com
+          nodemailer_auth_user=wzw15292257101@163.com
+          nodemailer_auth_pass=${{ secrets.NODEMAILER_AUTH_PASS }}
+          jwt_secret=agshddgfsd
+          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          REDIS_URL=redis-13502.c261.us-east-1-4.ec2.redns.redis-cloud.com
+          EOL
+
           # Start container with dynamic port
           docker-compose down
-          SERVER_PORT=$PORT docker-compose up -d --build --name server-pr-$PR_NUMBER
+          SERVER_PORT=$PORT NODE_ENV=dev MYSQL_DATA_DIR=dev_mysql_data docker-compose up -d --build --name server-pr-$PR_NUMBER
           EOF
         env:
           DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
