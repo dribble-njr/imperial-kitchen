@@ -49,8 +49,8 @@ jobs:
           EOL
 
           # Start container with dynamic port
-          docker-compose down
-          SERVER_PORT=$PORT NODE_ENV=dev MYSQL_DATA_DIR=dev_mysql_data docker-compose up -d --build --name server-pr-$PR_NUMBER
+          docker compose down
+          SERVER_PORT=$PORT NODE_ENV=dev MYSQL_DATA_DIR=dev_mysql_data docker compose up -d --build --name server-pr-$PR_NUMBER
           EOF
         env:
           DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
