@@ -24,6 +24,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     environment:
+      TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: imperial_kitchen
 

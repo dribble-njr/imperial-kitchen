@@ -11,8 +11,8 @@
     "build:types": "yarn workspace @imperial-kitchen/types build",
     "build:server": "yarn workspace server build",
     "prod:server": "yarn workspace server prod",
-    "docker:dev": "SERVER_PORT=5000 NODE_ENV=development docker compose up -d && docker compose watch",
-    "docker:prod": "NODE_ENV=production docker compose up -d",
+    "docker:dev": "cross-env NODE_ENV=development docker compose up -d && docker compose watch",
+    "docker:prod": "cross-env NODE_ENV=production docker compose up -d",
     "pre build:android": "yarn workspace mobile pre build:android",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "yarn build:types"
