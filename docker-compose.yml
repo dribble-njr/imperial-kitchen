@@ -24,6 +24,3 @@ services:
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root
-
-volumes:
-  ${MYSQL_DATA_DIR:-prod_mysql_data}:
