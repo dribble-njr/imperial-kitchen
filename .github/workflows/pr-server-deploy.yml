@@ -47,6 +47,8 @@ jobs:
           REDIS_URL=redis-13502.c261.us-east-1-4.ec2.redns.redis-cloud.com
           EOL
 
+          cd ../..
+
           # Start container with dynamic port
           docker compose down
           SERVER_PORT=$PORT NODE_ENV=dev docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
