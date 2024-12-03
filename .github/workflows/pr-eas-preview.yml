@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - apps/mobile/**
+      - apps/server/**
 
 jobs:
   # https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
