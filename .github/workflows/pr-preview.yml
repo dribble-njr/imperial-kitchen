@@ -96,8 +96,9 @@ jobs:
       - name: Change env
         working-directory: ./apps/mobile
         run: |
-          cp .env.example .env
-          echo "EXPO_PUBLIC_BASE_URL=http://${{ secrets.DEPLOY_HOST }}:${{ needs.server-deploy.outputs.port }}" >> .env
+          EXPO_PUBLIC_BASE_URL=http://${{ secrets.DEPLOY_HOST }}:${{ needs.server-deploy.outputs.port }}
+          echo $EXPO_PUBLIC_BASE_URL
+          echo "EXPO_PUBLIC_BASE_URL=$EXPO_PUBLIC_BASE_URL" >> .env
 
       - name: Trigger EAS Preview
         uses: expo/expo-github-action/preview@v8
