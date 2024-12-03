@@ -1,0 +1,7 @@
+services:
+  database:
+    volumes:
+      - prod_mysql_data:/var/lib/mysql
+
+volumes:
+  prod_mysql_data:

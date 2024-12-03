@@ -38,21 +38,32 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
    yarn dev:mobile
    ```
 5. Install and configure [`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/).
+   > [!NOTE]
+   > Redis config has been provided, you can also configure it yourself.
+   >
+   > If you use [`docker`](https://www.docker.com/) to start the server, you can skip the configuration of `mysql`.
 6. Configure server env: rename **server/.env.example** to **server/.env**.
    ```shell
    # PORT=8000
-   # DB_URL=""
+   # DB_URL="mysql://root:root@database:3306/imperial_kitchen"
+
    # # nodemailer
    # nodemailer_host=
    # nodemailer_auth_user=
    # nodemailer_auth_pass=
+
    # # jwt
-   # JWT_SECRET=
+   # JWT_SECRET=agshddgfsd
+
    # # redis
-   # REDIS_PASSWORD=
-   # REDIS_URL=
+   # REDIS_PASSWORD=UEtCeE8u8XTkLghdaUj8ZHCwTrzi1K3K
+   # REDIS_URL=redis-13502.c261.us-east-1-4.ec2.redns.redis-cloud.com
    ```
 7. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
    ```sh
    yarn dev:server
+   ```
+   or use docker to start the server:
+   ```sh
+   yarn docker:dev
    ```

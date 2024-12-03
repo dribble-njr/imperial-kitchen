@@ -1,5 +1,4 @@
-# https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
-name: EAS Preview Start
+name: PR Preview
 
 on:
   pull_request:
@@ -9,12 +8,82 @@ on:
       - apps/server/**
 
 jobs:
-  preview:
+  server-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'development' }}
+
+    outputs:
+      port: ${{ steps.deploy.outputs.port }}
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Server
+        id: deploy
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+
+          # Stop existing containers
+          ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
+          docker ps -q --filter "name=pr-${PR_NUMBER}" | xargs -r docker stop
+          EOF
+
+          # Calculate the next available port (by checking if the port is in use)
+          PORT=8000
+          while ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "netstat -tuln | grep :$PORT"; do
+            PORT=$((PORT + 1))
+          done
+          echo PORT: $PORT
+          echo "::set-output name=port::$PORT"
+
+          # ssh to server and cd to working directory
+          ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
+          rm -rf $DEPLOY_DIR/pr-$PR_NUMBER
+          mkdir -p $DEPLOY_DIR/pr-$PR_NUMBER
+          cd $DEPLOY_DIR/pr-$PR_NUMBER
+
+          # Clone the latest code
+          git clone -b ${{ github.event.pull_request.head.ref }} https://github.com/${{ github.repository }}.git .
+
+          cd apps/server
+          cat > .env <<EOL
+          DB_URL=${{ secrets.DB_URL }}
+          nodemailer_host=smtp.163.com
+          nodemailer_auth_user=wzw15292257101@163.com
+          nodemailer_auth_pass=${{ secrets.NODEMAILER_AUTH_PASS }}
+          jwt_secret=agshddgfsd
+          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          REDIS_URL=redis-13502.c261.us-east-1-4.ec2.redns.redis-cloud.com
+          EOL
+
+          cd ../..
+
+          # Start container with dynamic port
+          SERVER_PORT=$PORT NODE_ENV=dev docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+          EOF
+        env:
+          DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+
+  # https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
+  eas-preview:
+    runs-on: ubuntu-latest
+
+    needs: server-deploy
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20.10.0
@@ -28,6 +97,13 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+
+      - name: Change env
+        working-directory: ./apps/mobile
+        run: |
+          EXPO_PUBLIC_BASE_URL=http://${{ secrets.DEPLOY_HOST }}:${{ needs.server-deploy.outputs.port }}
+          echo $EXPO_PUBLIC_BASE_URL
+          echo "EXPO_PUBLIC_BASE_URL=$EXPO_PUBLIC_BASE_URL" >> .env
 
       - name: Trigger EAS Preview
         uses: expo/expo-github-action/preview@v8
