@@ -1,17 +1,20 @@
-name: PR Server Deploy
+name: PR Preview
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - apps/server/**
       - apps/mobile/**
+      - apps/server/**
 
 jobs:
   server-deploy:
     runs-on: ubuntu-latest
 
     environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'development' }}
+
+    outputs:
+      port: ${{ steps.deploy.outputs.port }}
 
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +25,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to Server
+        id: deploy
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
 
@@ -30,6 +34,8 @@ jobs:
           while ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "netstat -tuln | grep :$PORT"; do
             PORT=$((PORT + 1))
           done
+
+          echo "::set-output name=port::$PORT"
 
           ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
           rm -rf $DEPLOY_DIR/pr-$PR_NUMBER
@@ -60,3 +66,42 @@ jobs:
           DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+
+  # https://github.com/expo/expo-github-action/tree/main/preview#create-previews-on-pull-requests
+  eas-preview:
+    runs-on: ubuntu-latest
+
+    needs: server-deploy
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+          cache: yarn
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Change env
+        working-directory: ./apps/mobile
+        run: |
+          cp .env.example .env
+          echo "EXPO_PUBLIC_BASE_URL=http://${{ secrets.DEPLOY_HOST }}:${{ needs.server-deploy.outputs.port }}" >> .env
+
+      - name: Trigger EAS Preview
+        uses: expo/expo-github-action/preview@v8
+        id: preview
+        with:
+          working-directory: ./apps/mobile
+          command: eas update --auto --branch ${{ github.event.pull_request.head.ref }}
