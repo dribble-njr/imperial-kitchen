@@ -1,10 +1,25 @@
 services:
+  database:
+    image: mysql:latest
+    ports:
+      - 0:3306
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
   server:
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+
     ports:
       - ${SERVER_PORT:-8000}:8000
     environment:
@@ -16,11 +31,3 @@ services:
         - path: ./apps/server
           target: /usr/src/app/apps/server
           action: sync
-
-  database:
-    image: mysql:latest
-    ports:
-      - 3306:3306
-    environment:
-      TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: root

@@ -29,14 +29,20 @@ jobs:
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
 
+          # Stop existing containers
+          ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
+          docker ps -q --filter "name=pr-${PR_NUMBER}" | xargs -r docker stop
+          EOF
+
           # Calculate the next available port (by checking if the port is in use)
           PORT=8000
           while ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "netstat -tuln | grep :$PORT"; do
             PORT=$((PORT + 1))
           done
-
+          echo PORT: $PORT
           echo "::set-output name=port::$PORT"
 
+          # ssh to server and cd to working directory
           ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
           rm -rf $DEPLOY_DIR/pr-$PR_NUMBER
           mkdir -p $DEPLOY_DIR/pr-$PR_NUMBER
@@ -59,7 +65,6 @@ jobs:
           cd ../..
 
           # Start container with dynamic port
-          docker compose down
           SERVER_PORT=$PORT NODE_ENV=dev docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
           EOF
         env:
