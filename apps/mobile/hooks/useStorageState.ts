@@ -50,32 +50,50 @@ export async function getStorageItemAsync(key: string) {
   return await SecureStore.getItemAsync(key);
 }
 
-export function useStorageState(key: string): UseStateHook<string> {
+export function useStorageState<T>(key: string): UseStateHook<T> {
   // Public
-  const [state, setState] = useAsyncState<string>();
+  const [state, setState] = useAsyncState<T>();
 
   // Get
   React.useEffect(() => {
     if (Platform.OS === 'web') {
       try {
         if (typeof localStorage !== 'undefined') {
-          setState(localStorage.getItem(key));
+          const storedValue = localStorage.getItem(key);
+          if (storedValue !== null) {
+            setState(JSON.parse(storedValue) as T);
+          }
         }
       } catch (e) {
         console.error('Local storage is unavailable:', e);
       }
     } else {
       SecureStore.getItemAsync(key).then((value) => {
-        setState(value);
+        if (value !== null) {
+          setState(JSON.parse(value) as T);
+        }
       });
     }
   }, [key]);
 
   // Set
   const setValue = React.useCallback(
-    (value: string | null) => {
+    (value: T | null) => {
       setState(value);
-      setStorageItemAsync(key, value);
+      const stringValue = value !== null ? JSON.stringify(value) : null;
+      if (Platform.OS === 'web') {
+        if (typeof localStorage !== 'undefined' && stringValue !== null) {
+          localStorage.setItem(key, stringValue);
+        } else {
+          localStorage.removeItem(key);
+        }
+      } else {
+        if (stringValue !== null) {
+          SecureStore.setItemAsync(key, stringValue);
+        } else {
+          SecureStore.deleteItemAsync(key);
+        }
+      }
     },
     [key]
   );
