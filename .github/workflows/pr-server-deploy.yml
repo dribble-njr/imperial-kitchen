@@ -24,21 +24,23 @@ jobs:
       - name: Deploy to Server
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          PORT=$((8000 + PR_NUMBER))
+
+          # Calculate the next available port (by checking if the port is in use)
+          PORT=8000
+          while ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "netstat -tuln | grep :$PORT"; do
+            PORT=$((PORT + 1))
+          done
+
           ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
+          rm -rf $DEPLOY_DIR/pr-$PR_NUMBER
           mkdir -p $DEPLOY_DIR/pr-$PR_NUMBER
           cd $DEPLOY_DIR/pr-$PR_NUMBER
 
-          # Clone or pull the latest code
-          if [ ! -d .git ]; then
-            git clone -b ${{ github.event.pull_request.head.ref }} https://github.com/${{ github.repository }}.git .
-          else
-            git pull origin ${{ github.event.pull_request.head.ref }}
-          fi
+          # Clone the latest code
+          git clone -b ${{ github.event.pull_request.head.ref }} https://github.com/${{ github.repository }}.git .
 
           cd apps/server
           cat > .env <<EOL
-          PORT=$PORT
           DB_URL=${{ secrets.DB_URL }}
           nodemailer_host=smtp.163.com
           nodemailer_auth_user=wzw15292257101@163.com
