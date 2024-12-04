@@ -70,7 +70,7 @@ export default function Guide() {
             onPress={async () => {
               // TODO: add sign-in page
               await signIn();
-              router.replace('/');
+              router.push('/login');
             }}
           >
             {t('signIn')}

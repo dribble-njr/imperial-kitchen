@@ -15,6 +15,7 @@ export class AuthService {
 
   async signIn(signInDto: SignInDTO): Promise<SignInResponseVO> {
     const user = await this.userService.getUserByEmail(signInDto.email);
+    const {password,...userWithoutPassword} = user
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -30,7 +31,10 @@ export class AuthService {
 
     return {
       accessToken: await this.jwtService.signAsync(payload, { expiresIn: '1d' }),
-      refreshToken: await this.jwtService.signAsync(payload, { expiresIn: '30d' })
+      refreshToken: await this.jwtService.signAsync(payload, { expiresIn: '30d' }),
+      userInfo: {
+        ...userWithoutPassword,
+      }
     };
   }
 
