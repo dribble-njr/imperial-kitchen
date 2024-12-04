@@ -16,5 +16,5 @@ RUN yarn install --frozen-lockfile
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "cd apps/server && npx prisma migrate dev && \
+CMD ["sh", "-c", "cd apps/server && npx prisma db push && \
   if [ \"$NODE_ENV\" = \"dev\" ]; then yarn dev; else yarn build && yarn prod; fi"]
