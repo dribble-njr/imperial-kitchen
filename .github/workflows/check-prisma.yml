@@ -1,0 +1,36 @@
+name: Check Prisma Migrations
+
+on:
+  pull_request:
+    paths:
+      - 'apps/server/prisma/schema.prisma'
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  check-migrations:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for Prisma migrations
+        run: |
+          echo "Checking changes between commits..."
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+
+          # Check if there are new changes in prisma/migrations
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q 'apps/server/prisma/migrations'; then
+            echo "✅ Prisma migration files detected. All good!"
+          else
+            echo "❌ No Prisma migration files found!"
+            echo "------------------------------------------"
+            echo "You modified the Prisma schema but did not generate migration files."
+            echo "Please run the following command to generate migrations:"
+            echo ""
+            echo "  npx prisma migrate dev"
+            echo ""
+            echo "Once done, commit the migration files and push your changes."
+            echo "------------------------------------------"
+            exit 1
+          fi
