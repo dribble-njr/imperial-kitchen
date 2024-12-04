@@ -9,7 +9,7 @@ const AuthContext = createContext<{
   accessToken?: string | null;
   refreshToken?: string | null;
   isLoading: boolean;
-  userInfo?:Omit<User, 'role'> | null;
+  userInfo?: Omit<User, 'role'> | null;
 }>({
   signIn: () => null,
   signOut: () => null,
@@ -32,9 +32,9 @@ export function useToken() {
 }
 
 export function TokenProvider(props: PropsWithChildren) {
-  const [[isLoading, accessToken], setAccessToken] = useStorageState<string>('accessToken');
-  const [[, refreshToken], setRefreshToken] = useStorageState<string>('refreshToken');
-  const [[,userInfo],setUserInfo] = useStorageState<Omit<User, 'role'>>('userInfo');
+  const [[isLoading, accessToken], setAccessToken] = useStorageState('accessToken');
+  const [[, refreshToken], setRefreshToken] = useStorageState('refreshToken');
+  const [[, userInfo], setUserInfo] = useStorageState<Omit<User, 'role'> | null>('userInfo');
 
   return (
     <AuthContext.Provider

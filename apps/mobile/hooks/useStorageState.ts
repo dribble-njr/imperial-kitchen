@@ -23,7 +23,7 @@ export async function setStorageItemAsync(key: string, value: string | null) {
       console.error('Local storage is unavailable:', e);
     }
   } else {
-    if (value == null) {
+    if (value === null) {
       await SecureStore.deleteItemAsync(key);
     } else {
       await SecureStore.setItemAsync(key, value);
@@ -50,7 +50,7 @@ export async function getStorageItemAsync(key: string) {
   return await SecureStore.getItemAsync(key);
 }
 
-export function useStorageState<T>(key: string): UseStateHook<T> {
+export function useStorageState<T = string>(key: string): UseStateHook<T> {
   // Public
   const [state, setState] = useAsyncState<T>();
 
@@ -62,6 +62,8 @@ export function useStorageState<T>(key: string): UseStateHook<T> {
           const storedValue = localStorage.getItem(key);
           if (storedValue !== null) {
             setState(JSON.parse(storedValue) as T);
+          } else {
+            setState(null);
           }
         }
       } catch (e) {
@@ -71,6 +73,8 @@ export function useStorageState<T>(key: string): UseStateHook<T> {
       SecureStore.getItemAsync(key).then((value) => {
         if (value !== null) {
           setState(JSON.parse(value) as T);
+        } else {
+          setState(null);
         }
       });
     }
@@ -80,20 +84,8 @@ export function useStorageState<T>(key: string): UseStateHook<T> {
   const setValue = React.useCallback(
     (value: T | null) => {
       setState(value);
-      const stringValue = value !== null ? JSON.stringify(value) : null;
-      if (Platform.OS === 'web') {
-        if (typeof localStorage !== 'undefined' && stringValue !== null) {
-          localStorage.setItem(key, stringValue);
-        } else {
-          localStorage.removeItem(key);
-        }
-      } else {
-        if (stringValue !== null) {
-          SecureStore.setItemAsync(key, stringValue);
-        } else {
-          SecureStore.deleteItemAsync(key);
-        }
-      }
+      const stringValue = value !== null && value !== undefined ? JSON.stringify(value) : null;
+      setStorageItemAsync(key, stringValue);
     },
     [key]
   );
