@@ -1,12 +1,14 @@
+import CaptchaInput from '@/components/CaptchaInput';
 import FieldInput from '@/components/FieldInput';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
+import PasswordInput from '@/components/PasswordInput';
 import { ThemedView } from '@/components/ThemedView';
 import { UserService } from '@/service';
 import { RegisterAdminDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import * as Yup from 'yup';
 
 export default function CreateKitchen() {
@@ -56,30 +58,20 @@ export default function CreateKitchen() {
             <>
               <FieldInput i18nKey="common" name="name" />
 
-              <FieldInput
+              <CaptchaInput
                 i18nKey="common"
                 name="email"
-                right={
-                  <TextInput.Affix
-                    onPress={async () => {
-                      await setFieldTouched('email', true, true);
-                      if (!errors.email) {
-                        sendCaptcha(values.email);
-                      }
-                    }}
-                    text={t('common.sendCaptcha')}
-                  />
-                }
+                onSendCaptcha={async () => {
+                  await setFieldTouched('email', true, true);
+                  if (!errors.email) {
+                    sendCaptcha(values.email);
+                  }
+                }}
               />
 
               <FieldInput i18nKey="common" name="captcha" />
 
-              <FieldInput
-                i18nKey="common"
-                name="password"
-                secureTextEntry
-                right={<TextInput.Icon icon="eye" onPress={() => {}} />}
-              />
+              <PasswordInput i18nKey="common" name="password" />
 
               <Button mode="contained" onPress={() => handleSubmit()}>
                 {t('common.confirm')}
