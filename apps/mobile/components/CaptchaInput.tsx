@@ -1,21 +1,17 @@
-import { ThemedView } from '@/components/ThemedView';
-import { useField } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { HelperText, TextInput, TextInputProps } from 'react-native-paper';
+import FieldInput from './FieldInput';
+import { TextInput } from 'react-native-paper';
 import { useState, useEffect, useRef } from 'react';
+import { FieldInputProps } from './FieldInput';
+import { useTranslation } from 'react-i18next';
 
-interface CaptchaInputProps extends TextInputProps {
-  i18nKey: string;
-  name: string;
+interface CaptchaInputProps extends FieldInputProps {
   onSendCaptcha: () => Promise<void>;
 }
 
-export default function CaptchaInput({ i18nKey, name, onSendCaptcha, ...textInputProps }: CaptchaInputProps) {
-  const [field, meta, helpers] = useField(name);
-  const hasError = meta.touched && Boolean(meta.error);
+export default function CaptchaInput({ onSendCaptcha, ...props }: CaptchaInputProps) {
   const { t } = useTranslation();
   const [countdown, setCountdown] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -36,24 +32,14 @@ export default function CaptchaInput({ i18nKey, name, onSendCaptcha, ...textInpu
   };
 
   return (
-    <ThemedView>
-      <TextInput
-        mode="outlined"
-        label={t(`${i18nKey}.${name}`)}
-        value={field.value}
-        error={hasError}
-        placeholder={`${t('common.enter')}${t(`${i18nKey}.${name}`)}...`}
-        onChangeText={(value) => helpers.setValue(value)}
-        onBlur={() => helpers.setTouched(true)}
-        right={
-          <TextInput.Affix
-            text={countdown > 0 ? `${countdown}s` : t('common.sendCaptcha')}
-            onPress={countdown === 0 ? handleSendCaptcha : undefined}
-          />
-        }
-        {...textInputProps}
-      />
-      {hasError && <HelperText type="error">{meta.error}</HelperText>}
-    </ThemedView>
+    <FieldInput
+      {...props}
+      right={
+        <TextInput.Affix
+          text={countdown > 0 ? `${countdown}s` : t('common.sendCaptcha')}
+          onPress={countdown === 0 ? handleSendCaptcha : undefined}
+        />
+      }
+    />
   );
 }

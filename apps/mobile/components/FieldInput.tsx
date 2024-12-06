@@ -3,7 +3,7 @@ import { useField } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { HelperText, TextInput, TextInputProps } from 'react-native-paper';
 
-interface FieldInputProps extends TextInputProps {
+export interface FieldInputProps extends TextInputProps {
   i18nKey: string;
   name: string;
 }
