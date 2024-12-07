@@ -40,7 +40,7 @@ export default function Guide() {
       <ThemedView className="flex flex-col justify-around w-full items-center gap-4">
         <Button
           mode="contained"
-          onPress={() => router.push('/create-kitchen')}
+          onPress={() => router.push('/(guide)/create-kitchen')}
           style={{ width: '100%' }}
           contentStyle={{ width: '100%' }}
           labelStyle={{ fontSize: 16 }}
@@ -50,7 +50,7 @@ export default function Guide() {
 
         <Button
           mode="contained-tonal"
-          onPress={() => router.push('/join-kitchen')}
+          onPress={() => router.push('/(guide)/join-kitchen')}
           style={styles.joinKitchen}
           labelStyle={{ fontSize: 16 }}
         >

@@ -16,6 +16,7 @@ export default function Root() {
     colors: ComponentColors[colorScheme ?? 'light']
   };
 
+  console.log('Root');
   // Set up the auth context and render our layout inside of it.
   return (
     <SafeAreaProvider>
