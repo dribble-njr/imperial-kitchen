@@ -1,9 +1,9 @@
 import { CreateRecipeDTO } from '@imperial-kitchen/types';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { RecipeDifficultyRadioSelector } from '../components/RecipeDifficultyRadioSelector';
-import { RecipeNameInputBox } from '../components/RecipeNameInputBox';
-import { RecipeTagsBox } from '../components/RecipeTagsBox';
+import RecipeNameInputBox from '../components/RecipeNameInputBox';
+import RecipeDifficultyRadioSelector from '../components/RecipeDifficultyRadioSelector';
+import RecipeTagsBox from '../components/RecipeTagsBox';
 
 const CardItem = ({ title, children }: { title: string; children: ReactNode }) => {
   return (

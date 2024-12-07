@@ -68,13 +68,13 @@ const DifficultyItem = ({
   );
 };
 
-export const RecipeDifficultyRadioSelector = ({
+export default function RecipeDifficultyRadioSelector({
   form,
   setForm
 }: {
   form: CreateRecipeDTO;
   setForm: Dispatch<SetStateAction<CreateRecipeDTO>>;
-}) => {
+}) {
   const { difficulty } = form;
 
   const handleSelect = useCallback((selectedDifficulty: typeof difficulty) => {
@@ -93,7 +93,7 @@ export const RecipeDifficultyRadioSelector = ({
       ))}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

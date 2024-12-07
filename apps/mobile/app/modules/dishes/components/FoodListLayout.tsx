@@ -10,13 +10,13 @@ const Header = ({ title }: { title: string }) => {
   );
 };
 
-export const FoodListLayout = ({ type }: { type: FoodType }) => {
+export default function FoodListLayout({ type }: { type: FoodType }) {
   return (
     <View className="flex-1 bg-[#f9f9f9]">
       <Header title={FoodType2Slogan[type]} />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   header: {
