@@ -1,10 +1,10 @@
 import { router } from 'expo-router';
-import { Text, Button, Card } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { ThemedView } from '@/components/ThemedView';
 import { ComponentColors } from '@/constants/Colors';
+import { SafeAreaSurface, Surface, Carousel } from '@/components';
 
 export default function Guide() {
   const { signIn } = useToken();
@@ -16,9 +16,15 @@ export default function Guide() {
     router.replace('/');
   };
 
+  const images = [
+    'https://picsum.photos/700/400?random=1',
+    'https://picsum.photos/700/400?random=2',
+    'https://picsum.photos/700/400?random=3'
+  ];
+
   return (
-    <ThemedView safeArea className="flex justify-between items-center w-full h-full p-4 px-8">
-      <ThemedView className="flex flex-row justify-between w-full items-center">
+    <SafeAreaSurface style={styles.container}>
+      <Surface style={styles.headerContainer}>
         <Text className="text-sm">{t('welcome')}</Text>
         <Button
           mode="contained-tonal"
@@ -29,15 +35,13 @@ export default function Guide() {
         >
           {t('skip')}
         </Button>
-      </ThemedView>
+      </Surface>
 
       <Text className="mt-4 text-2xl font-bold w-full">{t('slogan')}</Text>
 
-      <ThemedView style={styles.featureCard}>
-        <Card.Cover style={{ flex: 1 }} source={{ uri: 'https://picsum.photos/700' }} />
-      </ThemedView>
+      <Carousel images={images} style={styles.featureCard} />
 
-      <ThemedView className="flex flex-col justify-around w-full items-center gap-4">
+      <Surface style={styles.buttonContainer}>
         <Button
           mode="contained"
           onPress={() => router.push('/(guide)/create-kitchen')}
@@ -68,7 +72,6 @@ export default function Guide() {
             ]}
             className="text-base"
             onPress={async () => {
-              // TODO: add sign-in page
               await signIn();
               router.push('/login');
             }}
@@ -76,18 +79,37 @@ export default function Guide() {
             {t('signIn')}
           </Text>
         </Text>
-      </ThemedView>
-    </ThemedView>
+      </Surface>
+    </SafeAreaSurface>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    alignItems: 'center'
+  },
   featureCard: {
     alignSelf: 'center',
     width: '100%',
     flex: 1,
     gap: 10,
     marginVertical: 20
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    width: '100%',
+    alignItems: 'center',
+    gap: 16
   },
   joinKitchen: {
     width: '100%',
