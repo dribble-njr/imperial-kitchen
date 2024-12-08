@@ -3,10 +3,12 @@ import { TokenProvider } from '@/context/AuthContext';
 import { SSEProvider } from '@/context/SSEContext';
 import '@/locales/i18n';
 import { Slot } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import '../global.css';
+import { Surface } from '@/components';
 
 export default function Root() {
   const colorScheme = useColorScheme();
@@ -16,14 +18,17 @@ export default function Root() {
     colors: ComponentColors[colorScheme ?? 'light']
   };
 
-  console.log('Root');
-  // Set up the auth context and render our layout inside of it.
   return (
     <SafeAreaProvider>
       <TokenProvider>
         <PaperProvider theme={paperTheme}>
           <SSEProvider>
-            <Slot />
+            <Surface style={{ flex: 1 }}>
+              <StatusBar style="auto" />
+              <SafeAreaView style={{ flex: 1 }}>
+                <Slot />
+              </SafeAreaView>
+            </Surface>
           </SSEProvider>
         </PaperProvider>
       </TokenProvider>

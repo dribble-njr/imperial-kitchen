@@ -4,7 +4,7 @@ import { StyleSheet, useColorScheme } from 'react-native';
 import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { ComponentColors } from '@/constants/Colors';
-import { SafeAreaSurface, Surface, Carousel } from '@/components';
+import { Surface, Carousel } from '@/components';
 
 export default function Guide() {
   const { signIn } = useToken();
@@ -23,7 +23,7 @@ export default function Guide() {
   ];
 
   return (
-    <SafeAreaSurface style={styles.container}>
+    <Surface style={styles.container}>
       <Surface style={styles.headerContainer}>
         <Text className="text-sm">{t('welcome')}</Text>
         <Button
@@ -80,7 +80,7 @@ export default function Guide() {
           </Text>
         </Text>
       </Surface>
-    </SafeAreaSurface>
+    </Surface>
   );
 }
 
@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20
+    paddingHorizontal: 32,
+    paddingVertical: 20
   },
   headerContainer: {
     flexDirection: 'row',
@@ -101,7 +102,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     flex: 1,
-    gap: 10,
     marginVertical: 20
   },
   buttonContainer: {
