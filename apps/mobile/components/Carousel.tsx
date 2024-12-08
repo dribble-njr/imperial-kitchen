@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { StyleSheet, Dimensions, ViewStyle } from 'react-native';
+import { useRef, useState } from 'react';
+import { StyleSheet, ViewStyle, LayoutChangeEvent } from 'react-native';
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -10,7 +10,6 @@ import Animated, {
 import type { SharedValue } from 'react-native-reanimated';
 import Surface from './Surface';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const INDICATOR_WIDTH = 16;
 const INDICATOR_PADDING = 3;
 const ACTIVE_INDICATOR_WIDTH = 24;
@@ -23,6 +22,12 @@ interface CarouselProps {
 export default function Carousel({ images, style }: CarouselProps) {
   const scrollX = useSharedValue(0);
   const flatListRef = useRef(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setContainerWidth(width);
+  };
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -31,12 +36,12 @@ export default function Carousel({ images, style }: CarouselProps) {
   });
 
   return (
-    <Surface style={[styles.container, style]}>
+    <Surface style={[styles.container, style]} onLayout={handleLayout}>
       <Animated.FlatList
         ref={flatListRef}
         data={images}
         renderItem={({ item }) => (
-          <Surface style={styles.imageContainer}>
+          <Surface style={[styles.imageContainer, { width: containerWidth }]}>
             <Animated.Image source={{ uri: item }} style={styles.image} />
           </Surface>
         )}
@@ -49,26 +54,35 @@ export default function Carousel({ images, style }: CarouselProps) {
       />
 
       <Surface style={styles.indicatorContainer} elevation={0}>
-        {images.map((_, index) => (
-          <Indicator key={index} index={index} scrollX={scrollX} />
-        ))}
+        {containerWidth > 0 &&
+          images.map((_, index) => (
+            <Indicator key={index} index={index} scrollX={scrollX} containerWidth={containerWidth} />
+          ))}
       </Surface>
     </Surface>
   );
 }
 
-function Indicator({ index, scrollX }: { index: number; scrollX: SharedValue<number> }) {
+function Indicator({
+  index,
+  scrollX,
+  containerWidth
+}: {
+  index: number;
+  scrollX: SharedValue<number>;
+  containerWidth: number;
+}) {
   const animatedStyle = useAnimatedStyle(() => {
     const width = interpolate(
       scrollX.value,
-      [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH],
+      [(index - 1) * containerWidth, index * containerWidth, (index + 1) * containerWidth],
       [INDICATOR_WIDTH, ACTIVE_INDICATOR_WIDTH, INDICATOR_WIDTH],
       'clamp'
     );
 
     const opacity = interpolate(
       scrollX.value,
-      [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH],
+      [(index - 1) * containerWidth, index * containerWidth, (index + 1) * containerWidth],
       [0.5, 1, 0.5],
       'clamp'
     );
@@ -85,28 +99,22 @@ function Indicator({ index, scrollX }: { index: number; scrollX: SharedValue<num
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    aspectRatio: 3 / 4,
     overflow: 'hidden',
-    flex: 1
+    gap: 10
   },
   flatList: {
-    flex: 1,
     borderRadius: 8
   },
   imageContainer: {
-    width: SCREEN_WIDTH,
-    aspectRatio: 3 / 4
+    flex: 1
   },
   image: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     resizeMode: 'cover',
     borderRadius: 8
   },
   indicatorContainer: {
     flexDirection: 'row',
-    // position: 'absolute',
-    // bottom: 16,
     alignSelf: 'center',
     gap: INDICATOR_PADDING
   },
