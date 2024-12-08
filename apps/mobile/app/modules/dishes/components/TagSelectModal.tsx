@@ -4,9 +4,9 @@ import { TagVO } from '@imperial-kitchen/types';
 import { ReactNode, useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-import { TagItem } from './TagItem';
+import TagItem from './TagItem';
 
-export const TagSelectModal = ({
+export default function TagSelectModal({
   trigger,
   activeTags,
   onSelect,
@@ -16,7 +16,7 @@ export const TagSelectModal = ({
   activeTags: TagVO[];
   onSelect: (tag: TagVO) => void;
   onItemDelete: (tag: TagVO) => void;
-}) => {
+}) {
   const [visible, setVisible] = useState(false);
 
   const showModal = () => setVisible(true);
@@ -79,4 +79,4 @@ export const TagSelectModal = ({
       {trigger(showModal)}
     </>
   );
-};
+}

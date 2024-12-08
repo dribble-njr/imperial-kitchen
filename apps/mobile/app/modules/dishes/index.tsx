@@ -6,9 +6,9 @@ import { ThemedView } from '@/components/ThemedView';
 import { CreateRecipe, SidebarConfig, SidebarItemType } from '@/types';
 import { FoodType } from '@imperial-kitchen/types';
 import { useState } from 'react';
-import { CreateRecipeGuide } from './components/CreateRecipeGuide';
-import { FoodListLayout } from './components/FoodListLayout';
-import { SideBar } from './components/SideBar';
+import SideBar from './components/SideBar';
+import CreateRecipeGuide from './components/CreateRecipeGuide';
+import FoodListLayout from './components/FoodListLayout';
 
 const SidebarConfigs: SidebarConfig[] = [
   {

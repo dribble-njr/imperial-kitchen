@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 export default function GuideLayout() {
   return (
     <Stack
-      initialRouteName="Guide"
+      initialRouteName="guide"
       screenOptions={{
         animation: 'slide_from_right',
         header: (props) => <StackHeader navProps={props} children={undefined} />

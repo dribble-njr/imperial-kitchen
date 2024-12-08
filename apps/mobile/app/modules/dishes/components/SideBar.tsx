@@ -85,7 +85,7 @@ const ToggleMenuButton = ({ showMenu, setShowMenu }: { showMenu: boolean; setSho
   );
 };
 
-export const SideBar = ({
+export default function SideBar({
   configs,
   selectedKey,
   onSelect
@@ -93,7 +93,7 @@ export const SideBar = ({
   configs: SidebarConfig[];
   selectedKey: string;
   onSelect: (key: SidebarItemType) => void;
-}) => {
+}) {
   const [showMenu, setShowMenu] = useState(true);
   const opacity = useSharedValue(1);
 
@@ -144,7 +144,7 @@ export const SideBar = ({
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

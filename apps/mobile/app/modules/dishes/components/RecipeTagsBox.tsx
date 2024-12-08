@@ -1,8 +1,8 @@
 import { CreateRecipeDTO, TagVO } from '@imperial-kitchen/types';
 import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { TagItem } from './TagItem';
-import { TagSelectModal } from './TagSelectModal';
+import TagItem from './TagItem';
+import TagSelectModal from './TagSelectModal';
 
 const AddTagButton = ({ onPress }: { onPress: () => void }) => {
   return (
@@ -12,13 +12,13 @@ const AddTagButton = ({ onPress }: { onPress: () => void }) => {
   );
 };
 
-export const RecipeTagsBox = ({
+export default function RecipeTagsBox({
   form,
   setForm
 }: {
   form: CreateRecipeDTO;
   setForm: Dispatch<SetStateAction<CreateRecipeDTO>>;
-}) => {
+}) {
   const { tags } = form;
   const onItemDelete = (tag: TagVO) => {
     setForm({ ...form, tags: tags.filter((t) => t.id !== tag.id) });
@@ -38,7 +38,7 @@ export const RecipeTagsBox = ({
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   addTagButton: {

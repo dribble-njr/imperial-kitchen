@@ -12,13 +12,13 @@ const SPRING_CONFIG = {
   mass: 0.5
 } as const;
 
-export const RecipeNameInputBox = ({
+export default function RecipeNameInputBox({
   form,
   setForm
 }: {
   form: CreateRecipeDTO;
   setForm: Dispatch<SetStateAction<CreateRecipeDTO>>;
-}) => {
+}) {
   const inputRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const spinValue = useSharedValue(0);
@@ -65,4 +65,4 @@ export const RecipeNameInputBox = ({
       </Animated.View>
     </View>
   );
-};
+}

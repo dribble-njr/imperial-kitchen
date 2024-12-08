@@ -2,7 +2,7 @@ import CloseIcon from '@/assets/icons/close-icon.svg';
 import { TagVO } from '@imperial-kitchen/types';
 import { Chip } from 'react-native-paper';
 
-export const TagItem = ({
+export default function TagItem({
   tag,
   onClose,
   onPress,
@@ -12,7 +12,7 @@ export const TagItem = ({
   onClose?: () => void;
   onPress?: () => void;
   active?: boolean;
-}) => {
+}) {
   const _onClose = active ? onClose : undefined;
   return (
     <Chip
@@ -29,4 +29,4 @@ export const TagItem = ({
       {tag.name}
     </Chip>
   );
-};
+}
