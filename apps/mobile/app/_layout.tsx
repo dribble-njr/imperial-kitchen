@@ -6,9 +6,8 @@ import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
-import { Surface } from '@/components';
 
 export default function Root() {
   const colorScheme = useColorScheme();
@@ -23,12 +22,8 @@ export default function Root() {
       <TokenProvider>
         <PaperProvider theme={paperTheme}>
           <SSEProvider>
-            <Surface style={{ flex: 1 }}>
-              <StatusBar style="auto" />
-              <SafeAreaView style={{ flex: 1 }}>
-                <Slot />
-              </SafeAreaView>
-            </Surface>
+            <StatusBar style="auto" />
+            <Slot />
           </SSEProvider>
         </PaperProvider>
       </TokenProvider>
