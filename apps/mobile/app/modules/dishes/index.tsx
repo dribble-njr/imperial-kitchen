@@ -2,13 +2,13 @@ import CookIcon from '@/assets/icons/cook-icon.svg';
 import DessertIcon from '@/assets/icons/dessert-icon.svg';
 import DishIcon from '@/assets/icons/dish-icon.svg';
 import DrinkIcon from '@/assets/icons/drink-icon.svg';
-import { ThemedView } from '@/components/ThemedView';
 import { CreateRecipe, SidebarConfig, SidebarItemType } from '@/types';
 import { FoodType } from '@imperial-kitchen/types';
 import { useState } from 'react';
 import SideBar from './components/SideBar';
 import CreateRecipeGuide from './components/CreateRecipeGuide';
 import FoodListLayout from './components/FoodListLayout';
+import { Surface } from '@/components';
 
 const SidebarConfigs: SidebarConfig[] = [
   {
@@ -34,9 +34,9 @@ export default function DishesPage() {
   const [selectedKey, setSelectedKey] = useState<SidebarItemType>(SidebarConfigs[0].type);
 
   return (
-    <ThemedView className="w-full h-full flex flex-row relative">
+    <Surface className="w-full h-full flex flex-row relative">
       <SideBar configs={SidebarConfigs} selectedKey={selectedKey} onSelect={setSelectedKey} />
       {selectedKey === CreateRecipe ? <CreateRecipeGuide /> : <FoodListLayout type={selectedKey} />}
-    </ThemedView>
+    </Surface>
   );
 }
