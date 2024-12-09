@@ -3,7 +3,7 @@ import { Text, Button } from 'react-native-paper';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { ComponentColors } from '@/constants/Colors';
+import { Colors } from '@/constants/Colors';
 import { Surface, Carousel, SafeAreaSurface } from '@/components';
 
 export default function Guide() {
@@ -33,7 +33,7 @@ export default function Guide() {
           style={{ borderRadius: 5 }}
           onPress={skip}
         >
-          {/* 
+          {/*
             When the text is skip or '跳过', the button will click automatically. Why???!!!
             It should be a bug of react-native-paper. Use react-native button is normal.
           */}
@@ -71,7 +71,7 @@ export default function Guide() {
             style={[
               styles.signInText,
               {
-                color: colorScheme === 'dark' ? ComponentColors.dark?.primary : ComponentColors.light?.primary
+                color: colorScheme === 'dark' ? Colors.dark?.default.primary : Colors.light?.default.primary
               }
             ]}
             className="text-base"
