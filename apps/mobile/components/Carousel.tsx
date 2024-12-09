@@ -23,10 +23,12 @@ export default function Carousel({ images, style }: CarouselProps) {
   const scrollX = useSharedValue(0);
   const flatListRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
 
   const handleLayout = (event: LayoutChangeEvent) => {
-    const { width } = event.nativeEvent.layout;
+    const { width, height } = event.nativeEvent.layout;
     setContainerWidth(width);
+    setContainerHeight(height);
   };
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -41,7 +43,7 @@ export default function Carousel({ images, style }: CarouselProps) {
         ref={flatListRef}
         data={images}
         renderItem={({ item }) => (
-          <Surface style={[styles.imageContainer, { width: containerWidth }]}>
+          <Surface style={[styles.imageContainer, { width: containerWidth, height: containerHeight }]}>
             <Animated.Image source={{ uri: item }} style={styles.image} />
           </Surface>
         )}
