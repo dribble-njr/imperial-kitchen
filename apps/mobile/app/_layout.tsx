@@ -8,6 +8,7 @@ import { useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
+import Surface from '@/components/Surface';
 
 export default function Root() {
   const colorScheme = useColorScheme();
@@ -22,8 +23,10 @@ export default function Root() {
       <TokenProvider>
         <PaperProvider theme={paperTheme}>
           <SSEProvider>
-            <StatusBar style="auto" />
-            <Slot />
+            <Surface style={{ flex: 1 }}>
+              <StatusBar style="auto" />
+              <Slot />
+            </Surface>
           </SSEProvider>
         </PaperProvider>
       </TokenProvider>
