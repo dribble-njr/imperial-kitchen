@@ -1,6 +1,6 @@
 const Chinese = {
   welcome: '欢迎来到御膳房',
-  skip: '跳过',
+  start: '开始',
   startTip: '登录或注册开始使用',
   slogan: '定制您的厨房菜单',
 

@@ -1,6 +1,6 @@
 const English = {
   welcome: 'Welcome to Imperial Kitchen',
-  skip: 'Skip',
+  start: 'Get Started',
   startTip: 'Sign up or sign in to get started',
   slogan: 'Customize your kitchen menu easily',
   alreadyHaveAccount: 'Already have an account?',

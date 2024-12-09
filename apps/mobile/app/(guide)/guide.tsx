@@ -33,7 +33,11 @@ export default function Guide() {
           style={{ borderRadius: 5 }}
           onPress={skip}
         >
-          {t('skip')}
+          {/* 
+            When the text is skip or '跳过', the button will click automatically. Why???!!!
+            It should be a bug of react-native-paper. Use react-native button is normal.
+          */}
+          {t('start')}
         </Button>
       </Surface>
 
