@@ -1,6 +1,6 @@
 import { ViewStyle } from 'react-native';
-import { Surface } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Surface from './Surface';
 
 /**
  * A Surface that has a SafeAreaView around it.
