@@ -6,8 +6,22 @@
 import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
 import { MD3Colors } from 'react-native-paper/lib/typescript/types';
 
+export type ColorName =
+  | 'default'
+  | 'orange'
+  | 'red'
+  | 'violet'
+  | 'indigo'
+  | 'blue'
+  | 'teal'
+  | 'cyan'
+  | 'green'
+  | 'lime'
+  | 'olive'
+  | 'brown';
+
 type ColorScheme = {
-  [key: string]: Partial<MD3Colors>;
+  [K in ColorName]: Partial<MD3Colors>;
 };
 
 export const Colors: Record<'light' | 'dark', ColorScheme> = {
