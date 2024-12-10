@@ -32,7 +32,7 @@ const CardItems: {
   }
 ];
 
-export const RecipePage = () => {
+export default function RecipePage() {
   const [form, setForm] = useState<CreateRecipeDTO>({
     name: '',
     tags: [],
@@ -57,7 +57,7 @@ export const RecipePage = () => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

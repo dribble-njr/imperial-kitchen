@@ -1,14 +1,10 @@
-import CaptchaInput from '@/components/CaptchaInput';
-import FieldInput from '@/components/FieldInput';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import PasswordInput from '@/components/PasswordInput';
-import { ThemedView } from '@/components/ThemedView';
 import { UserService } from '@/service';
 import { RegisterAdminDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { Button, Text } from 'react-native-paper';
+import { Surface, CaptchaInput, FieldInput, PasswordInput, ParallaxScrollView } from '@/components';
 import * as Yup from 'yup';
 
 export default function CreateKitchen() {
@@ -40,7 +36,7 @@ export default function CreateKitchen() {
 
   return (
     <ParallaxScrollView>
-      <ThemedView className="flex-1 flex w-full gap-2 justify-between">
+      <Surface className="flex-1 flex w-full gap-2 justify-between">
         <Text className="text-2xl font-bold mb-4">{t('createKitchen.title')}</Text>
 
         <Formik
@@ -79,7 +75,7 @@ export default function CreateKitchen() {
             </>
           )}
         </Formik>
-      </ThemedView>
+      </Surface>
     </ParallaxScrollView>
   );
 }

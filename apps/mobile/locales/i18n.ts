@@ -9,7 +9,7 @@ const resources = {
   zh: { translation: Chinese }
 };
 
-const getUserLanguage = () => {
+export const getUserLanguage = () => {
   try {
     const locales = Localization.getLocales();
     if (locales.length > 0) {

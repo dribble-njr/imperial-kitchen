@@ -1,6 +1,4 @@
-import FieldInput from '@/components/FieldInput';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedView } from '@/components/ThemedView';
+import { Surface, FieldInput, ParallaxScrollView } from '@/components';
 import { UserService } from '@/service';
 import { RegisterMemberDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
@@ -45,7 +43,7 @@ export default function JoinKitchen() {
 
   return (
     <ParallaxScrollView>
-      <ThemedView className="flex-1 flex w-full gap-2 justify-between">
+      <Surface className="flex-1 flex w-full gap-2 justify-between">
         <Text className="text-2xl font-bold mb-4">{t('joinKitchen.title')}</Text>
         <Formik
           initialValues={{ name: '', email: '', captcha: '', password: '', inviteCode: '' }}
@@ -89,7 +87,7 @@ export default function JoinKitchen() {
             </>
           )}
         </Formik>
-      </ThemedView>
+      </Surface>
     </ParallaxScrollView>
   );
 }

@@ -1,8 +1,8 @@
 import type { PropsWithChildren, ReactElement } from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
-
-import { ThemedView } from '@/components/ThemedView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Surface from './Surface';
 
 const HEADER_HEIGHT = 250;
 
@@ -18,6 +18,7 @@ export default function ParallaxScrollView({ children, headerImage, headerBackgr
   const colorScheme = useColorScheme() ?? 'light';
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
+  const insets = useSafeAreaInsets();
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -37,7 +38,7 @@ export default function ParallaxScrollView({ children, headerImage, headerBackgr
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <Surface style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         {headerImage && (
           <Animated.View
@@ -46,9 +47,11 @@ export default function ParallaxScrollView({ children, headerImage, headerBackgr
             {headerImage}
           </Animated.View>
         )}
-        <ThemedView style={styles.content}>{children}</ThemedView>
+        <Surface style={styles.content} elevation={0}>
+          {children}
+        </Surface>
       </Animated.ScrollView>
-    </ThemedView>
+    </Surface>
   );
 }
 

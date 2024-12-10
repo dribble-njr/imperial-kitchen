@@ -19,11 +19,13 @@ services:
     depends_on:
       database:
         condition: service_healthy
-
     ports:
       - ${SERVER_PORT:-8000}:8000
     environment:
       NODE_ENV: ${NODE_ENV:-prod}
+      HTTP_PROXY: http://host.docker.internal:7890
+    extra_hosts:
+      - host.docker.internal:host-gateway
     develop:
       watch:
         - path: ./apps/server/package.json
