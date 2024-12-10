@@ -13,6 +13,7 @@ export default function GuideLayout() {
       <Stack.Screen name="guide" options={{ headerShown: false }} />
       <Stack.Screen name="create-kitchen" options={{ title: '' }} />
       <Stack.Screen name="join-kitchen" options={{ title: '' }} />
+      <Stack.Screen name="login" options={{ title: '' }} />
     </Stack>
   );
 }
