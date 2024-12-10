@@ -11,6 +11,8 @@ COPY package.json yarn.lock ./
 COPY apps/server/ ./apps/server/
 COPY packages/ ./packages/
 
+RUN yarn config set registry https://registry.npmmirror.com
+
 RUN yarn install --frozen-lockfile
 
 EXPOSE 8000
