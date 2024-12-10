@@ -1,7 +1,7 @@
 import { createContext, useContext, PropsWithChildren } from 'react';
 import { useStorageState } from '../hooks/useStorageState';
 import AuthService from '@/service/auth.service';
-import { User } from '../../../packages/types/src/user/user.vo';
+import { User } from '@imperial-kitchen/types';
 
 const AuthContext = createContext<{
   signIn: (email?: string, password?: string) => void;
