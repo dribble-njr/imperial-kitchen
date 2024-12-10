@@ -1,6 +1,6 @@
 # 御膳房
 
-[![runs with Expo Go](https://img.shields.io/badge/Runs%20with%20Expo%20Go-000.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.dev/client)
+[![runs with Expo Go](https://img.shields.io/badge/Runs%20with%20Expo%20Go-4630EB.svg?style=flat-square&logo=EXPO&labelColor=white&logoColor=000)](https://expo.dev/client) [![NestJS](https://img.shields.io/badge/NestJS-E0234E.svg?style=flat-square&logo=NestJS&labelColor=white&logoColor=E0234E)](https://nestjs.com/) [![Prisma](https://img.shields.io/badge/Prisma-2D3748.svg?style=flat-square&logo=Prisma&labelColor=white&logoColor=2D3748)](https://www.prisma.io/) [![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?style=flat-square&logo=MySQL&labelColor=white&logoColor=4479A1)](https://www.mysql.com/) [![Redis](https://img.shields.io/badge/Redis-DC382D.svg?style=flat-square&logo=Redis&labelColor=white&logoColor=DC382D)](https://redis.io/)
 
 [English Version](README.md)
 
@@ -14,14 +14,6 @@
 - [ ] 菜谱：支持生成菜谱。
 - [ ] 个人中心：查看个人信息、订单历史、虚拟货币。
 - [ ] AI 助手：询问菜单相关问题。
-
-## 技术栈
-
-- 前端：[`Expo`](https://expo.dev/) 跨端框架；
-- 后端：[`Nest`](https://nestjs.com/)；
-- 数据库：[`MySQL`](https://www.mysql.com/)；
-- ORM：[`Prisma`](https://www.prisma.io/)；
-- 其他：`TypeScript` 和 `yarn`。
 
 ## 贡献
 

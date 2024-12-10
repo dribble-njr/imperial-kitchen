@@ -1,6 +1,6 @@
 # Imperial Kitchen
 
-[![runs with Expo Go](https://img.shields.io/badge/Runs%20with%20Expo%20Go-000.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.dev/client)
+[![runs with Expo Go](https://img.shields.io/badge/Runs%20with%20Expo%20Go-4630EB.svg?style=flat-square&logo=EXPO&labelColor=white&logoColor=000)](https://expo.dev/client) [![NestJS](https://img.shields.io/badge/NestJS-E0234E.svg?style=flat-square&logo=NestJS&labelColor=white&logoColor=E0234E)](https://nestjs.com/) [![Prisma](https://img.shields.io/badge/Prisma-2D3748.svg?style=flat-square&logo=Prisma&labelColor=white&logoColor=2D3748)](https://www.prisma.io/) [![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?style=flat-square&logo=MySQL&labelColor=white&logoColor=4479A1)](https://www.mysql.com/) [![Redis](https://img.shields.io/badge/Redis-DC382D.svg?style=flat-square&logo=Redis&labelColor=white&logoColor=DC382D)](https://redis.io/)
 
 [中文版](README_ZH.md)
 
@@ -14,14 +14,6 @@ A food ordering app for family kitchen.
 - [ ] Recipe: Generate recipes.
 - [ ] Profile: View personal information, order history, virtual coins.
 - [ ] AI assistant: Ask questions about the menu.
-
-## Usage
-
-- fe: Use [`Expo`](https://expo.dev/) to develop cross platform app.
-- server: Use [`Nest`](https://nestjs.com/) develop server interface.
-- database: Use [`MySQL`](https://www.mysql.com/).
-- ORM: [`Prisma`](https://www.prisma.io/).
-- others: Use `TypeScript` and `yarn` to manage monorepo.
 
 ## Contributing
 
