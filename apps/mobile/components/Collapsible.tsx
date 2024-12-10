@@ -15,7 +15,7 @@ export default function Collapsible({ children, title }: PropsWithChildren & { t
         <Ionicons
           name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
           size={18}
-          color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
+          color={theme === 'light' ? Colors.light.default.onSurface : Colors.dark.default.onSurface}
         />
         <Text variant="titleSmall">{title}</Text>
       </TouchableOpacity>

@@ -9,10 +9,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
 import { Surface } from '@/components';
 import Themes from '@/constants/Themes';
-import { useAppSettings } from '@/hooks/useAppSettings';
+import { useAppSetting } from '@/hooks/useAppSetting';
 
 export default function Root() {
-  const { isSettingLoading, effectiveColorScheme, currentColor } = useAppSettings();
+  const { isSettingLoading, effectiveColorScheme, currentColor } = useAppSetting();
 
   if (isSettingLoading) {
     return null;

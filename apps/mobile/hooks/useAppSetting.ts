@@ -11,7 +11,7 @@ const DEFAULT_SETTING: Setting = {
   color: 'default'
 };
 
-export function useAppSettings() {
+export function useAppSetting() {
   const colorScheme = useColorScheme();
   const [[isSettingLoading, setting], setSetting] = useStorageState<Setting>('app-settings');
   const { i18n } = useTranslation();
