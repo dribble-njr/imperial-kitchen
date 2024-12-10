@@ -5,15 +5,19 @@ import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '@/constants/Colors';
 import { Surface, Carousel, SafeAreaSurface } from '@/components';
+import { useAppSettings } from '@/hooks/useAppSettings';
 
 export default function Guide() {
   const { signIn } = useToken();
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
+  const { updateSetting } = useAppSettings();
+
   const skip = async () => {
     // TODO: Add skip guide logic
     // sign in a test user
-    router.replace('/');
+    updateSetting({ theme: 'light', language: 'auto', color: 'red' });
+    // router.replace('/');
   };
 
   const images = [
