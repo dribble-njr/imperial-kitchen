@@ -9,6 +9,7 @@ A food ordering app for family kitchen.
 ## Features
 
 - [x] Auth: JWT Login, register, logout.
+- [x] Multi-language support, theme color, theme mode.
 - [ ] Browse menus：View all kinds of food and their details, including images, descriptions and prices.
 - [ ] Order food：Choose food and add it to shopping cart.
 - [ ] Recipe: Generate recipes.

@@ -13,7 +13,7 @@ const DEFAULT_SETTING: Setting = {
 
 export function useAppSetting() {
   const colorScheme = useColorScheme();
-  const [[isSettingLoading, setting], setSetting] = useStorageState<Setting>('app-settings');
+  const [[isSettingLoading, setting], setSetting] = useStorageState<Setting>('app-setting');
   const { i18n } = useTranslation();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export function useAppSetting() {
     (newSetting: Partial<Setting>) => {
       setSetting({ ...setting, ...newSetting } as Setting);
     },
-    [setSetting]
+    [setSetting, setting]
   );
 
   const currentTheme = setting?.theme || 'auto';
