@@ -21,14 +21,13 @@ export type ColorName =
   | 'brown';
 
 type ColorScheme = {
-  [K in ColorName]: Partial<MD3Colors>;
+  [K in ColorName]: MD3Colors;
 };
 
 export const Colors: Record<'light' | 'dark', ColorScheme> = {
   light: {
     default: {
-      primary: MD3LightTheme.colors.primary,
-      onPrimary: MD3LightTheme.colors.onPrimary
+      ...MD3LightTheme.colors
     },
     orange: {
       primary: 'rgb(176, 46, 0)',
@@ -495,8 +494,7 @@ export const Colors: Record<'light' | 'dark', ColorScheme> = {
   },
   dark: {
     default: {
-      primary: MD3DarkTheme.colors.primary,
-      onPrimary: MD3DarkTheme.colors.onPrimary
+      ...MD3DarkTheme.colors
     },
     orange: {
       primary: 'rgb(255, 183, 134)',
