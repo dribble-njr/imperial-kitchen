@@ -75,7 +75,7 @@ export default function Guide() {
             ]}
             className="text-base"
             onPress={async () => {
-              router.push('/(guide)/login');
+              router.push('/(guide)/sign-in');
             }}
           >
             {t('signIn')}

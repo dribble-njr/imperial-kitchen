@@ -4,14 +4,14 @@ import AuthService from '@/service/auth.service';
 import { User } from '@imperial-kitchen/types';
 
 const AuthContext = createContext<{
-  signIn: (email?: string, password?: string) => void;
+  signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   accessToken?: string | null;
   refreshToken?: string | null;
   isLoading: boolean;
   userInfo?: Omit<User, 'role'> | null;
 }>({
-  signIn: () => null,
+  signIn: () => Promise.resolve(),
   signOut: () => null,
   accessToken: null,
   refreshToken: null,
@@ -39,7 +39,7 @@ export function TokenProvider(props: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: async (email: string = 'test@test.com', password: string = 'test123') => {
+        signIn: async (email, password) => {
           const { accessToken, refreshToken, userInfo } = await AuthService.signIn({
             email,
             password
