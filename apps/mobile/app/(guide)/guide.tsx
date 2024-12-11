@@ -1,22 +1,17 @@
 import { router } from 'expo-router';
 import { Text, Button } from 'react-native-paper';
 import { StyleSheet, useColorScheme } from 'react-native';
-import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '@/constants/Colors';
 import { Surface, Carousel, SafeAreaSurface } from '@/components';
-import { useAppSetting } from '@/hooks/useAppSetting';
 
 export default function Guide() {
-  const { signIn } = useToken();
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
-  const { updateSetting } = useAppSetting();
 
   const skip = async () => {
     // TODO: Add skip guide logic
     // sign in a test user
-    updateSetting({ theme: 'light', language: 'en', color: 'default' });
     // router.replace('/');
   };
 
@@ -80,8 +75,7 @@ export default function Guide() {
             ]}
             className="text-base"
             onPress={async () => {
-              await signIn();
-              router.push('/login');
+              router.push('/(guide)/login');
             }}
           >
             {t('signIn')}
