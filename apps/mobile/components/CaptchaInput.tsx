@@ -1,8 +1,8 @@
-import { ThemedView } from '@/components/ThemedView';
 import { useField } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { HelperText, TextInput, TextInputProps } from 'react-native-paper';
 import { useState, useEffect, useRef } from 'react';
+import Surface from './Surface';
 
 interface CaptchaInputProps extends TextInputProps {
   i18nKey: string;
@@ -36,7 +36,7 @@ export default function CaptchaInput({ i18nKey, name, onSendCaptcha, ...textInpu
   };
 
   return (
-    <ThemedView>
+    <Surface>
       <TextInput
         mode="outlined"
         label={t(`${i18nKey}.${name}`)}
@@ -54,6 +54,6 @@ export default function CaptchaInput({ i18nKey, name, onSendCaptcha, ...textInpu
         {...textInputProps}
       />
       {hasError && <HelperText type="error">{meta.error}</HelperText>}
-    </ThemedView>
+    </Surface>
   );
 }

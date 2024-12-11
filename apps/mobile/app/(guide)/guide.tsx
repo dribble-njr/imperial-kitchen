@@ -1,24 +1,34 @@
 import { router } from 'expo-router';
-import { Text, Button, Card } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { useToken } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { ThemedView } from '@/components/ThemedView';
-import { ComponentColors } from '@/constants/Colors';
+import { Colors } from '@/constants/Colors';
+import { Surface, Carousel, SafeAreaSurface } from '@/components';
+import { useAppSetting } from '@/hooks/useAppSetting';
 
 export default function Guide() {
   const { signIn } = useToken();
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
+  const { updateSetting } = useAppSetting();
+
   const skip = async () => {
     // TODO: Add skip guide logic
     // sign in a test user
-    router.replace('/');
+    updateSetting({ theme: 'light', language: 'en', color: 'default' });
+    // router.replace('/');
   };
 
+  const images = [
+    'https://picsum.photos/700/400?random=1',
+    'https://picsum.photos/700/400?random=2',
+    'https://picsum.photos/700/400?random=3'
+  ];
+
   return (
-    <ThemedView safeArea className="flex justify-between items-center w-full h-full p-4 px-8">
-      <ThemedView className="flex flex-row justify-between w-full items-center">
+    <SafeAreaSurface style={styles.container}>
+      <Surface style={styles.headerContainer}>
         <Text className="text-sm">{t('welcome')}</Text>
         <Button
           mode="contained-tonal"
@@ -27,20 +37,22 @@ export default function Guide() {
           style={{ borderRadius: 5 }}
           onPress={skip}
         >
-          {t('skip')}
+          {/*
+            When the text is skip or '跳过', the button will click automatically. Why???!!!
+            It should be a bug of react-native-paper. Use react-native button is normal.
+          */}
+          {t('start')}
         </Button>
-      </ThemedView>
+      </Surface>
 
       <Text className="mt-4 text-2xl font-bold w-full">{t('slogan')}</Text>
 
-      <ThemedView style={styles.featureCard}>
-        <Card.Cover style={{ flex: 1 }} source={{ uri: 'https://picsum.photos/700' }} />
-      </ThemedView>
+      <Carousel images={images} style={styles.featureCard} />
 
-      <ThemedView className="flex flex-col justify-around w-full items-center gap-4">
+      <Surface style={styles.buttonContainer}>
         <Button
           mode="contained"
-          onPress={() => router.push('/create-kitchen')}
+          onPress={() => router.push('/(guide)/create-kitchen')}
           style={{ width: '100%' }}
           contentStyle={{ width: '100%' }}
           labelStyle={{ fontSize: 16 }}
@@ -50,7 +62,7 @@ export default function Guide() {
 
         <Button
           mode="contained-tonal"
-          onPress={() => router.push('/join-kitchen')}
+          onPress={() => router.push('/(guide)/join-kitchen')}
           style={styles.joinKitchen}
           labelStyle={{ fontSize: 16 }}
         >
@@ -63,12 +75,11 @@ export default function Guide() {
             style={[
               styles.signInText,
               {
-                color: colorScheme === 'dark' ? ComponentColors.dark?.primary : ComponentColors.light?.primary
+                color: colorScheme === 'dark' ? Colors.dark?.default.primary : Colors.light?.default.primary
               }
             ]}
             className="text-base"
             onPress={async () => {
-              // TODO: add sign-in page
               await signIn();
               router.push('/login');
             }}
@@ -76,18 +87,37 @@ export default function Guide() {
             {t('signIn')}
           </Text>
         </Text>
-      </ThemedView>
-    </ThemedView>
+      </Surface>
+    </SafeAreaSurface>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 32,
+    paddingVertical: 20
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    alignItems: 'center'
+  },
   featureCard: {
     alignSelf: 'center',
     width: '100%',
     flex: 1,
-    gap: 10,
     marginVertical: 20
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    width: '100%',
+    alignItems: 'center',
+    gap: 16
   },
   joinKitchen: {
     width: '100%',

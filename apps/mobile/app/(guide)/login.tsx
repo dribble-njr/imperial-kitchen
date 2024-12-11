@@ -1,6 +1,5 @@
 import FieldInput from '@/components/FieldInput';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedView } from '@/components/ThemedView';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Button, Text, TextInput } from 'react-native-paper';
@@ -8,6 +7,7 @@ import { SignInDTO } from '@imperial-kitchen/types';
 import { AuthService } from '@/service';
 import { Alert } from 'react-native';
 import { router } from 'expo-router';
+import { Surface } from '@/components';
 
 export default function Login() {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ export default function Login() {
 
   return (
     <ParallaxScrollView>
-      <ThemedView className="flex-1 flex w-full gap-2 justify-between">
+      <Surface className="flex-1 flex w-full gap-2 justify-between">
         <Text className="text-2xl font-bold mb-4">{t('signIn')}</Text>
 
         <Formik
@@ -54,7 +54,7 @@ export default function Login() {
             </>
           )}
         </Formik>
-      </ThemedView>
+      </Surface>
     </ParallaxScrollView>
   );
 }
