@@ -34,6 +34,18 @@ const auth = {
   alreadyHaveAccount: 'Already have an account? '
 };
 
+const home = {
+  title: 'Home'
+};
+
+const menu = {
+  title: 'Menu'
+};
+
+const profile = {
+  title: 'Profile'
+};
+
 const English = {
   welcome: 'Welcome to Imperial Kitchen',
   start: 'Get Started',
@@ -55,6 +67,9 @@ const English = {
   },
 
   auth,
+  home,
+  menu,
+  profile,
 
   enterEmail: 'Enter your email',
   enterPhone: 'Enter your phone number',

@@ -34,6 +34,18 @@ const auth = {
   alreadyHaveAccount: '已有账号？'
 };
 
+const home = {
+  title: '首页'
+};
+
+const menu = {
+  title: '菜单'
+};
+
+const profile = {
+  title: '我的'
+};
+
 const Chinese = {
   welcome: '欢迎来到御膳房',
   start: '开始',
@@ -55,6 +67,9 @@ const Chinese = {
   },
 
   auth,
+  home,
+  menu,
+  profile,
 
   signUp: '注册',
   enterEmail: '输入邮箱',

@@ -1,16 +1,14 @@
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs, usePathname } from 'expo-router';
+import { TabBar } from '@/components/navigation';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
 import { type ComponentProps } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 
-type IconName = ComponentProps<typeof Ionicons>['name'];
+type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
 
 interface TabConfig {
   name: string;
-  title: string;
-  label: string;
+  locale: string;
   icon: IconName;
   activeIcon: IconName;
 }
@@ -19,47 +17,35 @@ interface TabConfig {
 const TAB_CONFIG: TabConfig[] = [
   {
     name: 'index',
-    title: 'Home',
-    label: '首页',
+    locale: 'home',
     icon: 'storefront',
     activeIcon: 'storefront-outline'
   },
   {
     name: 'menu',
-    title: 'Menu',
-    label: '试毒',
+    locale: 'menu',
     icon: 'flask',
     activeIcon: 'flask-outline'
   },
   {
     name: 'profile',
-    title: 'Profile',
-    label: '我的',
-    icon: 'person-circle',
-    activeIcon: 'person-circle-outline'
+    locale: 'profile',
+    icon: 'account',
+    activeIcon: 'account-outline'
   }
 ];
 
-const HiddenPaths = ['/menu/recipe'];
-
 const renderTabItem = (config: TabConfig) => {
+  const { t } = useTranslation();
+
   return (
     <Tabs.Screen
       key={config.name}
       name={config.name}
       options={{
-        title: config.title,
-        tabBarIcon: ({ color, focused }) => {
-          return (
-            <View style={[styles.iconContainer, focused && styles.activeIconContainer]}>
-              <TabBarIcon name={focused ? config.icon : config.activeIcon} color={color} style={styles.icon} />
-              {focused && (
-                <View style={styles.labelContainer}>
-                  <Text style={[styles.label, { color }]}>{config.label}</Text>
-                </View>
-              )}
-            </View>
-          );
+        title: t(`${config.locale}.title`),
+        tabBarIcon: ({ focused, color, size }) => {
+          return <MaterialCommunityIcons size={size} name={focused ? config.icon : config.activeIcon} color={color} />;
         }
       }}
     />
@@ -67,61 +53,15 @@ const renderTabItem = (config: TabConfig) => {
 };
 
 export default function TabLayout() {
-  const theme = useTheme();
-  const pathname = usePathname();
-  const isHidden = HiddenPaths.includes(pathname);
-
   return (
     <Tabs
+      tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
-        tabBarInactiveTintColor: theme.colors.outlineVariant,
-        tabBarActiveTintColor: theme.colors.secondary,
-        headerShown: false,
-        tabBarStyle: [styles.tabBar, isHidden && { display: 'none' }],
-        tabBarItemStyle: styles.item,
         tabBarHideOnKeyboard: true,
-        tabBarShowLabel: false
+        headerShown: false
       }}
     >
       {TAB_CONFIG.map(renderTabItem)}
     </Tabs>
   );
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    height: 65,
-    backgroundColor: '#fff',
-    borderTopWidth: 0,
-    elevation: 8,
-    paddingHorizontal: 10,
-    paddingBottom: Platform.OS === 'ios' ? 20 : 0
-  },
-  icon: {
-    // marginTop: 3
-  },
-  item: {
-    margin: 4
-  },
-  labelContainer: {
-    marginLeft: 8,
-    paddingTop: 4
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: 'bold'
-  },
-  iconContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    borderRadius: 14,
-
-    paddingVertical: 12,
-    paddingHorizontal: 18
-  },
-  activeIconContainer: {
-    backgroundColor: 'rgba(116, 90, 26, 0.1)'
-  }
-});
