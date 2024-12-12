@@ -27,6 +27,8 @@ export default function Root() {
     materialLight: Themes.light.default
   });
 
+  const statusBarStyle = effectiveColorScheme === 'dark' ? 'light' : 'dark';
+
   return (
     <SafeAreaProvider>
       <TokenProvider>
@@ -34,7 +36,7 @@ export default function Root() {
           <ThemeProvider value={effectiveColorScheme === 'dark' ? DarkTheme : LightTheme}>
             <SSEProvider>
               <Surface style={{ flex: 1 }}>
-                <StatusBar style="auto" />
+                <StatusBar style={statusBarStyle} />
                 <Slot />
               </Surface>
             </SSEProvider>
