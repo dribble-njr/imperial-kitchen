@@ -2,11 +2,12 @@ import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { Button, Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { SignInDTO } from '@imperial-kitchen/types';
-import { PasswordInput, Surface, FieldInput, ParallaxScrollView } from '@/components';
+import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text } from '@/components';
 import { useToken } from '@/context/AuthContext';
+import { globalStyles } from '@/assets/styles';
 
 export default function SignIn() {
   const { t } = useTranslation();
@@ -30,7 +31,10 @@ export default function SignIn() {
   return (
     <ParallaxScrollView>
       <Surface style={styles.container}>
-        <Text className="text-2xl font-bold mb-4">{t('signIn')}</Text>
+        <Surface style={globalStyles.hero}>
+          <Text className="text-2xl font-bold mb-4">{t('auth.signIn.hero')}</Text>
+          <Text variant="labelLarge">{t('auth.signIn.description')}</Text>
+        </Surface>
 
         <Formik
           initialValues={{ email: 'admin@test.com', password: 'admin123' }}
@@ -43,7 +47,7 @@ export default function SignIn() {
           validationSchema={validationSchema}
         >
           {({ handleSubmit }) => (
-            <>
+            <Surface style={globalStyles.form}>
               <FieldInput i18nKey="common" name="email" />
 
               <PasswordInput i18nKey="common" name="password" />
@@ -51,9 +55,18 @@ export default function SignIn() {
               <Button style={styles.button} mode="contained" onPress={() => handleSubmit()}>
                 {t('common.confirm')}
               </Button>
-            </>
+            </Surface>
           )}
         </Formik>
+
+        <Surface style={{ flex: 1, marginTop: 12, alignItems: 'center' }}>
+          <Text type="secondary">
+            {t('auth.signIn.haveNoAccount')}
+            <Text type="link" onPress={() => router.push('/(auth)/guide')}>
+              {t('auth.signIn.joinOrCreate')}
+            </Text>
+          </Text>
+        </Surface>
       </Surface>
     </ParallaxScrollView>
   );

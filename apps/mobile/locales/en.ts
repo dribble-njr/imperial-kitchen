@@ -1,12 +1,48 @@
+const auth = {
+  createKitchen: {
+    title: 'Create Kitchen',
+    hero: 'Create Kitchen',
+    description: 'Create your kitchen now and start exploring'
+  },
+
+  joinKitchen: {
+    title: 'Join Kitchen',
+    hero: 'Join Kitchen',
+    description: 'Join a kitchen now and start exploring'
+  },
+
+  signIn: {
+    title: 'Sign In',
+    hero: 'Hi, Welcome!',
+    description: 'Get ready to dive back into the app',
+    haveNoAccount: "Don't have an account? ",
+    joinOrCreate: 'Join or Create a Kitchen'
+  },
+
+  forgotPassword: {
+    title: 'Forgot Password',
+    hero: 'Reset Password',
+    description: 'Recover your account password'
+  },
+
+  createNewPassword: {
+    title: 'Create New Password',
+    hero: 'Create New Password',
+    description: 'Create your new password'
+  },
+
+  alreadyHaveAccount: 'Already have an account? '
+};
+
 const English = {
   welcome: 'Welcome to Imperial Kitchen',
   start: 'Get Started',
   startTip: 'Sign up or sign in to get started',
   slogan: 'Customize your kitchen menu easily',
-  alreadyHaveAccount: 'Already have an account?',
 
   common: {
     enter: 'Please enter ',
+    next: 'Next',
     confirm: 'Confirm',
     cancel: 'Cancel',
     captcha: 'Captcha',
@@ -18,17 +54,8 @@ const English = {
     invalidEmail: 'Invalid email'
   },
 
-  createKitchen: {
-    title: 'Create Kitchen'
-  },
+  auth,
 
-  joinKitchen: {
-    title: 'Join Kitchen'
-  },
-
-  signIn: 'Sign In',
-  logout: 'Logout',
-  signUp: 'Sign Up',
   enterEmail: 'Enter your email',
   enterPhone: 'Enter your phone number',
   enterName: 'Enter your name',

@@ -2,10 +2,11 @@ import { UserService } from '@/service';
 import { RegisterAdminDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Alert } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { Surface, CaptchaInput, FieldInput, PasswordInput, ParallaxScrollView } from '@/components';
 import * as Yup from 'yup';
+import { globalStyles } from '@/assets/styles';
 
 export default function CreateKitchen() {
   const { t } = useTranslation();
@@ -37,7 +38,10 @@ export default function CreateKitchen() {
   return (
     <ParallaxScrollView>
       <Surface className="flex-1 flex w-full gap-2 justify-between">
-        <Text className="text-2xl font-bold mb-4">{t('createKitchen.title')}</Text>
+        <Surface style={globalStyles.hero}>
+          <Text className="text-2xl font-bold mb-4">{t('auth.createKitchen.hero')}</Text>
+          <Text variant="labelLarge">{t('auth.createKitchen.description')}</Text>
+        </Surface>
 
         <Formik
           initialValues={{ name: '', email: '', captcha: '', password: '', confirmedPassword: '' }}
@@ -51,7 +55,7 @@ export default function CreateKitchen() {
           validationSchema={validationSchema}
         >
           {({ handleSubmit, values, errors, setFieldTouched }) => (
-            <>
+            <Surface style={globalStyles.form}>
               <FieldInput i18nKey="common" name="name" />
 
               <CaptchaInput
@@ -69,13 +73,19 @@ export default function CreateKitchen() {
 
               <PasswordInput i18nKey="common" name="password" />
 
-              <Button mode="contained" onPress={() => handleSubmit()}>
+              <Button style={styles.button} mode="contained" onPress={() => handleSubmit()}>
                 {t('common.confirm')}
               </Button>
-            </>
+            </Surface>
           )}
         </Formik>
       </Surface>
     </ParallaxScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 32
+  }
+});

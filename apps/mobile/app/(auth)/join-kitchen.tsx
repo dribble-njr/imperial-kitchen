@@ -1,3 +1,4 @@
+import { globalStyles } from '@/assets/styles';
 import { Surface, FieldInput, ParallaxScrollView } from '@/components';
 import { UserService } from '@/service';
 import { RegisterMemberDTO } from '@imperial-kitchen/types';
@@ -44,7 +45,11 @@ export default function JoinKitchen() {
   return (
     <ParallaxScrollView>
       <Surface className="flex-1 flex w-full gap-2 justify-between">
-        <Text className="text-2xl font-bold mb-4">{t('joinKitchen.title')}</Text>
+        <Surface style={globalStyles.hero}>
+          <Text className="text-2xl font-bold mb-4">{t('auth.joinKitchen.hero')}</Text>
+          <Text variant="labelLarge">{t('auth.joinKitchen.description')}</Text>
+        </Surface>
+
         <Formik
           initialValues={{ name: '', email: '', captcha: '', password: '', inviteCode: '' }}
           onSubmit={(values) => {
@@ -56,8 +61,9 @@ export default function JoinKitchen() {
           validationSchema={registerMemberSchema}
         >
           {({ handleSubmit, values, setFieldTouched, errors }) => (
-            <>
+            <Surface style={globalStyles.form}>
               <FieldInput i18nKey="common" name="name" />
+
               <FieldInput
                 i18nKey="common"
                 name="email"
@@ -73,7 +79,9 @@ export default function JoinKitchen() {
                   />
                 }
               />
+
               <FieldInput i18nKey="common" name="captcha" />
+
               <FieldInput
                 i18nKey="common"
                 name="password"
@@ -81,10 +89,11 @@ export default function JoinKitchen() {
                 right={<TextInput.Icon icon="eye" onPress={() => setDisplayPassword(!displayPassword)} />}
               />
               <FieldInput i18nKey="common" name="inviteCode" />
-              <Button mode="contained" onPress={() => handleSubmit()}>
+
+              <Button style={{ marginTop: 32 }} mode="contained" onPress={() => handleSubmit()}>
                 {t('common.confirm')}
               </Button>
-            </>
+            </Surface>
           )}
         </Formik>
       </Surface>

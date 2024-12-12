@@ -1,13 +1,11 @@
 import { router } from 'expo-router';
-import { Text, Button } from 'react-native-paper';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { Button } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Colors } from '@/constants/Colors';
-import { Surface, Carousel, SafeAreaSurface } from '@/components';
+import { Surface, Carousel, SafeAreaSurface, Text } from '@/components';
 
 export default function Guide() {
   const { t } = useTranslation();
-  const colorScheme = useColorScheme();
 
   const skip = async () => {
     // TODO: Add skip guide logic
@@ -47,38 +45,32 @@ export default function Guide() {
       <Surface style={styles.buttonContainer}>
         <Button
           mode="contained"
-          onPress={() => router.push('/(guide)/create-kitchen')}
+          onPress={() => router.push('/(auth)/create-kitchen')}
           style={{ width: '100%' }}
           contentStyle={{ width: '100%' }}
           labelStyle={{ fontSize: 16 }}
         >
-          {t('createKitchen.title')}
+          {t('auth.createKitchen.title')}
         </Button>
 
         <Button
           mode="contained-tonal"
-          onPress={() => router.push('/(guide)/join-kitchen')}
+          onPress={() => router.push('/(auth)/join-kitchen')}
           style={styles.joinKitchen}
           labelStyle={{ fontSize: 16 }}
         >
-          {t('joinKitchen.title')}
+          {t('auth.joinKitchen.title')}
         </Button>
 
         <Text style={styles.signInText}>
-          {t('alreadyHaveAccount')}
+          {t('auth.alreadyHaveAccount')}
           <Text
-            style={[
-              styles.signInText,
-              {
-                color: colorScheme === 'dark' ? Colors.dark?.default.primary : Colors.light?.default.primary
-              }
-            ]}
-            className="text-base"
+            type="link"
             onPress={async () => {
-              router.push('/(guide)/sign-in');
+              router.push('/(auth)/sign-in');
             }}
           >
-            {t('signIn')}
+            {t('auth.signIn.title')}
           </Text>
         </Text>
       </Surface>
