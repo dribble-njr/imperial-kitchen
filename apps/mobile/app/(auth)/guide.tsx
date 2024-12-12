@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Surface, Carousel, SafeAreaSurface, Text } from '@/components';
+import { Surface, Carousel, SafeAreaSurface, Text } from '@/components/common';
 
 export default function Guide() {
   const { t } = useTranslation();

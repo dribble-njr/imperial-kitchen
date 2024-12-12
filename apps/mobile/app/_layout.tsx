@@ -7,7 +7,7 @@ import { DarkTheme as NavDarkTheme, DefaultTheme as NavLightTheme, ThemeProvider
 import { adaptNavigationTheme, PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
-import { Surface } from '@/components';
+import { Surface } from '@/components/common';
 import Themes from '@/constants/Themes';
 import { useAppSetting } from '@/hooks/useAppSetting';
 

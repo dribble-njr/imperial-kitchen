@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { SignInDTO } from '@imperial-kitchen/types';
-import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text, HelloWave } from '@/components';
+import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text, HelloWave } from '@/components/common';
 import { useToken } from '@/context/AuthContext';
 import { globalStyles } from '@/assets/styles';
 

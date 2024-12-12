@@ -1,5 +1,5 @@
 import { globalStyles } from '@/assets/styles';
-import { Surface, FieldInput, ParallaxScrollView, Text } from '@/components';
+import { Surface, FieldInput, ParallaxScrollView, Text } from '@/components/common';
 import { UserService } from '@/service';
 import { RegisterMemberDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';

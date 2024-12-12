@@ -1,4 +1,4 @@
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ParallaxScrollView } from '@/components/common';
 import { CartProvider } from '@/context/CartContext';
 import { useSSE } from '@/context/SSEContext';
 import { SSEService } from '@/service';

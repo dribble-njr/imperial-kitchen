@@ -1,4 +1,4 @@
-import { Surface } from '@/components';
+import { Surface } from '@/components/common';
 import { useColorScheme } from 'react-native';
 import { List, Menu, IconButton, Snackbar, Icon } from 'react-native-paper';
 import { Language, Languages } from '@/types';
