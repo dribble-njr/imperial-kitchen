@@ -3,8 +3,8 @@ import { RegisterAdminDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
-import { Surface, CaptchaInput, FieldInput, PasswordInput, ParallaxScrollView } from '@/components';
+import { Button } from 'react-native-paper';
+import { Surface, CaptchaInput, FieldInput, PasswordInput, ParallaxScrollView, Text } from '@/components';
 import * as Yup from 'yup';
 import { globalStyles } from '@/assets/styles';
 

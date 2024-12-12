@@ -1,12 +1,12 @@
 import { globalStyles } from '@/assets/styles';
-import { Surface, FieldInput, ParallaxScrollView } from '@/components';
+import { Surface, FieldInput, ParallaxScrollView, Text } from '@/components';
 import { UserService } from '@/service';
 import { RegisterMemberDTO } from '@imperial-kitchen/types';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
 
 export default function JoinKitchen() {

@@ -1,5 +1,5 @@
 import { Text as PaperText, TextProps } from 'react-native-paper';
-import { StyleSheet, TextStyle } from 'react-native';
+import { TextStyle } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { MD3Colors } from 'react-native-paper/lib/typescript/types';
 
@@ -28,15 +28,8 @@ export default function Text({ children, type = 'default', ...props }: CustomTex
   const color = useThemeColor(typeColor()) as string;
 
   return (
-    <PaperText style={[styles.text, { color }]} {...props}>
+    <PaperText style={{ color }} {...props}>
       {children}
     </PaperText>
   );
 }
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  }
-});
