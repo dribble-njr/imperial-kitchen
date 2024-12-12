@@ -8,7 +8,7 @@ import { useState } from 'react';
 import SideBar from './components/SideBar';
 import CreateRecipeGuide from './components/CreateRecipeGuide';
 import FoodListLayout from './components/FoodListLayout';
-import { Surface } from '@/components';
+import { Surface } from '@/components/common';
 
 const SidebarConfigs: SidebarConfig[] = [
   {

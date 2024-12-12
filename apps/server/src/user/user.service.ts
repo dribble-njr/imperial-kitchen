@@ -31,7 +31,7 @@ export class UserService {
       }
     });
 
-    if(!user){
+    if (!user) {
       throw new HttpException(ERROR_CODES.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
     return user;
@@ -143,6 +143,8 @@ export class UserService {
    */
   async captcha(email: string) {
     const code = Math.random().toString().slice(2, 8);
+
+    console.log(code, 'code');
 
     await this.redisService.set(`captcha_${email}`, code, 5 * 60);
 

@@ -5,7 +5,7 @@
   "main": ".dist/index.js",
   "scripts": {
     "build": "prisma generate && yarn bundle:openapi && nest build",
-    "dev": "prisma generate && yarn bundle:openapi && nest start --watch",
+    "dev": "yarn bundle:openapi && nest start --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
     "test": "jest",

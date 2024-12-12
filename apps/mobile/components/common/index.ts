@@ -5,7 +5,7 @@ export { default as FieldInput } from './FieldInput';
 export { default as HelloWave } from './HelloWave';
 export { default as ParallaxScrollView } from './ParallaxScrollView';
 export { default as PasswordInput } from './PasswordInput';
-export { default as StackHeader } from './StackHeader';
 export { default as Surface } from './Surface';
 export { default as SafeAreaSurface } from './SafeAreaSurface';
 export { default as Carousel } from './Carousel';
+export { default as Text } from './Text';

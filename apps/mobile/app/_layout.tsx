@@ -7,7 +7,7 @@ import { DarkTheme as NavDarkTheme, DefaultTheme as NavLightTheme, ThemeProvider
 import { adaptNavigationTheme, PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
-import { Surface } from '@/components';
+import { Surface } from '@/components/common';
 import Themes from '@/constants/Themes';
 import { useAppSetting } from '@/hooks/useAppSetting';
 
@@ -27,6 +27,8 @@ export default function Root() {
     materialLight: Themes.light.default
   });
 
+  const statusBarStyle = effectiveColorScheme === 'dark' ? 'light' : 'dark';
+
   return (
     <SafeAreaProvider>
       <TokenProvider>
@@ -34,7 +36,7 @@ export default function Root() {
           <ThemeProvider value={effectiveColorScheme === 'dark' ? DarkTheme : LightTheme}>
             <SSEProvider>
               <Surface style={{ flex: 1 }}>
-                <StatusBar style="auto" />
+                <StatusBar style={statusBarStyle} />
                 <Slot />
               </Surface>
             </SSEProvider>

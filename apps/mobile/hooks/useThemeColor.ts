@@ -3,20 +3,12 @@
  * https://docs.expo.dev/guides/color-schemes/
  */
 
-import { useColorScheme } from 'react-native';
-
 import { Colors } from '@/constants/Colors';
+import { useAppSetting } from './useAppSetting';
+import { MD3Colors } from 'react-native-paper/lib/typescript/types';
 
-export function useThemeColor(
-  props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
-) {
-  const theme = useColorScheme() ?? 'light';
-  const colorFromProps = props[theme];
+export function useThemeColor(colorType: keyof MD3Colors) {
+  const { effectiveColorScheme, currentColor } = useAppSetting();
 
-  if (colorFromProps) {
-    return colorFromProps;
-  } else {
-    return Colors[theme][colorName];
-  }
+  return Colors[effectiveColorScheme!][currentColor][colorType];
 }

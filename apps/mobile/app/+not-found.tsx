@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
-import { Surface } from '@/components';
+import { Surface } from '@/components/common';
 
 export default function NotFoundScreen() {
   return (

@@ -1,3 +1,51 @@
+const auth = {
+  createKitchen: {
+    title: '创建厨房',
+    hero: '创建厨房',
+    description: '创建您的厨房并开始探索'
+  },
+
+  joinKitchen: {
+    title: '加入厨房',
+    hero: '加入厨房',
+    description: '加入厨房并开始探索'
+  },
+
+  signIn: {
+    title: '登录',
+    hero: '你好！',
+    description: '准备开始探索御膳房',
+    haveNoAccount: '没有账号？',
+    joinOrCreate: '加入或创建厨房'
+  },
+
+  forgotPassword: {
+    title: '忘记密码',
+    hero: '重置密码',
+    description: '找回您的账号密码'
+  },
+
+  createNewPassword: {
+    title: '创建新密码',
+    hero: '创建新密码',
+    description: '重置您的账号密码'
+  },
+
+  alreadyHaveAccount: '已有账号？'
+};
+
+const home = {
+  title: '首页'
+};
+
+const menu = {
+  title: '菜单'
+};
+
+const profile = {
+  title: '我的'
+};
+
 const Chinese = {
   welcome: '欢迎来到御膳房',
   start: '开始',
@@ -6,6 +54,7 @@ const Chinese = {
 
   common: {
     enter: '请输入',
+    next: '下一步',
     confirm: '确认',
     cancel: '取消',
     captcha: '验证码',
@@ -17,17 +66,11 @@ const Chinese = {
     invalidEmail: '无效的邮箱'
   },
 
-  createKitchen: {
-    title: '创建厨房'
-  },
+  auth,
+  home,
+  menu,
+  profile,
 
-  joinKitchen: {
-    title: '加入厨房'
-  },
-
-  alreadyHaveAccount: '已有账号？',
-  signIn: '登录',
-  logout: '登出',
   signUp: '注册',
   enterEmail: '输入邮箱',
   enterPhone: '输入手机号',
