@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { SignInDTO } from '@imperial-kitchen/types';
-import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text } from '@/components';
+import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text, HelloWave } from '@/components';
 import { useToken } from '@/context/AuthContext';
 import { globalStyles } from '@/assets/styles';
 
@@ -32,7 +32,9 @@ export default function SignIn() {
     <ParallaxScrollView>
       <Surface style={styles.container}>
         <Surface style={globalStyles.hero}>
-          <Text className="text-2xl font-bold mb-4">{t('auth.signIn.hero')}</Text>
+          <Text className="text-2xl font-bold mb-4">
+            {t('auth.signIn.hero')} <HelloWave />
+          </Text>
           <Text variant="labelLarge">{t('auth.signIn.description')}</Text>
         </Surface>
 
