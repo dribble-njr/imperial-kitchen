@@ -66,7 +66,7 @@ jobs:
           cd ../..
 
           # Start container with dynamic port
-          SERVER_PORT=$PORT NODE_ENV=dev docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+          SERVER_PORT=$PORT NODE_ENV=dev docker compose -f docker-compose.yml up -d --build
           EOF
         env:
           DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
