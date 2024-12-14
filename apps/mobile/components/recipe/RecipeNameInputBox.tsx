@@ -2,9 +2,9 @@ import CutleryIcon from '@/assets/icons/cutlery-icon.svg';
 import { useBlurOnKeyboardDismiss } from '@/hooks/useBlurOnKeyBoardDismiss';
 import { CreateRecipeDTO } from '@imperial-kitchen/types';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { Surface } from '@/components/common';
 
 const SPRING_CONFIG = {
   damping: 10,
@@ -46,7 +46,7 @@ export default function RecipeNameInputBox({
   }));
 
   return (
-    <View
+    <Surface
       style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
     >
       <Animated.View style={[{ marginRight: 6 }, leftIconStyle]}>
@@ -63,6 +63,6 @@ export default function RecipeNameInputBox({
       <Animated.View style={[{ marginLeft: 6 }, rightIconStyle]}>
         <CutleryIcon width={28} height={28} />
       </Animated.View>
-    </View>
+    </Surface>
   );
 }

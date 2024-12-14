@@ -1,14 +1,15 @@
 import { router } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Surface, Text } from '@/components/common';
 
 export default function CreateRecipeGuide() {
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <Surface style={styles.container}>
+      <Surface style={styles.header}>
         <Text style={styles.title}>今天想整什么黑暗料理？</Text>
-      </View>
-      <View style={styles.content}>
-        <View
+      </Surface>
+      <Surface style={styles.content}>
+        <Surface
           style={{
             height: 100,
             width: 100,
@@ -19,25 +20,23 @@ export default function CreateRecipeGuide() {
             justifyContent: 'center'
           }}
           onTouchStart={() => {
-            router.push('/menu/recipe');
+            router.push('/(app)/(recipe)/create-recipe');
           }}
         >
           <Text>动手吧</Text>
-        </View>
-      </View>
-    </View>
+        </Surface>
+      </Surface>
+    </Surface>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#f9f9f9'
+    flex: 1
   },
   header: {
     padding: 8,
     paddingTop: 54,
-    backgroundColor: '#fff',
     width: '100%'
   },
   title: {

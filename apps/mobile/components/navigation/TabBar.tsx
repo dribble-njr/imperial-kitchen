@@ -1,6 +1,5 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { CommonActions } from '@react-navigation/native';
-import React from 'react';
 import { BottomNavigation } from 'react-native-paper';
 
 const TabBar = (props: BottomTabBarProps) => (

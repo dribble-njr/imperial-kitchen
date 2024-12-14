@@ -9,7 +9,7 @@ import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text, HelloWave
 import { useToken } from '@/context/AuthContext';
 import { globalStyles } from '@/assets/styles';
 
-export default function SignIn() {
+export default function SignInScreen() {
   const { t } = useTranslation();
   const { signIn } = useToken();
   const handleSignIn = async (values: SignInDTO) => {

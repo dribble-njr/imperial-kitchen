@@ -3,7 +3,8 @@ import HardFoodIcon from '@/assets/icons/hard-food-icon.svg';
 import MiddleFoodIcon from '@/assets/icons/middle-food-icon.svg';
 import { CreateRecipeDTO, FoodDifficulty } from '@imperial-kitchen/types';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Surface, Text } from '@/components/common';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 
 const DifficultyConfigs = [
@@ -59,12 +60,12 @@ const DifficultyItem = ({
   }));
 
   return (
-    <View style={[styles.item, isActive && styles.activeItem]} onTouchStart={onSelect}>
+    <Surface style={[styles.item, isActive && styles.activeItem]} onTouchStart={onSelect}>
       <Animated.View style={animatedStyle}>
         <item.icon width={54} height={54} />
       </Animated.View>
       <Text style={styles.itemText}>{item.text}</Text>
-    </View>
+    </Surface>
   );
 };
 
@@ -82,7 +83,7 @@ export default function RecipeDifficultyRadioSelector({
   }, []);
 
   return (
-    <View style={styles.container}>
+    <Surface style={styles.container}>
       {DifficultyConfigs.map((item) => (
         <DifficultyItem
           key={item.difficulty}
@@ -91,7 +92,7 @@ export default function RecipeDifficultyRadioSelector({
           onSelect={() => handleSelect(item.difficulty)}
         />
       ))}
-    </View>
+    </Surface>
   );
 }
 
@@ -118,7 +119,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(116, 90, 26, 0.1)'
   },
   itemText: {
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.5)'
+    fontSize: 12
   }
 });

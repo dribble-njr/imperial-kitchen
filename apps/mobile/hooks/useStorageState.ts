@@ -61,7 +61,11 @@ export function useStorageState<T = string>(key: string): UseStateHook<T> {
         if (typeof localStorage !== 'undefined') {
           const storedValue = localStorage.getItem(key);
           if (storedValue !== null) {
-            setState(JSON.parse(storedValue) as T);
+            try {
+              setState(JSON.parse(storedValue) as T);
+            } catch {
+              setState(storedValue as unknown as T);
+            }
           } else {
             setState(null);
           }
@@ -72,7 +76,11 @@ export function useStorageState<T = string>(key: string): UseStateHook<T> {
     } else {
       SecureStore.getItemAsync(key).then((value) => {
         if (value !== null) {
-          setState(JSON.parse(value) as T);
+          try {
+            setState(JSON.parse(value) as T);
+          } catch {
+            setState(value as unknown as T);
+          }
         } else {
           setState(null);
         }
@@ -85,7 +93,7 @@ export function useStorageState<T = string>(key: string): UseStateHook<T> {
     (value: T | null) => {
       setState(value);
       const stringValue = value !== null && value !== undefined ? JSON.stringify(value) : null;
-      setStorageItemAsync(key, stringValue);
+      setStorageItemAsync(key, typeof value === 'string' ? value : stringValue);
     },
     [key]
   );

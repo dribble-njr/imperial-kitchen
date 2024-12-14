@@ -1,4 +1,4 @@
-import { Surface } from '@/components/common';
+import { ParallaxScrollView, Surface } from '@/components/common';
 import { useColorScheme } from 'react-native';
 import { List, Menu, IconButton, Snackbar, Icon } from 'react-native-paper';
 import { Language, Languages } from '@/types';
@@ -23,7 +23,7 @@ export default function ProfileScreen() {
   const themeColors = Colors[setting?.theme === 'auto' ? colorScheme ?? 'light' : setting?.theme ?? 'light'];
 
   return (
-    <Surface style={{ flex: 1 }}>
+    <ParallaxScrollView>
       <Surface elevation={0}>
         <List.AccordionGroup>
           <List.Accordion id="1" title={t('appearance')} left={(props) => <List.Icon {...props} icon="palette" />}>
@@ -194,6 +194,6 @@ export default function ProfileScreen() {
       >
         {message.content}
       </Snackbar>
-    </Surface>
+    </ParallaxScrollView>
   );
 }

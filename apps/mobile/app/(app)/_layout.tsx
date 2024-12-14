@@ -2,8 +2,8 @@ import { useFonts } from 'expo-font';
 import { Redirect, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-
 import { useToken } from '@/context/AuthContext';
+import { StackHeader } from '@/components/navigation';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -33,11 +33,14 @@ export default function AppLayout() {
     return <Redirect href="/(auth)/guide" />;
   }
 
-  console.log('AppLayout');
-
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        header: (props) => <StackHeader navProps={props} children={undefined} />
+      }}
+    >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="(recipe)" options={{ title: '' }} />
     </Stack>
   );
 }

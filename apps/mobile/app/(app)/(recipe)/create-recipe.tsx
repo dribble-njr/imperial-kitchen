@@ -1,16 +1,15 @@
+import { RecipeDifficultyRadioSelector, RecipeNameInputBox, RecipeTagsBox } from '@/components/recipe';
 import { CreateRecipeDTO } from '@imperial-kitchen/types';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import RecipeNameInputBox from '../components/RecipeNameInputBox';
-import RecipeDifficultyRadioSelector from '../components/RecipeDifficultyRadioSelector';
-import RecipeTagsBox from '../components/RecipeTagsBox';
+import { Button, StyleSheet } from 'react-native';
+import { Surface, Text } from '@/components/common';
 
 const CardItem = ({ title, children }: { title: string; children: ReactNode }) => {
   return (
-    <View style={{ width: '100%' }}>
+    <Surface style={{ width: '100%' }}>
       <Text style={styles.cardTitle}>{title}</Text>
-      <View style={styles.cardContent}>{children}</View>
-    </View>
+      <Surface style={styles.cardContent}>{children}</Surface>
+    </Surface>
   );
 };
 
@@ -41,28 +40,27 @@ export default function RecipePage() {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <Surface style={styles.container}>
+      <Surface style={styles.header}>
         <Text style={styles.title}>菜谱设计</Text>
-      </View>
-      <View style={styles.cardContainer}>
+      </Surface>
+      <Surface style={styles.cardContainer}>
         {CardItems.map((item) => (
           <CardItem key={item.title} title={item.title}>
             {item.content(form, setForm)}
           </CardItem>
         ))}
-      </View>
-      <View style={styles.footer}>
+      </Surface>
+      <Surface style={styles.footer}>
         <Button title="看看数据" onPress={() => console.log(form)} />
-      </View>
-    </View>
+      </Surface>
+    </Surface>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'rgb(240, 238, 233)'
+    flex: 1
   },
   header: {
     padding: 8,
@@ -81,13 +79,11 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 14,
-    color: 'rgba(116, 90, 26, 1)',
     fontWeight: 'bold'
   },
   cardContent: {
     marginTop: 8,
     padding: 8,
-    backgroundColor: '#fff',
     borderRadius: 8
   },
   footer: {

@@ -38,8 +38,8 @@ const home = {
   title: 'Home'
 };
 
-const menu = {
-  title: 'Menu'
+const recipe = {
+  title: 'Recipe'
 };
 
 const profile = {
@@ -68,7 +68,7 @@ const English = {
 
   auth,
   home,
-  menu,
+  recipe,
   profile,
 
   enterEmail: 'Enter your email',

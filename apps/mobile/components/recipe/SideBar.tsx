@@ -1,8 +1,9 @@
 import CloseMenuIcon from '@/assets/icons/close-menu-icon.svg';
 import OpenMenuIcon from '@/assets/icons/open-menu-icon.svg';
 import { SidebarConfig, SidebarItemType } from '@/types';
+import { Surface } from '@/components/common';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -29,7 +30,7 @@ const SideBarItem = ({
   const { icon: Icon, type } = config;
 
   return (
-    <View
+    <Surface
       style={[
         styles.sidebarItem,
         isFirst && styles.roundedTop,
@@ -39,7 +40,7 @@ const SideBarItem = ({
       onTouchStart={() => onSelect(type)}
     >
       <Icon width={32} height={32} />
-    </View>
+    </Surface>
   );
 };
 
@@ -121,10 +122,10 @@ export default function SideBar({
   );
 
   return (
-    <View style={styles.container}>
+    <Surface style={styles.container}>
       <Animated.View style={[styles.sidebarContent, animatedStyle]}>
         {Object.values(sidebarItems).map((items, index) => (
-          <View key={index} style={[styles.itemsGroup, !!items.length && styles.itemsGroupBg]}>
+          <Surface key={index} style={[styles.itemsGroup, !!items.length && styles.itemsGroupBg]}>
             {items.map((config, idx) => (
               <SideBarItem
                 key={config.type}
@@ -135,14 +136,14 @@ export default function SideBar({
                 isLast={idx === items.length - 1}
               />
             ))}
-          </View>
+          </Surface>
         ))}
       </Animated.View>
 
-      <View style={styles.toggleButtonContainer}>
+      <Surface style={styles.toggleButtonContainer}>
         <ToggleMenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
-      </View>
-    </View>
+      </Surface>
+    </Surface>
   );
 }
 

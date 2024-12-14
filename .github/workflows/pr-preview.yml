@@ -28,10 +28,11 @@ jobs:
         id: deploy
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
 
           # Stop existing containers
           ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
-          docker ps -q --filter "name=pr-${PR_NUMBER}" | xargs -r docker stop
+          docker ps -q --filter "name=${REPO_NAME}-pr-${PR_NUMBER}" | xargs -r docker stop
           EOF
 
           # Calculate the next available port (by checking if the port is in use)
@@ -44,9 +45,9 @@ jobs:
 
           # ssh to server and cd to working directory
           ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
-          rm -rf $DEPLOY_DIR/pr-$PR_NUMBER
-          mkdir -p $DEPLOY_DIR/pr-$PR_NUMBER
-          cd $DEPLOY_DIR/pr-$PR_NUMBER
+          rm -rf $DEPLOY_DIR/${REPO_NAME}-pr-$PR_NUMBER
+          mkdir -p $DEPLOY_DIR/${REPO_NAME}-pr-$PR_NUMBER
+          cd $DEPLOY_DIR/${REPO_NAME}-pr-$PR_NUMBER
 
           # Clone the latest code
           git clone -b ${{ github.event.pull_request.head.ref }} https://github.com/${{ github.repository }}.git .
@@ -65,7 +66,7 @@ jobs:
           cd ../..
 
           # Start container with dynamic port
-          SERVER_PORT=$PORT NODE_ENV=dev docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+          SERVER_PORT=$PORT NODE_ENV=dev docker compose -f docker-compose.yml up -d --build
           EOF
         env:
           DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
