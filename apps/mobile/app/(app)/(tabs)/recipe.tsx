@@ -5,7 +5,7 @@ import DrinkIcon from '@/assets/icons/drink-icon.svg';
 import { CreateRecipe, SidebarConfig, SidebarItemType } from '@/types';
 import { FoodType } from '@imperial-kitchen/types';
 import { useState } from 'react';
-import { CreateRecipeGuide, FoodListLayout, SideBar } from '@/components/dish';
+import { CreateRecipeGuide, FoodListLayout, SideBar } from '@/components/recipe';
 import { Surface } from '@/components/common';
 import { StyleSheet } from 'react-native';
 
@@ -29,7 +29,7 @@ const SidebarConfigs: SidebarConfig[] = [
   }
 ];
 
-export default function DishesPage() {
+export default function RecipeScreen() {
   const [selectedKey, setSelectedKey] = useState<SidebarItemType>(SidebarConfigs[0].type);
 
   return (

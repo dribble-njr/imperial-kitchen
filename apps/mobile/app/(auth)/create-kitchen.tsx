@@ -8,12 +8,11 @@ import { Surface, CaptchaInput, FieldInput, PasswordInput, ParallaxScrollView, T
 import * as Yup from 'yup';
 import { globalStyles } from '@/assets/styles';
 
-export default function CreateKitchen() {
+export default function CreateKitchenScreen() {
   const { t } = useTranslation();
   const sendCaptcha = async (email: string) => {
     const res = await UserService.sendCaptcha(email);
     if (res) {
-      console.log(res);
       Alert.alert('Success', 'Captcha sent successfully');
     }
   };

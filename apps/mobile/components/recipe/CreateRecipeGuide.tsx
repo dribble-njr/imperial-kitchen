@@ -20,7 +20,7 @@ export default function CreateRecipeGuide() {
             justifyContent: 'center'
           }}
           onTouchStart={() => {
-            router.push('/menu/recipe');
+            router.push('/(app)/(recipe)/create-recipe');
           }}
         >
           <Text>动手吧</Text>

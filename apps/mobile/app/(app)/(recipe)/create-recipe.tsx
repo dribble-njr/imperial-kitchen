@@ -1,4 +1,4 @@
-import { RecipeDifficultyRadioSelector, RecipeNameInputBox, RecipeTagsBox } from '@/components/dish';
+import { RecipeDifficultyRadioSelector, RecipeNameInputBox, RecipeTagsBox } from '@/components/recipe';
 import { CreateRecipeDTO } from '@imperial-kitchen/types';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { Button, StyleSheet } from 'react-native';

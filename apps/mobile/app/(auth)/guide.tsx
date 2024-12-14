@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Surface, Carousel, SafeAreaSurface, Text } from '@/components/common';
 
-export default function Guide() {
+export default function GuideScreen() {
   const { t } = useTranslation();
 
   const skip = async () => {

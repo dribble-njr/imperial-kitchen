@@ -9,7 +9,7 @@ import { Alert } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import * as Yup from 'yup';
 
-export default function JoinKitchen() {
+export default function JoinKitchenScreen() {
   const { t } = useTranslation();
   const [displayPassword, setDisplayPassword] = useState(false);
   const sendCaptcha = async (email: string) => {

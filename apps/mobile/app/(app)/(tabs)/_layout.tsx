@@ -22,8 +22,8 @@ const TAB_CONFIG: TabConfig[] = [
     activeIcon: 'storefront-outline'
   },
   {
-    name: 'menu',
-    locale: 'menu',
+    name: 'recipe',
+    locale: 'recipe',
     icon: 'flask',
     activeIcon: 'flask-outline'
   },

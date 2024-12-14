@@ -38,8 +38,8 @@ const home = {
   title: '首页'
 };
 
-const menu = {
-  title: '菜单'
+const recipe = {
+  title: '食谱'
 };
 
 const profile = {
@@ -68,7 +68,7 @@ const Chinese = {
 
   auth,
   home,
-  menu,
+  recipe,
   profile,
 
   signUp: '注册',
