@@ -5,5 +5,4 @@ services:
 
 volumes:
   dev_mysql_data:
-    name: dev_mysql_data
     external: true
