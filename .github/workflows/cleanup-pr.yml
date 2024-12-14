@@ -20,16 +20,18 @@ jobs:
       - name: Stop and Remove Container
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
 
           # SSH into server to stop and remove the container
           ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST <<EOF
 
           # rm -rf the directory
-          rm -rf $DEPLOY_DIR/pr-$PR_NUMBER
+          rm -rf $DEPLOY_DIR/${REPO_NAME}-pr-$PR_NUMBER
 
           # Stop and remove the container for this PR
-          docker ps -q --filter "name=pr-${PR_NUMBER}" | xargs -r docker stop
-          docker ps -aq --filter "name=pr-${PR_NUMBER}" | xargs -r docker rm
+          docker ps -q --filter "name=${REPO_NAME}-pr-${PR_NUMBER}" | xargs -r docker stop
+          docker ps -aq --filter "name=${REPO_NAME}-pr-${PR_NUMBER}" | xargs -r docker rm
+          docker images "${REPO_NAME}-pr-${PR_NUMBER}*" -q | xargs -r docker rmi -f
           EOF
         env:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
