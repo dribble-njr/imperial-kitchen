@@ -5,11 +5,11 @@ export default function MenuLayout() {
     <Stack
       initialRouteName="index"
       screenOptions={{
-        headerShown: false,
-        animation: 'flip'
+        headerShown: false
       }}
     >
-      <Stack.Screen name="recipe" />
+      <Stack.Screen name="index" />
+      <Stack.Screen name="recipe" options={{ presentation: 'modal' }} />
     </Stack>
   );
 }

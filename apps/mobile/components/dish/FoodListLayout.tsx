@@ -1,28 +1,31 @@
 import { FoodType2Slogan } from '@/types';
 import { FoodType } from '@imperial-kitchen/types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Surface, Text } from '@/components/common';
 
 const Header = ({ title }: { title: string }) => {
   return (
-    <View style={styles.header}>
+    <Surface style={styles.header}>
       <Text style={styles.title}>{title}</Text>
-    </View>
+    </Surface>
   );
 };
 
 export default function FoodListLayout({ type }: { type: FoodType }) {
   return (
-    <View className="flex-1 bg-[#f9f9f9]">
+    <Surface style={styles.container}>
       <Header title={FoodType2Slogan[type]} />
-    </View>
+    </Surface>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   header: {
     padding: 8,
     paddingTop: 54,
-    backgroundColor: '#fff',
     width: '100%'
   },
   title: {

@@ -1,14 +1,15 @@
 import { CreateRecipeDTO, TagVO } from '@imperial-kitchen/types';
 import { Dispatch, SetStateAction } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Surface, Text } from '@/components/common';
 import TagItem from './TagItem';
 import TagSelectModal from './TagSelectModal';
 
 const AddTagButton = ({ onPress }: { onPress: () => void }) => {
   return (
-    <View style={styles.addTagButton} onTouchStart={onPress}>
+    <Surface style={styles.addTagButton} onTouchStart={onPress}>
       <Text style={styles.addTagButtonText}>+ 添加标签</Text>
-    </View>
+    </Surface>
   );
 };
 
@@ -24,7 +25,7 @@ export default function RecipeTagsBox({
     setForm({ ...form, tags: tags.filter((t) => t.id !== tag.id) });
   };
   return (
-    <View style={{ display: 'flex', flexDirection: 'row', gap: 5, flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+    <Surface style={{ display: 'flex', flexDirection: 'row', gap: 5, flexWrap: 'wrap', justifyContent: 'flex-start' }}>
       {tags.map((tag) => (
         <TagItem active key={tag.id} tag={tag} onClose={() => onItemDelete(tag)} />
       ))}
@@ -36,13 +37,12 @@ export default function RecipeTagsBox({
         onItemDelete={onItemDelete}
         trigger={(show) => <AddTagButton onPress={show} />}
       />
-    </View>
+    </Surface>
   );
 }
 
 const styles = StyleSheet.create({
   addTagButton: {
-    backgroundColor: 'rgba(116, 90, 26, 0.1)',
     width: 90,
     padding: 4,
     paddingHorizontal: 8,
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   addTagButtonText: {
-    fontSize: 14,
-    color: 'rgba(0, 0, 0, 0.6)'
+    fontSize: 14
   }
 });

@@ -27,6 +27,7 @@ class HttpClient {
 
   private async handleRequest(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
     const accessToken = await getStorageItemAsync('accessToken');
+    console.log(accessToken, 'accessToken');
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
