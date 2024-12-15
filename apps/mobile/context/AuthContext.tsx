@@ -8,6 +8,8 @@ const AuthContext = createContext<{
   signOut: () => void;
   accessToken?: string | null;
   refreshToken?: string | null;
+  setAccessToken: (token: string | null) => void;
+  setRefreshToken: (token: string | null) => void;
   isLoading: boolean;
   userInfo?: Omit<User, 'role'> | null;
 }>({
@@ -15,6 +17,8 @@ const AuthContext = createContext<{
   signOut: () => null,
   accessToken: null,
   refreshToken: null,
+  setAccessToken: () => {},
+  setRefreshToken: () => {},
   isLoading: false,
   userInfo: null
 });
@@ -56,6 +60,8 @@ export function TokenProvider(props: PropsWithChildren) {
         },
         accessToken,
         refreshToken,
+        setAccessToken,
+        setRefreshToken,
         isLoading,
         userInfo
       }}

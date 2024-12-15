@@ -34,7 +34,12 @@ export class AuthGuard implements CanActivate {
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       request['user'] = payload;
-    } catch {
+    } catch (error) {
+      console.log(error, 'error, auth guard');
+      if (error?.name === 'TokenExpiredError') {
+        throw new UnauthorizedException('Expired token');
+      }
+
       throw new UnauthorizedException('Invalid token');
     }
     return true;
