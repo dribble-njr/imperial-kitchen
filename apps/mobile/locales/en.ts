@@ -42,6 +42,10 @@ const recipe = {
   title: 'Recipe'
 };
 
+const message = {
+  title: 'Message'
+};
+
 const profile = {
   title: 'Profile'
 };
@@ -69,6 +73,7 @@ const English = {
   auth,
   home,
   recipe,
+  message,
   profile,
 
   enterEmail: 'Enter your email',
