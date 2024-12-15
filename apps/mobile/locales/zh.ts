@@ -42,6 +42,10 @@ const recipe = {
   title: '食谱'
 };
 
+const message = {
+  title: '消息'
+};
+
 const profile = {
   title: '我的'
 };
@@ -69,6 +73,7 @@ const Chinese = {
   auth,
   home,
   recipe,
+  message,
   profile,
 
   signUp: '注册',
