@@ -33,7 +33,7 @@ export class AuthService {
     const refreshTokenPayload = { id: user.id, email: user.email, nonce: randomUUID() };
 
     return {
-      accessToken: await this.jwtService.signAsync(accessTokenPayload, { expiresIn: '1m' }),
+      accessToken: await this.jwtService.signAsync(accessTokenPayload, { expiresIn: '1d' }),
       refreshToken: await this.jwtService.signAsync(refreshTokenPayload, { expiresIn: '30d' }),
       userInfo: {
         ...userWithoutPassword
@@ -46,7 +46,7 @@ export class AuthService {
       const payload = await this.jwtService.verifyAsync(refreshToken);
       const newAccessToken = await this.jwtService.signAsync(
         { id: payload.id, email: payload.email, nonce: randomUUID() },
-        { expiresIn: '1m' }
+        { expiresIn: '1d' }
       );
       const newRefreshToken = await this.jwtService.signAsync(
         { id: payload.id, email: payload.email, nonce: randomUUID() },
