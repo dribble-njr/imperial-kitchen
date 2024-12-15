@@ -3,6 +3,7 @@ import { getSSEBaseURL } from '@/service/http-client';
 import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource, { EventSourceEvent } from 'react-native-sse';
+import { AuthService } from '@/service';
 
 type SSEMessage = {
   id: string;
@@ -44,19 +45,28 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
   const [sse, setSSE] = useState<EventSource | null>(null);
   const [messages, setMessages] = useState<SSEMessage[]>([]);
   const [connected, setConnected] = useState(false);
-  const token = useToken();
+  const { accessToken, setAccessToken, setRefreshToken } = useToken();
   const reconnectAttempts = useRef(0);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const createConnection = useCallback(() => {
-    if (!token.accessToken) return;
+  const handleTokenExpired = async () => {
+    try {
+      const response = await AuthService.refreshToken();
+      console.log('response handleTokenExpired', response);
+      if (response) {
+        setAccessToken(response.accessToken);
+        setRefreshToken(response.refreshToken);
 
-    const es = new EventSource(getSSEBaseURL(), {
-      headers: {
-        Authorization: `Bearer ${token.accessToken}`,
-        'Content-Type': 'application/json'
+        return true;
       }
-    });
+    } catch (error) {
+      console.error('refresh token error:', error);
+      return false;
+    }
+  };
+
+  const createConnection = useCallback(() => {
+    if (!accessToken) return;
 
     const handleOpen = () => {
       console.log('SSE 连接已建立');
@@ -67,7 +77,6 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
     const handleMessage = (event: EventSourceEvent<'message'>) => {
       try {
         const data: SSEMessage = JSON.parse(event.data ?? '');
-        console.log(`接收到消息: ${JSON.stringify(data)}`);
         setMessages((prev) => {
           const newMessages = [...prev, data];
           return newMessages.slice(-MaxMessages);
@@ -77,21 +86,46 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    const handleError = (error: EventSourceEvent<'error'>) => {
+    const handleError = async (error: EventSourceEvent<'error'>) => {
       console.error('SSE 错误:', error);
       setConnected(false);
       es.close();
       setSSE(null);
+
+      if ('xhrStatus' in error && error.xhrStatus === 401) {
+        console.log('refresh token');
+        const refreshSuccess = await handleTokenExpired();
+        if (refreshSuccess) {
+          reconnectAttempts.current = 0;
+          if (!sse) createConnection();
+          return;
+        }
+      }
 
       if (reconnectAttempts.current < MaxReconnectAttempts) {
         const timeout = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
         console.log(`${timeout / 1000}秒后尝试重连...`);
         reconnectTimeoutRef.current = setTimeout(() => {
           reconnectAttempts.current++;
-          createConnection();
+          if (!sse) createConnection();
         }, timeout);
       }
     };
+
+    if (sse) {
+      sse.removeEventListener('open', handleOpen);
+      sse.removeEventListener('message', handleMessage);
+      sse.removeEventListener('error', handleError);
+      sse.close();
+      setSSE(null);
+    }
+
+    const es = new EventSource(getSSEBaseURL(), {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
 
     es.addEventListener('open', handleOpen);
     es.addEventListener('message', handleMessage);
@@ -105,7 +139,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       es.removeEventListener('error', handleError);
       es.close();
     };
-  }, [token.accessToken]);
+  }, [accessToken]);
 
   const reconnect = useCallback(() => {
     if (sse) {
@@ -126,9 +160,9 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       if (cleanup) {
         cleanup();
-        setSSE(null);
-        setConnected(false);
       }
+      setSSE(null);
+      setConnected(false);
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
       }

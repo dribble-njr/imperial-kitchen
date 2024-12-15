@@ -10,6 +10,11 @@ class HttpClient {
   private constructor(config: AxiosRequestConfig) {
     this.defaultConfig = config;
     this.axiosInstance = axios.create(config);
+
+    this.handleRequest = this.handleRequest.bind(this);
+    this.handleResponse = this.handleResponse.bind(this);
+    this.handleError = this.handleError.bind(this);
+
     this.initializeInterceptors();
   }
 
@@ -39,7 +44,7 @@ class HttpClient {
   }
 
   private async handleError(error: AxiosError<CommonResponse>) {
-    if (error.response?.status === 401 && error.response?.data.message === 'Invalid token') {
+    if (error.response?.status === 401 && error.response?.data.message === 'Expired token') {
       const refreshToken = await getStorageItemAsync('refreshToken');
       if (refreshToken) {
         try {
