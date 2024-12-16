@@ -7,18 +7,26 @@ datasource db {
   url      = env("DB_URL")
 }
 
-model Category {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  isActive    Boolean  @default(true)
-
-  commodity Commodity[]
+enum CategoryType {
+  DISH
+  RECIPE
+  OTHER
 }
 
-model Commodity {
+model Category {
+  id          Int          @id @default(autoincrement())
+  name        String
+  type        CategoryType
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isActive    Boolean      @default(true)
+
+  dishes      Dish[]
+  @@index([type])
+}
+
+model Dish {
   id          Int      @id @default(autoincrement())
   name        String
   price       Float
@@ -29,6 +37,8 @@ model Commodity {
 
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId Int?
+
+  tags      TagsOnDishes[]
 }
 
 model User {
@@ -85,6 +95,19 @@ model Tag {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  dishes    TagsOnDishes[]
+
   @@index([name])
   @@index([type])
+}
+
+model TagsOnDishes {
+  dish      Dish     @relation(fields: [dishId], references: [id])
+  dishId    Int
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([dishId, tagId])
 }
