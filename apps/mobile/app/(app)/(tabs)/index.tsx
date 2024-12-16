@@ -1,8 +1,10 @@
-import { TextInput, TouchableOpacity, ScrollView, Image, StyleSheet } from 'react-native';
-import { Stack } from 'expo-router';
+import { TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import { ParallaxScrollView, Surface, Text } from '@/components/common';
+import { SafeAreaSurface, Surface, Text } from '@/components/common';
+import { globalStyles } from '@/assets/styles';
+import { Card, Searchbar } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
+import { getGreeting } from '@/utils';
 
 const categories = ['All', 'Breakfast', 'Lunch', 'Dinner'];
 
@@ -27,29 +29,23 @@ const recipeCards = [
 
 export default function HomeLayout() {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const { t } = useTranslation();
 
   return (
-    <ParallaxScrollView>
-      <Stack.Screen
-        options={{
-          headerShown: false
-        }}
-      />
-
+    <SafeAreaSurface style={globalStyles.screenContent}>
       {/* Header */}
-      <Surface style={styles.header}>
-        <Text style={styles.greeting}>Good Morning</Text>
-        <Text style={styles.title}>What would you like to cook for today?</Text>
+      <Surface>
+        <Text style={styles.greeting}>{t(`common.${getGreeting()}`)}</Text>
+        <Text style={styles.title} variant="titleLarge">
+          {t('home.slogan')}
+        </Text>
       </Surface>
 
-      {/* Search Bar */}
-      <Surface style={styles.searchBar}>
-        <Ionicons name="search" size={20} color="#8E8E93" />
-        <TextInput placeholder="Search any recipes..." placeholderTextColor="#8E8E93" style={styles.searchInput} />
-      </Surface>
+      <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
 
       {/* Categories */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.map((category) => (
           <TouchableOpacity
             key={category}
@@ -68,22 +64,22 @@ export default function HomeLayout() {
         <Surface style={styles.recipeGrid}>
           {recipeCards.map((recipe) => (
             <TouchableOpacity key={recipe.id} style={styles.recipeCard}>
-              <Image source={{ uri: recipe.image }} style={styles.recipeImage} resizeMode="cover" />
-              <Surface style={styles.recipeInfo}>
+              <Card.Cover source={{ uri: recipe.image }} style={styles.recipeImage} resizeMode="cover" />
+              <Card.Content>
                 <Text style={styles.recipeCategory}>{recipe.category}</Text>
                 <Text style={styles.recipeTitle}>{recipe.title}</Text>
                 <Text style={styles.recipeDetails}>
                   {recipe.ingredients} Ingredients | {recipe.duration} Min
                 </Text>
-              </Surface>
+              </Card.Content>
             </TouchableOpacity>
           ))}
         </Surface>
 
         {/* Recommendation Section */}
-        <Surface style={styles.recommendationBox}>
+        <Surface style={styles.recommendationBox} elevation={2}>
           <Text style={styles.recommendationCategory}>Breakfast</Text>
-          <Surface style={styles.recommendationContent}>
+          <Surface style={styles.recommendationContent} elevation={2}>
             <Text style={styles.recommendationText}>We have 12 Recipes recommendation</Text>
             <TouchableOpacity style={styles.exploreButton}>
               <Text style={styles.exploreButtonText}>Explore</Text>
@@ -91,48 +87,30 @@ export default function HomeLayout() {
           </Surface>
         </Surface>
       </ScrollView>
-    </ParallaxScrollView>
+    </SafeAreaSurface>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    marginBottom: 24
-  },
   greeting: {
-    color: 'white',
-    fontSize: 18,
     marginBottom: 8
   },
   title: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 16
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#2C2C2E',
-    borderRadius: 25,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginBottom: 24
+    fontWeight: '600'
   },
   searchInput: {
     flex: 1,
     marginLeft: 8,
     color: 'white'
   },
-  categoryContainer: {
-    marginBottom: 24
-  },
   categoryButton: {
     marginRight: 16,
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderRadius: 25,
-    backgroundColor: '#2C2C2E'
+    backgroundColor: '#2C2C2E',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   categoryButtonActive: {
     backgroundColor: '#FF97B5'
@@ -151,7 +129,6 @@ const styles = StyleSheet.create({
   recipeCard: {
     width: '48%',
     marginBottom: 16,
-    backgroundColor: '#2C2C2E',
     borderRadius: 12,
     overflow: 'hidden'
   },
@@ -176,7 +153,6 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   recommendationBox: {
-    backgroundColor: '#2C2C2E',
     padding: 16,
     borderRadius: 12,
     marginBottom: 24
