@@ -9,9 +9,11 @@ import Surface from './Surface';
  */
 export default function SafeAreaSurface({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
   return (
-    <Surface style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Surface style={style}>{children}</Surface>
+    <Surface style={{ flex: 1 }} testID="safe-area-surface">
+      <SafeAreaView style={{ flex: 1 }} testID="safe-area-view">
+        <Surface style={[style, { flex: 1 }]} testID="safe-area-surface-content">
+          {children}
+        </Surface>
       </SafeAreaView>
     </Surface>
   );
