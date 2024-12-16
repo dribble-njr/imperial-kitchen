@@ -46,7 +46,7 @@ export default function ParallaxScrollView({ children, headerImage, headerBackgr
             {headerImage}
           </Animated.View>
         )}
-        <Surface style={styles.content} elevation={0}>
+        <Surface style={styles.content} elevation={0} testID="parallax-scroll-view-content">
           {children}
         </Surface>
       </Animated.ScrollView>
