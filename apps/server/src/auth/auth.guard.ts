@@ -4,12 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from './decorators/public.decorator';
 import config from 'src/config';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    private reflector: Reflector
+    private reflector: Reflector,
+    private userService: UserService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -18,7 +20,6 @@ export class AuthGuard implements CanActivate {
       context.getClass()
     ]);
     if (isPublic) {
-      // 💡 See this condition
       return true;
     }
 
@@ -31,15 +32,21 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: config.JWT_SECRET
       });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
+
+      const user = await this.userService.getUserByEmail(payload.email);
+      if (!user) {
+        throw new UnauthorizedException('User no longer exists');
+      }
+
       request['user'] = payload;
     } catch (error) {
       console.log(error, 'error, auth guard');
       if (error?.name === 'TokenExpiredError') {
         throw new UnauthorizedException('Expired token');
       }
-
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
       throw new UnauthorizedException('Invalid token');
     }
     return true;

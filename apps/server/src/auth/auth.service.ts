@@ -44,6 +44,12 @@ export class AuthService {
   async refreshToken(refreshToken: string): Promise<RefreshTokenResponseVO> {
     try {
       const payload = await this.jwtService.verifyAsync(refreshToken);
+
+      const user = await this.userService.getUserByEmail(payload.email);
+      if (!user) {
+        throw new UnauthorizedException('User no longer exists');
+      }
+
       const newAccessToken = await this.jwtService.signAsync(
         { id: payload.id, email: payload.email, nonce: randomUUID() },
         { expiresIn: '1d' }
@@ -55,6 +61,9 @@ export class AuthService {
 
       return { accessToken: newAccessToken, refreshToken: newRefreshToken };
     } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
       throw new UnauthorizedException('Invalid refresh token');
     }
   }
