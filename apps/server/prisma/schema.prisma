@@ -30,6 +30,7 @@ model Dish {
   id          Int      @id @default(autoincrement())
   name        String
   price       Float
+  image       String?
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

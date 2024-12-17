@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Dish` ADD COLUMN `image` VARCHAR(191) NULL;
