@@ -60,7 +60,8 @@ model KitchensOnUsers {
   userId    Int
   kitchen   Kitchen  @relation(fields: [kitchenId], references: [id])
   kitchenId Int
-  role      Role
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   isActive  Boolean  @default(true)
@@ -68,9 +69,39 @@ model KitchensOnUsers {
   @@id([userId, kitchenId])
 }
 
-enum Role {
-  ADMIN
-  MEMBER
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true)
+
+  permissions RolePermission[]
+  users       KitchensOnUsers[]
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true)
+
+  roles RolePermission[]
+}
+
+model RolePermission {
+  role         Role       @relation(fields: [roleId], references: [id])
+  roleId       Int
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  permissionId Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  isActive     Boolean    @default(true)
+
+  @@id([roleId, permissionId])
 }
 
 enum TagType {
