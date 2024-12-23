@@ -1,8 +1,10 @@
-import { Commodity } from '../commodity/commodity.vo';
+import { DishVO } from '../dish/dish.vo';
+import { CategoryType } from '@prisma/client';
 
-export interface Category {
-  id?: number;
-  name?: string;
+export interface CategoryVO {
+  id: number;
+  name: string;
+  type: CategoryType;
   description?: string;
-  goods?: Commodity[];
+  dishes?: DishVO[];
 }
