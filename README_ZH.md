@@ -34,8 +34,6 @@
    ```
 5. 安装并配置：[`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/)；
    > [!NOTE]
-   > 已提供 redis 配置，你也可以自行配置。
-   > 
    > 若你使用 [`docker`](https://www.docker.com/) 启动服务端，可以跳过配置 `mysql`。
 6. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
    ```sh
@@ -51,8 +49,8 @@
    # JWT_SECRET=agshddgfsd
 
    # # redis
-   # REDIS_PASSWORD=UEtCeE8u8XTkLghdaUj8ZHCwTrzi1K3K
-   # REDIS_URL=redis-13502.c261.us-east-1-4.ec2.redns.redis-cloud.com
+   # REDIS_PASSWORD=
+   # REDIS_URL=
    ```
 7. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
    ```sh
