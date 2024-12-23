@@ -16,6 +16,9 @@
     "bundle:openapi": "redocly bundle ./openapi/openapi.yaml -o ./openapi/bundled.yaml",
     "lint:doc": "redocly lint ./openapi/openapi.yaml"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
