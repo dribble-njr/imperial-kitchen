@@ -1,5 +1,8 @@
 *.md
 node_modules/
+dist
+coverage
+*.log
 [a-c].txt
 .git/
 .gitignore

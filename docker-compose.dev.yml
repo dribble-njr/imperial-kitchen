@@ -15,6 +15,11 @@ services:
       - dev_mysql_data:/var/lib/mysql
 
   server:
+    build:
+      args:
+        NODE_ENV: dev
+    environment:
+      NODE_ENV: dev
     depends_on:
       database:
         condition: service_healthy

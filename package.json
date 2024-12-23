@@ -11,7 +11,9 @@
     "build:types": "yarn workspace @imperial-kitchen/types build",
     "build:server": "yarn workspace server build",
     "prod:server": "yarn workspace server prod",
-    "docker:dev": "cross-env NODE_ENV=dev docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build && docker compose watch",
+    "docker:dev": "yarn docker:dev:up && yarn docker:dev:watch",
+    "docker:dev:up": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build",
+    "docker:dev:watch": "docker compose -f docker-compose.yml -f docker-compose.dev.yml watch",
     "pre build:android": "yarn workspace mobile pre build:android",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "yarn build:types"

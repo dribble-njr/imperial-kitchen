@@ -38,7 +38,7 @@
 6. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
    ```sh
    # PORT=8000
-   # DB_URL="mysql://root:root@database:3306/imperial_kitchen"
+   # DB_URL="mysql://root:root@host.docker.internal:3306/imperial_kitchen"
 
    # # nodemailer
    # nodemailer_host=
@@ -52,6 +52,11 @@
    # REDIS_PASSWORD=
    # REDIS_URL=
    ```
+
+   > [!NOTE]
+   > 你需要配置 `host.docker.internal` 为 `127.0.0.1`。
+   >
+   > 否则，任何关于 `prisma` 的命令都会失败。
 7. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
    ```sh
    yarn dev:server

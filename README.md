@@ -38,7 +38,7 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
 6. Configure server env: rename **server/.env.example** to **server/.env**.
    ```shell
    # PORT=8000
-   # DB_URL="mysql://root:root@database:3306/imperial_kitchen"
+   # DB_URL="mysql://root:root@host.docker.internal:3306/imperial_kitchen"
 
    # # nodemailer
    # nodemailer_host=
@@ -52,6 +52,11 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
    # REDIS_PASSWORD=
    # REDIS_URL=
    ```
+
+   > [!NOTE]
+   > You need to configure the hosts file to resolve `host.docker.internal` to `127.0.0.1`.
+   >
+   > Otherwise, any command about `prisma` will fail.
 7. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
    ```sh
    yarn dev:server
