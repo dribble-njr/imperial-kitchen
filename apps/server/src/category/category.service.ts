@@ -8,16 +8,16 @@ export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const { name, type } = createCategoryDto;
+    const { name, kitchenId } = createCategoryDto;
     const existingCategory = await this.prisma.category.findFirst({
       where: {
         name,
-        type
+        kitchenId
       }
     });
 
     if (existingCategory) {
-      throw new ConflictException(`Category '${name}' in '${type}' type already exists`);
+      throw new ConflictException(`Category '${name}' already exists in this kitchen`);
     }
 
     return this.prisma.category.create({

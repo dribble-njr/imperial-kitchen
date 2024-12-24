@@ -7,27 +7,19 @@ datasource db {
   url      = env("DB_URL")
 }
 
-enum CategoryType {
-  DISH
-  RECIPE
-  OTHER
-}
-
 model Category {
-  id          Int          @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
-  type        CategoryType
   description String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  isActive    Boolean      @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true)
 
-  kitchen   Kitchen? @relation(fields: [kitchenId], references: [id], onDelete: Cascade)
-  kitchenId Int?
+  kitchen   Kitchen @relation(fields: [kitchenId], references: [id], onDelete: Cascade)
+  kitchenId Int
 
   dishes Dish[]
 
-  @@index([type])
   @@index([kitchenId])
 }
 

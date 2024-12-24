@@ -1,9 +1,7 @@
-import { CategoryType } from '@prisma/client';
-
 export interface CreateCategoryDto {
   name: string;
-  type: CategoryType;
   description?: string;
+  kitchenId: number;
 }
 
 export interface UpdateCategoryDto extends Partial<CreateCategoryDto> {}

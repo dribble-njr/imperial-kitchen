@@ -24,7 +24,8 @@ async function bootstrap() {
       transform: true,
       transformOptions: {
         enableImplicitConversion: true
-      }
+      },
+      whitelist: true
     })
   );
   app.useGlobalInterceptors(new TransformResponseInterceptor(app.get(Reflector)));
