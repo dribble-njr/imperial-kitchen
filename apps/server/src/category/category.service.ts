@@ -25,12 +25,16 @@ export class CategoryService {
     });
   }
 
-  findAll() {
-    return `This action returns all category`;
+  findAll(isActive: boolean = true) {
+    return this.prisma.category.findMany({
+      where: { isActive }
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} category`;
+    return this.prisma.category.findUnique({
+      where: { id }
+    });
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
@@ -40,7 +44,23 @@ export class CategoryService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  remove(id: number, isActive: boolean = true) {
+    if (isActive) {
+      return this.prisma.category.update({
+        where: { id },
+        data: { isActive: false }
+      });
+    }
+
+    return this.prisma.category.delete({
+      where: { id }
+    });
+  }
+
+  restore(id: number) {
+    return this.prisma.category.update({
+      where: { id },
+      data: { isActive: true }
+    });
   }
 }
