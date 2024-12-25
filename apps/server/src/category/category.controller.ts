@@ -17,8 +17,8 @@ export class CategoryController {
     return this.categoryService.findAll();
   }
 
-  @Get('inactive')
-  findAllInactive() {
+  @Get('trash')
+  findTrashCategories() {
     return this.categoryService.findAll(false);
   }
 
@@ -33,17 +33,17 @@ export class CategoryController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoryService.remove(+id);
+  moveToTrash(@Param('id') id: string) {
+    return this.categoryService.moveToTrash(+id);
   }
 
-  @Delete('inactive/:id')
-  removeInactive(@Param('id') id: string) {
-    return this.categoryService.remove(+id, false);
+  @Delete('trash/:id')
+  permanentDelete(@Param('id') id: string) {
+    return this.categoryService.moveToTrash(+id, true);
   }
 
-  @Patch('restore/:id')
-  restore(@Param('id') id: string) {
-    return this.categoryService.restore(+id);
+  @Patch('trash/:id/restore')
+  restoreFromTrash(@Param('id') id: string) {
+    return this.categoryService.restoreFromTrash(+id);
   }
 }

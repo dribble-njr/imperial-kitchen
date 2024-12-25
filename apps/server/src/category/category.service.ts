@@ -25,9 +25,9 @@ export class CategoryService {
     });
   }
 
-  findAll(isActive: boolean = true) {
+  findAll(includeTrash: boolean = false) {
     return this.prisma.category.findMany({
-      where: { isActive }
+      where: { isActive: !includeTrash }
     });
   }
 
@@ -44,8 +44,8 @@ export class CategoryService {
     });
   }
 
-  remove(id: number, isActive: boolean = true) {
-    if (isActive) {
+  async moveToTrash(id: number, permanent: boolean = false) {
+    if (!permanent) {
       return this.prisma.category.update({
         where: { id },
         data: { isActive: false }
@@ -57,7 +57,7 @@ export class CategoryService {
     });
   }
 
-  restore(id: number) {
+  async restoreFromTrash(id: number) {
     return this.prisma.category.update({
       where: { id },
       data: { isActive: true }
