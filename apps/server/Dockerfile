@@ -17,7 +17,9 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/usr/local/share/.cache/yarn \
     yarn install --frozen-lockfile
 
+WORKDIR /usr/src/app/apps/server
+RUN npx prisma generate
+
 EXPOSE 8000
 
-CMD ["sh", "-c", "cd apps/server && \
-  if [ \"$NODE_ENV\" = \"dev\" ]; then yarn dev; else yarn build && yarn prod; fi"]
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = \"dev\" ]; then yarn dev; else npx prisma migrate deploy && yarn build && yarn prod; fi"]
