@@ -16,24 +16,58 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check for Prisma migrations
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+          cache: yarn
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Check for Prisma schema and migration consistency
         run: |
           echo "Checking changes between commits..."
-          changed_files=$(git diff --name-only ${{ github.base_ref }} HEAD)
+
+          # Ensure the base branch is fetched
+          git fetch origin ${{ github.base_ref }}
+
+          # Get the changed files between the base branch and the PR head
+          changed_files=$(git diff --name-only origin/${{ github.base_ref }} HEAD)
           echo "Changed files: $changed_files"
 
-          # Check if there are new changes in prisma/migrations
-          if echo "$changed_files" | grep -q 'apps/server/prisma/migrations'; then
-            echo "✅ Prisma migration files detected. All good!"
+          # Check if schema.prisma has been modified
+          if echo "$changed_files" | grep -q 'apps/server/prisma/schema.prisma'; then
+            echo "🔍 Schema.prisma has been modified. Checking migrations..."
+
+            cd apps/server
+
+            # Run Prisma migrate diff to verify the migration consistency
+            npx prisma migrate diff \
+              --from-schema-datamodel prisma/schema.prisma \
+              --to-migrations prisma/migrations \
+              --shadow-database-url ${{ secrets.SHADOW_DB_URL }} \
+              --script > migration_diff.sql
+
+            # Check if there are any differences
+            if [ "$(cat migration_diff.sql | grep -v '^$' | tr -d '\n')" = "-- This is an empty migration." ]; then
+              echo "✅ Schema and migrations are consistent."
+            else
+              echo "❌ Detected differences between schema.prisma and migration files!"
+              echo "------------------------------------------"
+              echo "Generated migration diff:"
+              cat migration_diff.sql
+              echo "------------------------------------------"
+              echo "Please ensure all schema changes are reflected in migration files."
+              echo "You can use the following command to generate migrations:"
+              echo ""
+              echo "  npx prisma migrate dev"
+              echo ""
+              echo "Once done, commit the migration files and push your changes."
+              echo "------------------------------------------"
+              exit 1
+            fi
           else
-            echo "❌ No Prisma migration files found!"
-            echo "------------------------------------------"
-            echo "You modified the Prisma schema but did not generate migration files."
-            echo "Please run the following command to generate migrations:"
-            echo ""
-            echo "  npx prisma migrate dev"
-            echo ""
-            echo "Once done, commit the migration files and push your changes."
-            echo "------------------------------------------"
-            exit 1
+            echo "✅ No changes to schema.prisma detected. All good!"
           fi
