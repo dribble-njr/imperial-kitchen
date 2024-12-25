@@ -13,14 +13,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Check for Prisma migrations
         run: |
           echo "Checking changes between commits..."
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+          changed_files=$(git diff --name-only ${{ github.base_ref }} HEAD)
+          echo "Changed files: $changed_files"
 
           # Check if there are new changes in prisma/migrations
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q 'apps/server/prisma/migrations'; then
+          if echo "$changed_files" | grep -q 'apps/server/prisma/migrations'; then
             echo "✅ Prisma migration files detected. All good!"
           else
             echo "❌ No Prisma migration files found!"
