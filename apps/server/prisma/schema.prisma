@@ -82,6 +82,8 @@ model KitchensOnUsers {
   isActive  Boolean  @default(true)
 
   @@id([userId, kitchenId])
+  @@index([userId])
+  @@index([kitchenId])
 }
 
 enum Role {
@@ -116,4 +118,6 @@ model TagsOnDishes {
   updatedAt DateTime @updatedAt
 
   @@id([dishId, tagId])
+  @@index([dishId])
+  @@index([tagId])
 }
