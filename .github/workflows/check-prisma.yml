@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'apps/server/prisma/schema.prisma'
-    types: [opened, synchronize, reopened, edited]
+    types: [opened, synchronize, reopened]
 
 jobs:
   check-migrations:
