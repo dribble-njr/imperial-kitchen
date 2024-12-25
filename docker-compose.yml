@@ -3,10 +3,12 @@ services:
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
+      args:
+        NODE_ENV: prod
     ports:
       - ${SERVER_PORT:-8000}:8000
     environment:
-      NODE_ENV: ${NODE_ENV:-prod}
+      NODE_ENV: prod
       HTTP_PROXY: http://host.docker.internal:7890
     extra_hosts:
       - host.docker.internal:host-gateway

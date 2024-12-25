@@ -15,20 +15,34 @@ model Category {
   updatedAt   DateTime @updatedAt
   isActive    Boolean  @default(true)
 
-  commodity Commodity[]
+  kitchen   Kitchen @relation(fields: [kitchenId], references: [id], onDelete: Cascade)
+  kitchenId Int
+
+  dishes Dish[]
+
+  @@index([kitchenId])
 }
 
-model Commodity {
+model Dish {
   id          Int      @id @default(autoincrement())
   name        String
   price       Float
+  image       String?
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   isActive    Boolean  @default(true)
 
-  category   Category? @relation(fields: [categoryId], references: [id])
+  kitchen   Kitchen? @relation(fields: [kitchenId], references: [id], onDelete: Cascade)
+  kitchenId Int?
+
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   categoryId Int?
+
+  tags TagsOnDishes[]
+
+  @@index([kitchenId])
+  @@index([categoryId])
 }
 
 model User {
@@ -52,13 +66,15 @@ model Kitchen {
   updatedAt  DateTime @updatedAt
   isActive   Boolean  @default(true)
 
-  users KitchensOnUsers[]
+  users      KitchensOnUsers[]
+  categories Category[]
+  dishes     Dish[]
 }
 
 model KitchensOnUsers {
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
-  kitchen   Kitchen  @relation(fields: [kitchenId], references: [id])
+  kitchen   Kitchen  @relation(fields: [kitchenId], references: [id], onDelete: Cascade)
   kitchenId Int
   role      Role
   createdAt DateTime @default(now())
@@ -66,6 +82,8 @@ model KitchensOnUsers {
   isActive  Boolean  @default(true)
 
   @@id([userId, kitchenId])
+  @@index([userId])
+  @@index([kitchenId])
 }
 
 enum Role {
@@ -80,11 +98,26 @@ enum TagType {
 
 model Tag {
   id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(10)
+  name      String   @unique @db.VarChar(10)
   type      TagType
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  dishes TagsOnDishes[]
+
   @@index([name])
   @@index([type])
+}
+
+model TagsOnDishes {
+  dish      Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  dishId    Int
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([dishId, tagId])
+  @@index([dishId])
+  @@index([tagId])
 }

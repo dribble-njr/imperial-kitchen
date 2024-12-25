@@ -35,11 +35,16 @@ const auth = {
 };
 
 const home = {
-  title: 'Home'
+  title: 'Home',
+  slogan: 'What would you like to eat for today? 😊'
 };
 
 const recipe = {
   title: 'Recipe'
+};
+
+const message = {
+  title: 'Message'
 };
 
 const profile = {
@@ -63,12 +68,18 @@ const English = {
     password: 'Password',
     inviteCode: 'Invite Code',
     sendCaptcha: 'Send Captcha',
-    invalidEmail: 'Invalid email'
+    invalidEmail: 'Invalid email',
+
+    morning: 'Good morning',
+    noon: 'Good noon',
+    afternoon: 'Good afternoon',
+    night: 'Good night'
   },
 
   auth,
   home,
   recipe,
+  message,
   profile,
 
   enterEmail: 'Enter your email',

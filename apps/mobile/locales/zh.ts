@@ -35,11 +35,16 @@ const auth = {
 };
 
 const home = {
-  title: '首页'
+  title: '首页',
+  slogan: '今天想吃些什么呢？😊'
 };
 
 const recipe = {
   title: '食谱'
+};
+
+const message = {
+  title: '消息'
 };
 
 const profile = {
@@ -63,12 +68,18 @@ const Chinese = {
     password: '密码',
     inviteCode: '邀请码',
     sendCaptcha: '发送验证码',
-    invalidEmail: '无效的邮箱'
+    invalidEmail: '无效的邮箱',
+
+    morning: '早上好',
+    noon: '中午好',
+    afternoon: '下午好',
+    night: '晚上好'
   },
 
   auth,
   home,
   recipe,
+  message,
   profile,
 
   signUp: '注册',

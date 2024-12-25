@@ -1,8 +1,8 @@
-import { Commodity } from '../commodity/commodity.vo';
-
-export interface Category {
-  id?: number;
-  name?: string;
+export interface CategoryVO {
+  id: number;
+  name: string;
   description?: string;
-  goods?: Commodity[];
+  createdAt: Date;
+  updatedAt: Date;
+  kitchenId: number;
 }
