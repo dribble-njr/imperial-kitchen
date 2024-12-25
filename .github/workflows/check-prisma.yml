@@ -10,6 +10,8 @@ jobs:
   check-migrations:
     runs-on: ubuntu-latest
 
+    environment: development
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
