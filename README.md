@@ -1,42 +1,42 @@
-# Imperial Kitchen
+# 御膳房
 
 [![runs with Expo Go](https://img.shields.io/badge/Runs%20with%20Expo%20Go-4630EB.svg?style=flat-square&logo=EXPO&labelColor=white&logoColor=000)](https://expo.dev/client) [![NestJS](https://img.shields.io/badge/NestJS-E0234E.svg?style=flat-square&logo=NestJS&labelColor=white&logoColor=E0234E)](https://nestjs.com/) [![Prisma](https://img.shields.io/badge/Prisma-2D3748.svg?style=flat-square&logo=Prisma&labelColor=white&logoColor=2D3748)](https://www.prisma.io/) [![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?style=flat-square&logo=MySQL&labelColor=white&logoColor=4479A1)](https://www.mysql.com/) [![Redis](https://img.shields.io/badge/Redis-DC382D.svg?style=flat-square&logo=Redis&labelColor=white&logoColor=DC382D)](https://redis.io/)
 
-[中文版](README_ZH.md)
+[English Version](README_EN.md)
 
-A food ordering app for family kitchen.
+一个家庭厨房的点餐应用。
 
-## Features
+## 特性
 
-- [x] Auth: JWT Login, register, logout.
-- [x] Multi-language support, theme color, theme mode.
-- [ ] Browse menus：View all kinds of food and their details, including images, descriptions and prices.
-- [ ] Order food：Choose food and add it to shopping cart.
-- [ ] Recipe: Generate recipes.
-- [ ] Profile: View personal information, order history, virtual coins.
-- [ ] AI assistant: Ask questions about the menu.
+- [x] 认证：JWT 登录、注册、登出。
+- [x] 多语言支持、主题色、主题模式。
+- [ ] 浏览菜单：查看所有食物及其详情，包括图片、描述和价格。
+- [ ] 点餐：选择食物并添加到购物车。
+- [ ] 菜谱：支持生成菜谱。
+- [ ] 个人中心：查看个人信息、订单历史、虚拟货币。
+- [ ] AI 助手：询问菜单相关问题。
 
-## Contributing
+## 开发
 
-To develop Expo, you should read [Tools for development](https://docs.expo.dev/develop/tools/) firstly.
+开发 Expo 应用前，请先阅读 [开发工具](https://docs.expo.dev/develop/tools/)。
 
-1. Fork this repository to your GitHub account.
-2. Install `yarn@1.22.22` and `node@20.10.0`.
-3. Download repo and install deps.
+1. Fork 本仓库；
+2. 安装 `yarn@1.22.22` 和 `node@20.10.0`；
+3. 下载仓库并安装依赖；
    ```sh
    git clone <your_clone_repo>
    cd imperial-kitchen
    yarn install
    ```
-4. Run mobile.
+4. 启动移动端
    ```sh
    yarn dev:mobile
    ```
-5. Install and configure [`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/).
+5. 安装并配置：[`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/)；
    > [!NOTE]
-   > If you use [`docker`](https://www.docker.com/) to start the server, you can skip the configuration of `mysql`.
-6. Configure server env: rename **server/.env.example** to **server/.env**.
-   ```shell
+   > 若你使用 [`docker`](https://www.docker.com/) 启动服务端，可以跳过配置 `mysql`。
+6. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
+   ```sh
    # PORT=8000
    # DB_URL="mysql://root:root@host.docker.internal:3306/imperial_kitchen"
 
@@ -54,14 +54,12 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
    ```
 
    > [!NOTE]
-   > You need to configure the hosts file to resolve `host.docker.internal` to `127.0.0.1`.
-   >
-   > Otherwise, any command about `prisma` will fail.
-7. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
+   > 若使用 `docker` 启动服务端，出现 `Can't reach database server at host.docker.internal:3306` 报错，请检查 host 配置。
+7. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
    ```sh
    yarn dev:server
    ```
-   or use docker to start the server:
+   或使用 docker 启动服务端：
    ```sh
    yarn docker:dev
    ```
