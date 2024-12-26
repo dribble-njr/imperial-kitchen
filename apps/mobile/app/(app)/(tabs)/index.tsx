@@ -1,12 +1,12 @@
 import { TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaSurface, Surface, Text } from '@/components/common';
 import { globalStyles } from '@/assets/styles';
 import { Card, Searchbar } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { getGreeting } from '@/utils';
-
-const categories = ['All', 'Breakfast', 'Lunch', 'Dinner'];
+import { CategoryVO } from '@imperial-kitchen/types';
+import { CategoryService } from '@/service';
 
 const recipeCards = [
   {
@@ -28,9 +28,17 @@ const recipeCards = [
 ];
 
 export default function HomeLayout() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
+
+  const [categories, setCategories] = useState<CategoryVO[]>([]);
+
+  useEffect(() => {
+    CategoryService.getList().then((res) => {
+      setCategories(res);
+    });
+  }, []);
 
   return (
     <SafeAreaSurface style={globalStyles.screenContent}>
@@ -48,12 +56,12 @@ export default function HomeLayout() {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.map((category) => (
           <TouchableOpacity
-            key={category}
-            onPress={() => setSelectedCategory(category)}
-            style={[styles.categoryButton, selectedCategory === category ? styles.categoryButtonActive : null]}
+            key={category.id}
+            onPress={() => setSelectedCategory(category.id)}
+            style={[styles.categoryButton, selectedCategory === category.id ? styles.categoryButtonActive : null]}
           >
-            <Text style={[styles.categoryText, selectedCategory === category ? styles.categoryTextActive : null]}>
-              {category}
+            <Text style={[styles.categoryText, selectedCategory === category.id ? styles.categoryTextActive : null]}>
+              {category.name}F
             </Text>
           </TouchableOpacity>
         ))}
