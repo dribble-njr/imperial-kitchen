@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterAdminDTO, RegisterMemberDTO } from './dto/register-user.dto';
 import { ERROR_CODES, Kitchen, RegisterVO, Role } from '@imperial-kitchen/types';
 import { generateCaptchaHtml, generateRandomCode, hashPassword } from 'src/util';
@@ -32,7 +32,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new HttpException(ERROR_CODES.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new UnauthorizedException('User not found');
     }
     return user;
   }

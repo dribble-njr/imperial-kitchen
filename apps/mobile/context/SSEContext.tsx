@@ -4,6 +4,8 @@ import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource, { EventSourceEvent } from 'react-native-sse';
 import { AuthService } from '@/service';
+import { removeStorageItemAsync } from '@/hooks/useStorageState';
+import { useRouter } from 'expo-router';
 
 type SSEMessage = {
   id: string;
@@ -48,6 +50,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
   const { accessToken, setAccessToken, setRefreshToken } = useToken();
   const reconnectAttempts = useRef(0);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
+  const router = useRouter();
 
   const handleTokenExpired = async () => {
     try {
@@ -61,6 +64,9 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error('refresh token error:', error);
+      await removeStorageItemAsync('accessToken');
+      await removeStorageItemAsync('refreshToken');
+      router.replace('/guide');
       return false;
     }
   };
