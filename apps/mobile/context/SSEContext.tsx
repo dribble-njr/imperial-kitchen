@@ -1,4 +1,4 @@
-import { useToken } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { getSSEBaseURL } from '@/service/http-client';
 import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -47,7 +47,7 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
   const [sse, setSSE] = useState<EventSource | null>(null);
   const [messages, setMessages] = useState<SSEMessage[]>([]);
   const [connected, setConnected] = useState(false);
-  const { accessToken, setAccessToken, setRefreshToken } = useToken();
+  const { accessToken, setAccessToken, setRefreshToken } = useAuth();
   const reconnectAttempts = useRef(0);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
   const router = useRouter();

@@ -1,4 +1,4 @@
-import { TokenProvider } from '@/context/AuthContext';
+import { AuthProvider } from '@/context/AuthContext';
 import { SSEProvider } from '@/context/SSEContext';
 import '@/locales/i18n';
 import { Slot } from 'expo-router';
@@ -31,7 +31,7 @@ export default function Root() {
 
   return (
     <SafeAreaProvider>
-      <TokenProvider>
+      <AuthProvider>
         <PaperProvider theme={paperTheme}>
           <ThemeProvider value={effectiveColorScheme === 'dark' ? DarkTheme : LightTheme}>
             <SSEProvider>
@@ -42,7 +42,7 @@ export default function Root() {
             </SSEProvider>
           </ThemeProvider>
         </PaperProvider>
-      </TokenProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }

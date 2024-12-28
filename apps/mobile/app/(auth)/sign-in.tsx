@@ -6,12 +6,12 @@ import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { SignInDTO } from '@imperial-kitchen/types';
 import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text, HelloWave } from '@/components/common';
-import { useToken } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { globalStyles } from '@/assets/styles';
 
 export default function SignInScreen() {
   const { t } = useTranslation();
-  const { signIn } = useToken();
+  const { signIn } = useAuth();
   const handleSignIn = async (values: SignInDTO) => {
     try {
       await signIn(values.email, values.password);
