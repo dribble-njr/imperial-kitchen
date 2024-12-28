@@ -12,7 +12,7 @@ export default function SafeAreaSurface({ children, style }: { children: React.R
 
   return (
     <Surface style={{ flex: 1, paddingTop: insets.top }} testID="safe-area-surface">
-      <Surface style={[style, { flex: 1 }]} testID="safe-area-surface-content">
+      <Surface style={[style]} testID="safe-area-surface-content">
         {children}
       </Surface>
     </Surface>

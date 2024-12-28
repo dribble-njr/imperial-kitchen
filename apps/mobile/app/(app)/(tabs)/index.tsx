@@ -61,7 +61,7 @@ export default function HomeLayout() {
             style={[styles.categoryButton, selectedCategory === category.id ? styles.categoryButtonActive : null]}
           >
             <Text style={[styles.categoryText, selectedCategory === category.id ? styles.categoryTextActive : null]}>
-              {category.name}F
+              {category.name}
             </Text>
           </TouchableOpacity>
         ))}
