@@ -2,7 +2,7 @@ import { TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import { SafeAreaSurface, Surface, Text } from '@/components/common';
 import { globalStyles } from '@/assets/styles';
-import { Card, Searchbar } from 'react-native-paper';
+import { Card, IconButton, Searchbar, useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { getGreeting } from '@/utils';
 import { CategoryVO } from '@imperial-kitchen/types';
@@ -31,6 +31,7 @@ export default function HomeLayout() {
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const [categories, setCategories] = useState<CategoryVO[]>([]);
 
@@ -44,7 +45,7 @@ export default function HomeLayout() {
     <SafeAreaSurface style={globalStyles.screenContent}>
       {/* Header */}
       <Surface>
-        <Text style={styles.greeting}>{t(`common.${getGreeting()}`)}</Text>
+        <Text style={[styles.greeting, { color: theme.colors.secondary }]}>{t(`common.${getGreeting()}`)}</Text>
         <Text style={styles.title} variant="titleLarge">
           {t('home.slogan')}
         </Text>
@@ -53,34 +54,38 @@ export default function HomeLayout() {
       <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
 
       {/* Categories */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {categories.map((category) => (
-          <TouchableOpacity
-            key={category.id}
-            onPress={() => setSelectedCategory(category.id)}
-            style={[styles.categoryButton, selectedCategory === category.id ? styles.categoryButtonActive : null]}
-          >
-            <Text style={[styles.categoryText, selectedCategory === category.id ? styles.categoryTextActive : null]}>
-              {category.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <Surface style={styles.categoryContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {categories.map((category) => {
+            const isSelected = category.id === selectedCategory;
+            const backgroundColor = isSelected ? theme.colors.primary : theme.colors.surface;
+            const textColor = isSelected ? theme.colors.onPrimary : theme.colors.onSurfaceVariant;
+
+            return (
+              <TouchableOpacity key={category.id} onPress={() => setSelectedCategory(category.id)}>
+                <Surface style={[styles.categoryButton, { backgroundColor }]}>
+                  <Text style={{ color: textColor }}>{category.name}</Text>
+                </Surface>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+
+        <IconButton icon="view-grid-outline" size={20} onPress={() => console.log('Pressed')} />
+      </Surface>
 
       {/* Recipe Cards */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <Surface style={styles.recipeGrid}>
           {recipeCards.map((recipe) => (
-            <TouchableOpacity key={recipe.id} style={styles.recipeCard}>
-              <Card.Cover source={{ uri: recipe.image }} style={styles.recipeImage} resizeMode="cover" />
-              <Card.Content>
-                <Text style={styles.recipeCategory}>{recipe.category}</Text>
-                <Text style={styles.recipeTitle}>{recipe.title}</Text>
-                <Text style={styles.recipeDetails}>
-                  {recipe.ingredients} Ingredients | {recipe.duration} Min
-                </Text>
-              </Card.Content>
-            </TouchableOpacity>
+            <Surface key={recipe.id} style={[styles.recipeCard]} elevation={4}>
+              <TouchableOpacity key={recipe.id}>
+                <Card.Cover source={{ uri: recipe.image }} style={styles.recipeImage} resizeMode="cover" />
+                <Card.Content style={styles.recipeInfo}>
+                  <Text style={[styles.recipeTitle]}>{recipe.title}</Text>
+                </Card.Content>
+              </TouchableOpacity>
+            </Surface>
           ))}
         </Surface>
 
@@ -108,26 +113,20 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    marginLeft: 8,
-    color: 'white'
+    marginLeft: 8
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   categoryButton: {
     marginRight: 16,
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderRadius: 25,
-    backgroundColor: '#2C2C2E',
     alignItems: 'center',
     flexDirection: 'row'
-  },
-  categoryButtonActive: {
-    backgroundColor: '#FF97B5'
-  },
-  categoryText: {
-    color: 'white'
-  },
-  categoryTextActive: {
-    color: 'black'
   },
   recipeGrid: {
     flexDirection: 'row',
@@ -147,17 +146,11 @@ const styles = StyleSheet.create({
   recipeInfo: {
     padding: 12
   },
-  recipeCategory: {
-    color: '#8E8E93',
-    fontSize: 12
-  },
   recipeTitle: {
-    color: 'white',
     fontWeight: '500',
     marginBottom: 4
   },
   recipeDetails: {
-    color: '#8E8E93',
     fontSize: 12
   },
   recommendationBox: {
