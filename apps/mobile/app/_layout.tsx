@@ -35,7 +35,7 @@ export default function Root() {
         <PaperProvider theme={paperTheme}>
           <ThemeProvider value={effectiveColorScheme === 'dark' ? DarkTheme : LightTheme}>
             <SSEProvider>
-              <Surface style={{ flex: 1 }}>
+              <Surface style={{ flex: 1 }} testID="root-surface">
                 <StatusBar style={statusBarStyle} />
                 <Slot />
               </Surface>

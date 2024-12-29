@@ -31,6 +31,9 @@ const TabBar = (props: BottomTabBarProps) => (
 
       return null;
     }}
+    // When the keyboard is awakened, the bottom navigation bar will be hidden and there will be a white flash.
+    // https://github.com/react-navigation/react-navigation/issues/7447#issuecomment-541366297
+    keyboardHidesNavigationBar={false}
     getLabelText={({ route }) => {
       const { options } = props.descriptors[route.key];
       const label =
