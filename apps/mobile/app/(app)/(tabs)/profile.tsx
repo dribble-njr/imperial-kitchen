@@ -4,9 +4,9 @@ import { List, Menu, IconButton, Snackbar, Icon, Button } from 'react-native-pap
 import { Language, Languages } from '@/types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSetting } from '@/hooks/useAppSetting';
 import { ColorName, Colors } from '@/constants/Colors';
 import { useAuth } from '@/context/AuthContext';
+import { useAppSetting } from '@/context/AppSettingContext';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();

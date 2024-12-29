@@ -4,7 +4,7 @@
  */
 
 import { Colors } from '@/constants/Colors';
-import { useAppSetting } from './useAppSetting';
+import { useAppSetting } from '@/context/AppSettingContext';
 import { MD3Colors } from 'react-native-paper/lib/typescript/types';
 
 export function useThemeColor(colorType: keyof MD3Colors) {
