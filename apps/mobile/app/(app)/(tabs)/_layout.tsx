@@ -28,6 +28,12 @@ const TAB_CONFIG: TabConfig[] = [
     activeIcon: 'flask-outline'
   },
   {
+    name: 'new',
+    locale: 'new',
+    icon: 'plus',
+    activeIcon: 'plus'
+  },
+  {
     name: 'message',
     locale: 'message',
     icon: 'message-text',

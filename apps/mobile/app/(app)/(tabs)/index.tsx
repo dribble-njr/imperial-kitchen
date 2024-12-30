@@ -71,7 +71,9 @@ export default function HomeLayout() {
           })}
         </ScrollView>
 
-        <IconButton icon="view-grid-outline" size={20} onPress={() => console.log('Pressed')} />
+        {categories.length > 10 && (
+          <IconButton icon="view-grid-outline" size={20} onPress={() => console.log('Pressed')} />
+        )}
       </Surface>
 
       {/* Recipe Cards */}
@@ -87,17 +89,6 @@ export default function HomeLayout() {
               </TouchableOpacity>
             </Surface>
           ))}
-        </Surface>
-
-        {/* Recommendation Section */}
-        <Surface style={styles.recommendationBox} elevation={2}>
-          <Text style={styles.recommendationCategory}>Breakfast</Text>
-          <Surface style={styles.recommendationContent} elevation={2}>
-            <Text style={styles.recommendationText}>We have 12 Recipes recommendation</Text>
-            <TouchableOpacity style={styles.exploreButton}>
-              <Text style={styles.exploreButtonText}>Explore</Text>
-            </TouchableOpacity>
-          </Surface>
         </Surface>
       </ScrollView>
     </SafeAreaSurface>
