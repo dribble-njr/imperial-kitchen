@@ -28,14 +28,10 @@
    cd imperial-kitchen
    yarn install
    ```
-4. 启动移动端
-   ```sh
-   yarn dev:mobile
-   ```
-5. 安装并配置：[`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/)；
+4. 安装并配置：[`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/)；
    > [!NOTE]
    > 若你使用 [`docker`](https://www.docker.com/) 启动服务端，可以跳过配置 `mysql`。
-6. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
+5. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
    ```sh
    # PORT=8000
    # DB_URL="mysql://root:root@host.docker.internal:3306/imperial_kitchen"
@@ -55,11 +51,16 @@
 
    > [!NOTE]
    > 若使用 `docker` 启动服务端，出现 `Can't reach database server at host.docker.internal:3306` 报错，请检查 host 配置。
-7. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
+6. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
    ```sh
    yarn dev:server
    ```
    或使用 docker 启动服务端：
    ```sh
    yarn docker:dev
+   ```
+7. 启动移动端
+   修改 **apps/mobile/.env.example** 为 **apps/mobile/.env**，并修改 **EXPO_PUBLIC_BASE_URL** 为服务端地址，然后启动移动端：
+   ```sh
+   yarn dev:mobile
    ```

@@ -28,14 +28,10 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
    cd imperial-kitchen
    yarn install
    ```
-4. Run mobile.
-   ```sh
-   yarn dev:mobile
-   ```
-5. Install and configure [`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/).
+4. Install and configure [`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/).
    > [!NOTE]
    > If you use [`docker`](https://www.docker.com/) to start the server, you can skip the configuration of `mysql`.
-6. Configure server env: rename **server/.env.example** to **server/.env**.
+5. Configure server env: rename **server/.env.example** to **server/.env**.
    ```shell
    # PORT=8000
    # DB_URL="mysql://root:root@host.docker.internal:3306/imperial_kitchen"
@@ -55,11 +51,16 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
 
    > [!NOTE]
    > If start server with `docker`, you get `Can't reach database server at host.docker.internal:3306` error, please check the host configuration.
-7. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
+6. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
    ```sh
    yarn dev:server
    ```
    or use docker to start the server:
    ```sh
    yarn docker:dev
+   ```
+7. Run mobile.
+   Modify **apps/mobile/.env.example** to **apps/mobile/.env**, and modify **EXPO_PUBLIC_BASE_URL** to the server address, then run mobile:
+   ```sh
+   yarn dev:mobile
    ```
