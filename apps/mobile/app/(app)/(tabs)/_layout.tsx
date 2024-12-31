@@ -13,37 +13,36 @@ interface TabConfig {
   activeIcon: IconName;
 }
 
-// Tab 配置
 const TAB_CONFIG: TabConfig[] = [
   {
     name: 'index',
     locale: 'home',
-    icon: 'storefront',
-    activeIcon: 'storefront-outline'
+    icon: 'home-outline',
+    activeIcon: 'home'
   },
   {
     name: 'recipe',
     locale: 'recipe',
-    icon: 'flask',
-    activeIcon: 'flask-outline'
+    icon: 'flask-outline',
+    activeIcon: 'flask'
   },
   {
     name: 'new',
     locale: 'new',
-    icon: 'plus',
+    icon: 'plus-outline',
     activeIcon: 'plus'
   },
   {
     name: 'message',
     locale: 'message',
-    icon: 'message-text',
-    activeIcon: 'message-text-outline'
+    icon: 'chat-outline',
+    activeIcon: 'chat'
   },
   {
     name: 'profile',
     locale: 'profile',
-    icon: 'account',
-    activeIcon: 'account-outline'
+    icon: 'account-outline',
+    activeIcon: 'account'
   }
 ];
 
@@ -57,7 +56,7 @@ const renderTabItem = (config: TabConfig) => {
       options={{
         title: t(`${config.locale}.title`),
         tabBarIcon: ({ focused, color, size }) => {
-          return <MaterialCommunityIcons size={size} name={focused ? config.icon : config.activeIcon} color={color} />;
+          return <MaterialCommunityIcons size={size} name={focused ? config.activeIcon : config.icon} color={color} />;
         }
       }}
     />
