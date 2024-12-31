@@ -19,7 +19,17 @@ export class CategoryController {
 
   @Get('trash')
   findTrashCategories() {
-    return this.categoryService.findAll(false);
+    return this.categoryService.findAll(true);
+  }
+
+  @Get(':id/dishes')
+  findDishesByCategory(@Param('id') id: string) {
+    return this.categoryService.findDishesByCategory(+id);
+  }
+
+  @Get(':id/dishes/trash')
+  findTrashDishesByCategory(@Param('id') id: string) {
+    return this.categoryService.findDishesByCategory(+id, true);
   }
 
   @Get(':id')
@@ -33,16 +43,16 @@ export class CategoryController {
   }
 
   @Delete(':id')
-  moveToTrash(@Param('id') id: string) {
-    return this.categoryService.moveToTrash(+id);
+  remove(@Param('id') id: string) {
+    return this.categoryService.remove(+id);
   }
 
-  @Delete('trash/:id')
-  permanentDelete(@Param('id') id: string) {
-    return this.categoryService.moveToTrash(+id, true);
+  @Delete(':id/trash')
+  permanentRemove(@Param('id') id: string) {
+    return this.categoryService.remove(+id, true);
   }
 
-  @Patch('trash/:id/restore')
+  @Patch(':id/trash/restore')
   restoreFromTrash(@Param('id') id: string) {
     return this.categoryService.restoreFromTrash(+id);
   }

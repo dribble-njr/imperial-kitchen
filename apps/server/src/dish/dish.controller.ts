@@ -17,6 +17,11 @@ export class DishController {
     return this.dishService.findAll();
   }
 
+  @Get('trash')
+  findTrashDishes() {
+    return this.dishService.findAll(true);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.dishService.findOne(+id);
@@ -30,5 +35,15 @@ export class DishController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.dishService.remove(+id);
+  }
+
+  @Delete(':id/trash')
+  permanentRemove(@Param('id') id: string) {
+    return this.dishService.remove(+id, true);
+  }
+
+  @Patch(':id/trash/restore')
+  restoreFromTrash(@Param('id') id: string) {
+    return this.dishService.restoreFromTrash(+id);
   }
 }

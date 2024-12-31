@@ -1,28 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDishDto } from './dto/create-dish.dto';
 import { UpdateDishDto } from './dto/update-dish.dto';
+import { PrismaService } from 'src/shared/prisma.service';
 
 @Injectable()
 export class DishService {
-  create(createDishDto: CreateDishDto) {
-    console.log(createDishDto);
-    return 'This action adds a new dish';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createDishDto: CreateDishDto) {
+    return await this.prisma.dish.create({
+      data: createDishDto
+    });
   }
 
-  findAll() {
-    return `This action returns all dish`;
+  async findAll(includeTrash: boolean = false) {
+    return await this.prisma.dish.findMany({
+      where: { isActive: !includeTrash }
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dish`;
+  async findOne(id: number) {
+    return await this.prisma.dish.findUnique({
+      where: { id }
+    });
   }
 
-  update(id: number, updateDishDto: UpdateDishDto) {
-    console.log(updateDishDto);
-    return `This action updates a #${id} dish`;
+  async update(id: number, updateDishDto: UpdateDishDto) {
+    return await this.prisma.dish.update({
+      where: { id },
+      data: updateDishDto
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dish`;
+  async remove(id: number, permanent: boolean = false) {
+    if (!permanent) {
+      return await this.prisma.dish.update({
+        where: { id },
+        data: { isActive: false }
+      });
+    }
+
+    return await this.prisma.dish.delete({
+      where: { id }
+    });
+  }
+
+  async restoreFromTrash(id: number) {
+    return await this.prisma.dish.update({
+      where: { id },
+      data: { isActive: true }
+    });
   }
 }
