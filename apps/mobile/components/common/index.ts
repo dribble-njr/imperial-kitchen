@@ -9,3 +9,4 @@ export { default as Surface } from './Surface';
 export { default as SafeAreaSurface } from './SafeAreaSurface';
 export { default as Carousel } from './Carousel';
 export { default as Text } from './Text';
+export { default as GradientBackground } from './GradientBackground';
