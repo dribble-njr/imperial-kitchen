@@ -1,6 +1,6 @@
 import CutleryIcon from '@/assets/icons/cutlery-icon.svg';
 import { useBlurOnKeyboardDismiss } from '@/hooks/useBlurOnKeyBoardDismiss';
-import { CreateRecipeDTO } from '@imperial-kitchen/types';
+import { CreateRecipeDTO } from '@/types';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { TextInput } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';

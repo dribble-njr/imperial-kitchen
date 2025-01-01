@@ -1,5 +1,5 @@
 import { UserService } from '@/service';
-import { RegisterAdminDTO } from '@imperial-kitchen/types';
+import { RegisterAdminDTO } from '@/types';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet } from 'react-native';

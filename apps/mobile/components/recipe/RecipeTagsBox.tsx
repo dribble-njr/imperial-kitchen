@@ -1,4 +1,4 @@
-import { CreateRecipeDTO, TagVO } from '@imperial-kitchen/types';
+import { CreateRecipeDTO, TagVO } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet } from 'react-native';
 import { Surface, Text } from '@/components/common';

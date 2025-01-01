@@ -1,5 +1,5 @@
 import CloseIcon from '@/assets/icons/close-icon.svg';
-import { TagVO } from '@imperial-kitchen/types';
+import { TagVO } from '@/types';
 import { Chip } from 'react-native-paper';
 
 export default function TagItem({

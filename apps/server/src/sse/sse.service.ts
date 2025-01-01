@@ -1,6 +1,6 @@
-import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
 import { Injectable, MessageEvent } from '@nestjs/common';
 import { Subject } from 'rxjs';
+import { SSEEventData, SSEEventType } from './dto/push-event.dto';
 
 @Injectable()
 export class SSEService {

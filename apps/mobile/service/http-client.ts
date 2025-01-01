@@ -1,5 +1,5 @@
 import { getStorageItemAsync, removeStorageItemAsync, setStorageItemAsync } from '@/hooks/useStorageState';
-import { CommonResponse, RefreshTokenResponseVO } from '@imperial-kitchen/types';
+import { CommonResponse, RefreshTokenResponseVO } from '@/types';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { router } from 'expo-router';
 

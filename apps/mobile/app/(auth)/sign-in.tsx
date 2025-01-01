@@ -4,7 +4,7 @@ import { Alert, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
-import { SignInDTO } from '@imperial-kitchen/types';
+import { SignInDTO } from '@/types';
 import { PasswordInput, Surface, FieldInput, ParallaxScrollView, Text, HelloWave } from '@/components/common';
 import { useAuth } from '@/context/AuthContext';
 import { globalStyles } from '@/assets/styles';

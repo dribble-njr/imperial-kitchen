@@ -1,11 +1,18 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException
+} from '@nestjs/common';
 import { RegisterAdminDTO, RegisterMemberDTO } from './dto/register-user.dto';
-import { ERROR_CODES, Kitchen, RegisterVO, Role } from '@imperial-kitchen/types';
+import { Kitchen } from './entities/kitchen.entity';
 import { generateCaptchaHtml, generateRandomCode, hashPassword } from 'src/util';
 import { RedisService } from 'src/shared/redis.service';
 import { MailService } from 'src/shared/mail.service';
 import { PrismaService } from 'src/shared/prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -43,14 +50,14 @@ export class UserService {
    * @param createKitchen is create kitchen or join kitchen
    * @returns
    */
-  async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean): Promise<RegisterVO> {
+  async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean) {
     // validate captcha
     const captcha = await this.redisService.get(`captcha_${user.email}`);
     if (!captcha) {
-      throw new HttpException(ERROR_CODES.CAPTCHA_EXPIRED, HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException('Captcha expired');
     }
     if (captcha !== user.captcha) {
-      throw new HttpException(ERROR_CODES.CAPTCHA_ERROR, HttpStatus.BAD_REQUEST);
+      throw new BadRequestException('Captcha error');
     }
 
     const { email, name, password } = user;
@@ -62,7 +69,7 @@ export class UserService {
       }
     });
     if (existingUser) {
-      throw new HttpException(ERROR_CODES.USER_EXISTS, HttpStatus.CONFLICT);
+      throw new ConflictException('User exists');
     }
 
     return this.prismaService.$transaction(async (tx) => {
@@ -94,7 +101,7 @@ export class UserService {
         });
       }
       if (!newKitchen) {
-        throw new HttpException(ERROR_CODES.KITCHEN_NOT_FOUND, HttpStatus.NOT_FOUND);
+        throw new NotFoundException('Kitchen not found');
       }
 
       // 3. join kitchen

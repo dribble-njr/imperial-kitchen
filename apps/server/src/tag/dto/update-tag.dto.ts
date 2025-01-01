@@ -1,6 +1,5 @@
-import { TagType } from '@imperial-kitchen/types';
 import { IsEnum, IsOptional, IsString, Length } from 'class-validator';
-
+import { TagType } from '@prisma/client';
 export class UpdateTagDto {
   @IsOptional()
   @IsString({ message: '标签名称必须是字符串' })

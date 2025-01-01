@@ -5,7 +5,7 @@ import { globalStyles } from '@/assets/styles';
 import { Card, IconButton, Searchbar, useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { getGreeting } from '@/utils';
-import { CategoryVO } from '@imperial-kitchen/types';
+import { CategoryVO } from '@/types';
 import { CategoryService } from '@/service';
 
 const recipeCards = [

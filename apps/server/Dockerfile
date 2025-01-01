@@ -10,7 +10,6 @@ RUN echo "Building with NODE_ENV=$NODE_ENV"
 WORKDIR /usr/src/app
 
 COPY apps/server/ ./apps/server/
-COPY packages/ ./packages/
 
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=yarn.lock,target=yarn.lock \

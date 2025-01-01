@@ -1,7 +1,7 @@
 import EasyFoodIcon from '@/assets/icons/easy-food-icon.svg';
 import HardFoodIcon from '@/assets/icons/hard-food-icon.svg';
 import MiddleFoodIcon from '@/assets/icons/middle-food-icon.svg';
-import { CreateRecipeDTO, FoodDifficulty } from '@imperial-kitchen/types';
+import { CreateRecipeDTO, FoodDifficulty } from '@/types';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Surface, Text } from '@/components/common';

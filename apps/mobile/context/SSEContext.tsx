@@ -1,6 +1,6 @@
 import { useAuth } from '@/context/AuthContext';
 import { getSSEBaseURL } from '@/service/http-client';
-import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
+import { SSEEventData, SSEEventType } from '@/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource, { EventSourceEvent } from 'react-native-sse';
 import { AuthService } from '@/service';

@@ -1,4 +1,4 @@
-import { CreateTagDTO, TagVO, UpdateTagDTO } from '@imperial-kitchen/types';
+import { CreateTagDTO, TagVO, UpdateTagDTO } from '@/types';
 import httpClient from './http-client';
 
 export default class TagService {

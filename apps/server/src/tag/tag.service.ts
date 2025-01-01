@@ -2,7 +2,7 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { PrismaService } from 'src/shared/prisma.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { TagType } from '@imperial-kitchen/types';
+import { TagType } from '@prisma/client';
 
 @Injectable()
 export class TagService {

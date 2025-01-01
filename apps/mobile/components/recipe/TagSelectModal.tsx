@@ -1,6 +1,6 @@
 import { useAsync } from '@/hooks/useAsync';
 import { TagService } from '@/service';
-import { TagVO } from '@imperial-kitchen/types';
+import { TagVO } from '@/types';
 import { ReactNode, useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';

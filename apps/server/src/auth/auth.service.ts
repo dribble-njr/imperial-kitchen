@@ -1,20 +1,18 @@
-import { RefreshTokenResponseVO, SignInDTO, SignInResponseVO } from '@imperial-kitchen/types';
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { randomUUID } from 'crypto';
-import { PrismaService } from 'src/shared/prisma.service';
 import { UserService } from 'src/user/user.service';
+import { SignInDTO } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService,
-    private prismaService: PrismaService
+    private jwtService: JwtService
   ) {}
 
-  async signIn(signInDto: SignInDTO): Promise<SignInResponseVO> {
+  async signIn(signInDto: SignInDTO) {
     const user = await this.userService.getUserByEmail(signInDto.email);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = user;
@@ -41,7 +39,7 @@ export class AuthService {
     };
   }
 
-  async refreshToken(refreshToken: string): Promise<RefreshTokenResponseVO> {
+  async refreshToken(refreshToken: string) {
     try {
       const payload = await this.jwtService.verifyAsync(refreshToken);
 

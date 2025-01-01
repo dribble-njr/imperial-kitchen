@@ -1,7 +1,7 @@
 import { ParallaxScrollView } from '@/components/common';
 import { useSSE } from '@/context/SSEContext';
 import { SSEService } from '@/service';
-import { SSEEventType } from '@imperial-kitchen/types';
+import { SSEEventType } from '@/types';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';

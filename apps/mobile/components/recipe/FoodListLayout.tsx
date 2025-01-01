@@ -1,5 +1,5 @@
 import { FoodType2Slogan } from '@/types';
-import { FoodType } from '@imperial-kitchen/types';
+import { FoodType } from '@/types';
 import { StyleSheet } from 'react-native';
 import { Surface, Text } from '@/components/common';
 

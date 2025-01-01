@@ -1,7 +1,7 @@
 import { globalStyles } from '@/assets/styles';
 import { Surface, FieldInput, ParallaxScrollView, Text } from '@/components/common';
 import { UserService } from '@/service';
-import { RegisterMemberDTO } from '@imperial-kitchen/types';
+import { RegisterMemberDTO } from '@/types';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
