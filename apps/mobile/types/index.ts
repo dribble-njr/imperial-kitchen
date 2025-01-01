@@ -5,6 +5,7 @@ export * from './auth/auth.dto';
 export * from './auth/auth.vo';
 export * from './category/category.dto';
 export * from './category/category.vo';
+export * from './dish/dish.dto';
 export * from './dish/dish.vo';
 export * from './common';
 export * from './recipe/recipe.dto';

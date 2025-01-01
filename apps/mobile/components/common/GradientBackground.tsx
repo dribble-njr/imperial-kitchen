@@ -1,9 +1,9 @@
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
 import { Platform, StatusBar, useWindowDimensions } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 const GradientBackground = (props: { height?: 'full' | number }) => {
-  const theme = useTheme();
+  const colors = useThemeColor();
   const { height: windowHeight, width } = useWindowDimensions();
 
   const actualHeight =
@@ -27,7 +27,7 @@ const GradientBackground = (props: { height?: 'full' | number }) => {
         <LinearGradient
           start={vec(0, 0)}
           end={vec(width, actualHeight)}
-          colors={[theme.colors.primary, theme.colors.inversePrimary]}
+          colors={[colors.primary, colors.inversePrimary]}
         />
       </Rect>
     </Canvas>

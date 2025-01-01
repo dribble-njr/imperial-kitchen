@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateDishDto {
   @IsNotEmpty()
@@ -24,4 +24,9 @@ export class CreateDishDto {
   @IsNotEmpty()
   @IsNumber()
   categoryId: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  tags: number[];
 }

@@ -8,8 +8,28 @@ export class DishService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createDishDto: CreateDishDto) {
-    return await this.prisma.dish.create({
-      data: createDishDto
+    const { tags, ...dishData } = createDishDto;
+
+    return this.prisma.dish.create({
+      data: {
+        ...dishData,
+        tags: tags?.length
+          ? {
+              create: tags.map((tagId) => ({
+                tag: {
+                  connect: { id: tagId }
+                }
+              }))
+            }
+          : undefined
+      },
+      include: {
+        tags: {
+          include: {
+            tag: true
+          }
+        }
+      }
     });
   }
 
@@ -26,9 +46,30 @@ export class DishService {
   }
 
   async update(id: number, updateDishDto: UpdateDishDto) {
-    return await this.prisma.dish.update({
+    const { tags, ...dishData } = updateDishDto;
+
+    return this.prisma.dish.update({
       where: { id },
-      data: updateDishDto
+      data: {
+        ...dishData,
+        tags: tags?.length
+          ? {
+              deleteMany: {},
+              create: tags.map((tagId) => ({
+                tag: {
+                  connect: { id: tagId }
+                }
+              }))
+            }
+          : undefined
+      },
+      include: {
+        tags: {
+          include: {
+            tag: true
+          }
+        }
+      }
     });
   }
 

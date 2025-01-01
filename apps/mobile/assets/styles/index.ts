@@ -10,7 +10,6 @@ export const globalStyles = StyleSheet.create({
   screenContent: {
     padding: 24,
     gap: 16,
-    overflow: 'hidden',
-    borderRadius: 20
+    overflow: 'hidden'
   }
 });

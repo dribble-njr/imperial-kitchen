@@ -5,4 +5,7 @@ export interface DishVO {
   description?: string;
   tags?: string[];
   image?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isActive: boolean;
 }
