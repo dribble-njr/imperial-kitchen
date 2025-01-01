@@ -4,7 +4,6 @@ import { SSEEventData, SSEEventType } from '@/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource, { EventSourceEvent } from 'react-native-sse';
 import { AuthService } from '@/service';
-import { removeStorageItemAsync } from '@/hooks/useStorageState';
 import { useRouter } from 'expo-router';
 
 type SSEMessage = {
@@ -64,8 +63,8 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error('refresh token error:', error);
-      await removeStorageItemAsync('accessToken');
-      await removeStorageItemAsync('refreshToken');
+      setAccessToken(null);
+      setRefreshToken(null);
       router.replace('/guide');
       return false;
     }
