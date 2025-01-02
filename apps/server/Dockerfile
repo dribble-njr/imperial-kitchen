@@ -2,6 +2,9 @@
 
 FROM node:20.10.0-alpine
 
+RUN apk add --no-cache python3 make g++ \
+    && ln -sf python3 /usr/bin/python
+
 ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
 
