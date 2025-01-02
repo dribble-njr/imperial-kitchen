@@ -1,5 +1,5 @@
-import { TagType } from '@imperial-kitchen/types';
 import { IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
+import { TagType } from '@prisma/client';
 
 export class CreateTagDto {
   @IsNotEmpty({ message: '标签名称不能为空' })

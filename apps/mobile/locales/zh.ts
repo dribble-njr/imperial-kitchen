@@ -51,6 +51,11 @@ const profile = {
   title: '我的'
 };
 
+const create = {
+  dish: '创建菜品',
+  recipe: '创建食谱'
+};
+
 const Chinese = {
   welcome: '欢迎来到御膳房',
   start: '开始',
@@ -81,6 +86,8 @@ const Chinese = {
   recipe,
   message,
   profile,
+
+  create,
 
   signUp: '注册',
   enterEmail: '输入邮箱',

@@ -1,9 +1,8 @@
-import { ParallaxScrollView } from '@/components/common';
+import { ParallaxScrollView, Surface } from '@/components/common';
 import { useSSE } from '@/context/SSEContext';
 import { SSEService } from '@/service';
-import { SSEEventType } from '@imperial-kitchen/types';
+import { SSEEventType } from '@/types';
 import { useState } from 'react';
-import { View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 
 export default function MessageScreen() {
@@ -14,7 +13,7 @@ export default function MessageScreen() {
     <ParallaxScrollView>
       <Text className="text-2xl font-bold">消息</Text>
       <Text className="text-xl font-bold">{connected ? 'sse已连接' : 'sse未连接'}</Text>
-      <View className="flex-row gap-2">
+      <Surface className="flex-row gap-2">
         <TextInput label="消息" value={message} onChangeText={setMessage} />
         <Button
           disabled={!message}
@@ -30,7 +29,7 @@ export default function MessageScreen() {
         >
           推送消息
         </Button>
-      </View>
+      </Surface>
       <Text className="text-md font-bold">消息列表: </Text>
       {allMessages.map((msg, index) => (
         <Text key={index}>

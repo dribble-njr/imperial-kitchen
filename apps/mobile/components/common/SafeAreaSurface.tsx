@@ -1,5 +1,5 @@
 import { ViewStyle } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Surface from './Surface';
 
 /**
@@ -8,13 +8,13 @@ import Surface from './Surface';
  * Use additional Surface components to adapt status bar background color.
  */
 export default function SafeAreaSurface({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <Surface style={{ flex: 1 }} testID="safe-area-surface">
-      <SafeAreaView style={{ flex: 1 }} testID="safe-area-view">
-        <Surface style={[style, { flex: 1 }]} testID="safe-area-surface-content">
-          {children}
-        </Surface>
-      </SafeAreaView>
+    <Surface style={{ flex: 1, paddingTop: insets.top }} testID="safe-area-surface">
+      <Surface style={[style]} testID="safe-area-surface-content">
+        {children}
+      </Surface>
     </Surface>
   );
 }

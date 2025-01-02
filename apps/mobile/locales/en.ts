@@ -51,6 +51,11 @@ const profile = {
   title: 'Profile'
 };
 
+const create = {
+  dish: 'Create Dish',
+  recipe: 'Create Recipe'
+};
+
 const English = {
   welcome: 'Welcome to Imperial Kitchen',
   start: 'Get Started',
@@ -81,6 +86,8 @@ const English = {
   recipe,
   message,
   profile,
+
+  create,
 
   enterEmail: 'Enter your email',
   enterPhone: 'Enter your phone number',

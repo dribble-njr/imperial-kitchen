@@ -2,9 +2,15 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nes
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpStatus } from '@nestjs/common';
-import { CommonResponse } from '@imperial-kitchen/types';
 import { Reflector } from '@nestjs/core';
 import { NO_TRANSFORM_RESPONSE_KEY } from '../decorator/no-transform-response.decorator';
+
+export interface CommonResponse<T = unknown> {
+  statusCode: number;
+  message: string | string[];
+  data?: T;
+  error?: string;
+}
 
 @Injectable()
 export class TransformResponseInterceptor implements NestInterceptor {

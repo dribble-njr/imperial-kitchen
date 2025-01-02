@@ -1,5 +1,5 @@
 import httpClient from './http-client';
-import { RegisterAdminDTO, RegisterMemberDTO, RegisterVO } from '@imperial-kitchen/types';
+import { RegisterAdminDTO, RegisterMemberDTO, RegisterVO } from '@/types';
 
 export default class UserService {
   public static registerAdmin(params: RegisterAdminDTO) {

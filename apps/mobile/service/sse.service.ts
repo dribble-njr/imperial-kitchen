@@ -1,6 +1,6 @@
 import httpClient from './http-client';
 
-import { PushSSEEventDTO } from '@imperial-kitchen/types';
+import { PushSSEEventDTO } from '@/types';
 
 export default class SSEService {
   public static pushEventByTargetIds(params: PushSSEEventDTO) {

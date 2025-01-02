@@ -1,7 +1,7 @@
 import { createContext, useContext, PropsWithChildren } from 'react';
 import { useStorageState } from '../hooks/useStorageState';
 import AuthService from '@/service/auth.service';
-import { User } from '@imperial-kitchen/types';
+import { User } from '@/types';
 
 const AuthContext = createContext<{
   signIn: (email: string, password: string) => Promise<void>;
@@ -24,18 +24,18 @@ const AuthContext = createContext<{
 });
 
 // This hook can be used to access the user info.
-export function useToken() {
+export function useAuth() {
   const value = useContext(AuthContext);
   if (process.env.NODE_ENV !== 'production') {
     if (!value) {
-      throw new Error('useAccessToken must be wrapped in a <AccessTokenProvider />');
+      throw new Error('useAuth must be wrapped in a <AuthProvider />');
     }
   }
 
   return value;
 }
 
-export function TokenProvider(props: PropsWithChildren) {
+export function AuthProvider(props: PropsWithChildren) {
   const [[isLoading, accessToken], setAccessToken] = useStorageState('accessToken');
   const [[, refreshToken], setRefreshToken] = useStorageState('refreshToken');
   const [[, userInfo], setUserInfo] = useStorageState<Omit<User, 'role'> | null>('userInfo');

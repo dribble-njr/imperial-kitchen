@@ -1,11 +1,12 @@
 import { ParallaxScrollView, Surface } from '@/components/common';
 import { useColorScheme } from 'react-native';
-import { List, Menu, IconButton, Snackbar, Icon } from 'react-native-paper';
+import { List, Menu, IconButton, Snackbar, Icon, Button } from 'react-native-paper';
 import { Language, Languages } from '@/types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSetting } from '@/hooks/useAppSetting';
 import { ColorName, Colors } from '@/constants/Colors';
+import { useAuth } from '@/context/AuthContext';
+import { useAppSetting } from '@/context/AppSettingContext';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
@@ -13,6 +14,7 @@ export default function ProfileScreen() {
   const [message, setMessage] = useState({ visible: false, content: '' });
 
   const { setting, updateSetting } = useAppSetting();
+  const { signOut } = useAuth();
 
   const [display, setDisplay] = useState({
     color: false,
@@ -186,6 +188,8 @@ export default function ProfileScreen() {
           </List.Accordion>
         </List.AccordionGroup>
       </Surface>
+
+      <Button onPress={() => signOut()}>退出登录</Button>
 
       <Snackbar
         visible={message.visible}

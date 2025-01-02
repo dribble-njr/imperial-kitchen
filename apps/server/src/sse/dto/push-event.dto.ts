@@ -1,6 +1,12 @@
-import { SSEEventType } from '@imperial-kitchen/types';
-
 import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+
+export enum SSEEventType {
+  MESSAGE = 'message'
+}
+
+export interface SSEEventData {
+  message: string;
+}
 
 export class PushSSEEventDTO {
   @IsString()

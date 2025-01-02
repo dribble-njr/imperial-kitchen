@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import { Redirect, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { useToken } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { StackHeader } from '@/components/navigation';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -13,7 +13,7 @@ export default function AppLayout() {
     SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf')
   });
 
-  const { accessToken, isLoading } = useToken();
+  const { accessToken, isLoading } = useAuth();
 
   useEffect(() => {
     if (fontLoaded && !isLoading) {
@@ -41,6 +41,7 @@ export default function AppLayout() {
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="(recipe)" options={{ title: '' }} />
+      <Stack.Screen name="(new)" options={{ title: '', headerShown: false, animation: 'fade' }} />
     </Stack>
   );
 }

@@ -1,9 +1,10 @@
-import { useToken } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { getSSEBaseURL } from '@/service/http-client';
-import { SSEEventData, SSEEventType } from '@imperial-kitchen/types';
+import { SSEEventData, SSEEventType } from '@/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import EventSource, { EventSourceEvent } from 'react-native-sse';
 import { AuthService } from '@/service';
+import { useRouter } from 'expo-router';
 
 type SSEMessage = {
   id: string;
@@ -45,9 +46,10 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
   const [sse, setSSE] = useState<EventSource | null>(null);
   const [messages, setMessages] = useState<SSEMessage[]>([]);
   const [connected, setConnected] = useState(false);
-  const { accessToken, setAccessToken, setRefreshToken } = useToken();
+  const { accessToken, setAccessToken, setRefreshToken } = useAuth();
   const reconnectAttempts = useRef(0);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
+  const router = useRouter();
 
   const handleTokenExpired = async () => {
     try {
@@ -61,6 +63,9 @@ export const SSEProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error('refresh token error:', error);
+      setAccessToken(null);
+      setRefreshToken(null);
+      router.replace('/guide');
       return false;
     }
   };

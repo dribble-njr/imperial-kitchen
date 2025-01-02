@@ -20,45 +20,51 @@ export class CategoryService {
       throw new ConflictException(`Category '${name}' already exists in this kitchen`);
     }
 
-    return this.prisma.category.create({
+    return await this.prisma.category.create({
       data: createCategoryDto
     });
   }
 
-  findAll(includeTrash: boolean = false) {
-    return this.prisma.category.findMany({
+  async findAll(includeTrash: boolean = false) {
+    return await this.prisma.category.findMany({
       where: { isActive: !includeTrash }
     });
   }
 
-  findOne(id: number) {
-    return this.prisma.category.findUnique({
+  async findOne(id: number) {
+    return await this.prisma.category.findUnique({
       where: { id }
     });
   }
 
+  async findDishesByCategory(id: number, includeTrash: boolean = false) {
+    return await this.prisma.dish.findMany({
+      where: { categoryId: id, isActive: !includeTrash }
+    });
+  }
+
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return this.prisma.category.update({
+    return await this.prisma.category.update({
       where: { id },
       data: updateCategoryDto
     });
   }
 
-  async moveToTrash(id: number, permanent: boolean = false) {
+  async remove(id: number, permanent: boolean = false) {
     if (!permanent) {
-      return this.prisma.category.update({
+      return await this.prisma.category.update({
         where: { id },
         data: { isActive: false }
       });
     }
 
-    return this.prisma.category.delete({
+    return await this.prisma.category.delete({
       where: { id }
     });
   }
 
   async restoreFromTrash(id: number) {
-    return this.prisma.category.update({
+    return await this.prisma.category.update({
       where: { id },
       data: { isActive: true }
     });

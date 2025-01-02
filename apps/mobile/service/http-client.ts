@@ -1,6 +1,7 @@
 import { getStorageItemAsync, removeStorageItemAsync, setStorageItemAsync } from '@/hooks/useStorageState';
-import { CommonResponse, RefreshTokenResponseVO } from '@imperial-kitchen/types';
+import { CommonResponse, RefreshTokenResponseVO } from '@/types';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { router } from 'expo-router';
 
 class HttpClient {
   private static instance: HttpClient;
@@ -65,6 +66,7 @@ class HttpClient {
         } catch (error) {
           await removeStorageItemAsync('accessToken');
           await removeStorageItemAsync('refreshToken');
+          router.replace('/guide');
           return Promise.reject(error);
         }
       }

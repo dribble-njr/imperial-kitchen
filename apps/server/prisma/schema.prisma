@@ -33,11 +33,11 @@ model Dish {
   updatedAt   DateTime @updatedAt
   isActive    Boolean  @default(true)
 
-  kitchen   Kitchen? @relation(fields: [kitchenId], references: [id], onDelete: Cascade)
-  kitchenId Int?
+  kitchen   Kitchen @relation(fields: [kitchenId], references: [id], onDelete: Cascade)
+  kitchenId Int
 
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  categoryId Int?
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId Int
 
   tags TagsOnDishes[]
 

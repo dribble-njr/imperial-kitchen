@@ -1,4 +1,4 @@
-import { RefreshTokenResponseVO, SignInDTO, SignInResponseVO } from '@imperial-kitchen/types';
+import { RefreshTokenResponseVO, SignInDTO, SignInResponseVO } from '@/types';
 import httpClient from './http-client';
 import { getStorageItemAsync } from '@/hooks/useStorageState';
 

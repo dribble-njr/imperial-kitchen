@@ -2,6 +2,9 @@
 
 FROM node:20.10.0-alpine
 
+RUN apk add --no-cache python3 make g++ \
+    && ln -sf python3 /usr/bin/python
+
 ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
 
@@ -10,7 +13,6 @@ RUN echo "Building with NODE_ENV=$NODE_ENV"
 WORKDIR /usr/src/app
 
 COPY apps/server/ ./apps/server/
-COPY packages/ ./packages/
 
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=yarn.lock,target=yarn.lock \

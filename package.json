@@ -6,17 +6,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev:mobile": "yarn build:types && yarn workspace mobile dev",
-    "dev:server": "yarn build:types && yarn workspace server dev",
-    "build:types": "yarn workspace @imperial-kitchen/types build",
+    "dev:mobile": "yarn workspace mobile dev",
+    "dev:server": "yarn workspace server dev",
     "build:server": "yarn workspace server build",
     "prod:server": "yarn workspace server prod",
     "docker:dev": "yarn docker:dev:up && yarn docker:dev:watch",
     "docker:dev:up": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build",
     "docker:dev:watch": "docker compose -f docker-compose.yml -f docker-compose.dev.yml watch",
     "pre build:android": "yarn workspace mobile pre build:android",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "yarn build:types"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "food order",

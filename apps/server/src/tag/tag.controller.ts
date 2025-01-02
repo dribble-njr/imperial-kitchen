@@ -1,9 +1,9 @@
-import { TagType } from '@imperial-kitchen/types';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ExcludeTimestamps } from 'src/common/decorator/exclude-timestamps.decorator';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { TagService } from './tag.service';
+import { TagType } from '@prisma/client';
 
 @Controller('tag')
 @ExcludeTimestamps()

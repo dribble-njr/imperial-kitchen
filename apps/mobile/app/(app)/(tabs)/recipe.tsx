@@ -3,7 +3,7 @@ import DessertIcon from '@/assets/icons/dessert-icon.svg';
 import DishIcon from '@/assets/icons/dish-icon.svg';
 import DrinkIcon from '@/assets/icons/drink-icon.svg';
 import { CreateRecipe, SidebarConfig, SidebarItemType } from '@/types';
-import { FoodType } from '@imperial-kitchen/types';
+import { FoodType } from '@/types';
 import { useState } from 'react';
 import { CreateRecipeGuide, FoodListLayout, SideBar } from '@/components/recipe';
 import { Surface } from '@/components/common';
