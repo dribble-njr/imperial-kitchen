@@ -11,3 +11,4 @@ export { default as Carousel } from './Carousel';
 export { default as Text } from './Text';
 export { default as GradientBackground } from './GradientBackground';
 export { default as Modal } from './Modal';
+export * from './List';

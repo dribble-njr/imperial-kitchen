@@ -11,6 +11,7 @@ type Props = PropsWithChildren<{
   headerImage?: ReactElement;
   headerBackgroundColor?: string;
   contentContainerStyle?: ViewStyle;
+  contentStyle?: ViewStyle;
 }>;
 
 /**
@@ -21,7 +22,8 @@ export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
-  contentContainerStyle
+  contentContainerStyle,
+  contentStyle
 }: Props) {
   return (
     <SafeAreaSurface variant={variant} style={{ position: 'relative' }}>
@@ -30,7 +32,7 @@ export default function ParallaxScrollView({
       )}
 
       <Animated.ScrollView scrollEventThrottle={16} style={contentContainerStyle}>
-        <Surface style={styles.content} elevation={0} testID="parallax-scroll-view-content">
+        <Surface style={[styles.content, contentStyle]} elevation={0} testID="parallax-scroll-view-content">
           {children}
         </Surface>
       </Animated.ScrollView>

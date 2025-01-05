@@ -48,7 +48,14 @@ const message = {
 };
 
 const profile = {
-  title: 'Profile'
+  title: 'Profile',
+  setting: {
+    title: 'Setting',
+    signOut: 'Sign Out',
+    language: 'Language',
+    theme: 'Theme',
+    color: 'Color'
+  }
 };
 
 const create = {

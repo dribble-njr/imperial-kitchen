@@ -1,5 +1,5 @@
 export * from './promise';
-export * from './setting';
+export * from './app-setting';
 
 export * from './auth/auth.dto';
 export * from './auth/auth.vo';

@@ -1,18 +1,16 @@
-import { Button, Icon, IconButton, List, Menu, Snackbar, Text } from 'react-native-paper';
-import { ParallaxScrollView, Surface } from '@/components/common';
+import { Card, List, Text } from 'react-native-paper';
+import { ListItem, ParallaxScrollView } from '@/components/common';
+import { AppSettingModal } from '@/components/setting/AppSettingModal';
 import { useAuth } from '@/context/AuthContext';
-import { ColorName, Colors } from '@/constants/Colors';
-import { Languages, Language } from '@/types';
 import { useState } from 'react';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { useTranslation } from 'react-i18next';
 import { useAppSetting } from '@/context/AppSettingContext';
+import { ColorName } from '@/constants/Colors';
 
 export default function Setting() {
   const colors = useThemeColor();
   const { t } = useTranslation();
-  const [message, setMessage] = useState({ visible: false, content: '' });
-
   const { setting, updateSetting } = useAppSetting();
 
   const [display, setDisplay] = useState({
@@ -27,164 +25,71 @@ export default function Setting() {
     <ParallaxScrollView variant="full">
       <Text>App 设置</Text>
 
-      <Surface elevation={0}>
-        <List.AccordionGroup>
-          <List.Accordion id="1" title={t('appearance')} left={(props) => <List.Icon {...props} icon="palette" />}>
-            <List.Item
-              title={t('language')}
-              description={t('changeLanguage')}
-              left={(props) => <List.Icon {...props} icon="translate" />}
-              right={(props) => (
-                <Menu
-                  visible={display.language}
-                  onDismiss={() => setDisplay({ ...display, language: false })}
-                  anchor={
-                    <IconButton {...props} icon="pencil" onPress={() => setDisplay({ ...display, language: true })} />
-                  }
-                >
-                  <Menu.Item
-                    title="System"
-                    trailingIcon={setting?.language === 'auto' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ language: 'auto' });
-                      setDisplay({ ...display, language: false });
-                    }}
-                  />
-                  {Object.entries(Languages).map((lang) => (
-                    <Menu.Item
-                      key={lang[0]}
-                      title={`${lang[0]} / ${lang[1]}`}
-                      trailingIcon={setting?.language === lang[0] ? 'check' : undefined}
-                      onPress={() => {
-                        updateSetting({
-                          language: lang[0] as Language
-                        });
-                        setDisplay({ ...display, language: false });
-                      }}
-                    />
-                  ))}
-                </Menu>
-              )}
-            />
-            <List.Item
-              title={t('mode')}
-              description={t('changeMode')}
-              left={(props) => (
-                <List.Icon
-                  {...props}
-                  icon={
-                    setting?.theme === 'auto'
-                      ? 'theme-light-dark'
-                      : setting?.theme === 'light'
-                        ? 'weather-sunny'
-                        : 'weather-night'
-                  }
-                />
-              )}
-              right={(props) => (
-                <Menu
-                  visible={display.theme}
-                  onDismiss={() => setDisplay({ ...display, theme: false })}
-                  anchor={
-                    <IconButton {...props} icon="pencil" onPress={() => setDisplay({ ...display, theme: true })} />
-                  }
-                >
-                  <Menu.Item
-                    title={t('system')}
-                    leadingIcon="theme-light-dark"
-                    trailingIcon={setting?.theme === 'auto' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ theme: 'auto' });
-                      setDisplay({ ...display, theme: false });
-                    }}
-                  />
-                  <Menu.Item
-                    title={t('lightMode')}
-                    leadingIcon="weather-sunny"
-                    trailingIcon={setting?.theme === 'light' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ theme: 'light' });
-                      setDisplay({ ...display, theme: false });
-                    }}
-                  />
-                  <Menu.Item
-                    title={t('darkMode')}
-                    leadingIcon="weather-night"
-                    trailingIcon={setting?.theme === 'dark' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ theme: 'dark' });
-                      setDisplay({ ...display, theme: false });
-                    }}
-                  />
-                </Menu>
-              )}
-            />
-            <List.Item
-              title={t('color')}
-              description={t('changeColor')}
-              left={(props) => <List.Icon {...props} icon="palette-swatch-variant" color={colors.primary} />}
-              right={(props) => (
-                <Menu
-                  visible={display.color}
-                  onDismiss={() => setDisplay({ ...display, color: false })}
-                  anchor={
-                    <IconButton {...props} icon="pencil" onPress={() => setDisplay({ ...display, color: true })} />
-                  }
-                >
-                  {Object.keys(Colors.light).map((color) => (
-                    <Surface
-                      key={color}
-                      elevation={0}
-                      style={{
-                        width: '100%',
-                        flexDirection: 'row',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Surface
-                        elevation={0}
-                        style={{
-                          padding: 4,
-                          marginLeft: 8,
-                          borderRadius: 16,
-                          backgroundColor: color !== setting?.color ? undefined : colors.primary
-                        }}
-                      >
-                        <Icon
-                          size={24}
-                          source="palette"
-                          color={color !== setting?.color ? colors.primary : colors.onPrimary}
-                        />
-                      </Surface>
+      <Card mode="contained">
+        <ListItem
+          title={t('profile.setting.language')}
+          left={(props) => <List.Icon {...props} icon="translate" />}
+          rightText={setting?.language}
+          onPress={() => setDisplay({ ...display, language: true })}
+        />
 
-                      <Menu.Item
-                        key={color}
-                        title={t(color)}
-                        onPress={() => {
-                          updateSetting({
-                            color: color as ColorName
-                          });
-                          setDisplay({ ...display, color: false });
-                        }}
-                      />
-                    </Surface>
-                  ))}
-                </Menu>
-              )}
+        <ListItem
+          title={t('profile.setting.theme')}
+          left={(props) => (
+            <List.Icon
+              {...props}
+              icon={
+                setting?.theme === 'auto'
+                  ? 'theme-light-dark'
+                  : setting?.theme === 'light'
+                    ? 'weather-sunny'
+                    : 'weather-night'
+              }
             />
-          </List.Accordion>
-        </List.AccordionGroup>
-      </Surface>
+          )}
+          onPress={() => setDisplay({ ...display, theme: true })}
+        />
 
-      <Snackbar
-        visible={message.visible}
-        onDismiss={() => setMessage({ ...message, visible: false })}
-        onIconPress={() => setMessage({ ...message, visible: false })}
-      >
-        {message.content}
-      </Snackbar>
+        <ListItem
+          title={t('profile.setting.color')}
+          left={(props) => <List.Icon {...props} icon="palette-swatch-variant" color={colors.primary} />}
+          onPress={() => setDisplay({ ...display, color: true })}
+        />
+      </Card>
 
-      <Button onPress={() => signOut()}>退出登录</Button>
+      <AppSettingModal
+        type="language"
+        visible={display.language}
+        currentValue={setting?.language}
+        onDismiss={() => setDisplay({ ...display, language: false })}
+        onSelect={(value) => updateSetting({ language: value })}
+      />
+
+      <AppSettingModal
+        type="theme"
+        visible={display.theme}
+        currentValue={setting?.theme}
+        onDismiss={() => setDisplay({ ...display, theme: false })}
+        onSelect={(value) => updateSetting({ theme: value as 'light' | 'dark' | 'auto' })}
+      />
+
+      <AppSettingModal
+        type="color"
+        visible={display.color}
+        currentValue={setting?.color}
+        onDismiss={() => setDisplay({ ...display, color: false })}
+        onSelect={(value) => updateSetting({ color: value as ColorName })}
+      />
+
+      <Card mode="contained">
+        <ListItem
+          title={t('profile.setting.signOut')}
+          titleStyle={{ color: colors.error }}
+          left={(props) => <List.Icon {...props} icon="logout" />}
+          onPress={() => signOut()}
+          hasRightIcon={false}
+        />
+      </Card>
     </ParallaxScrollView>
   );
 }

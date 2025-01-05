@@ -48,7 +48,14 @@ const message = {
 };
 
 const profile = {
-  title: '我的'
+  title: '我的',
+  setting: {
+    title: '设置',
+    signOut: '退出登录',
+    language: '语言',
+    theme: '主题',
+    color: '颜色'
+  }
 };
 
 const create = {

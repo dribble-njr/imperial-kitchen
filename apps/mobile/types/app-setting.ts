@@ -7,10 +7,12 @@ export enum Languages {
 
 export type Language = 'en' | 'zh' | 'auto';
 
-export interface Setting {
+export type Theme = 'light' | 'dark' | 'auto';
+
+export interface AppSetting {
   color: ColorName;
-  theme: 'light' | 'dark' | 'auto';
+  theme: Theme;
   language: Language;
 }
 
-export default Setting;
+export default AppSetting;
