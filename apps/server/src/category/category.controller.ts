@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -23,13 +23,13 @@ export class CategoryController {
   }
 
   @Get(':id/dishes')
-  findDishesByCategory(@Param('id') id: string) {
-    return this.categoryService.findDishesByCategory(+id);
+  findDishesByCategory(@Param('id') id: string, @Query('offset') offset: string, @Query('limit') limit: string) {
+    return this.categoryService.findDishesByCategory(+id, +offset, +limit);
   }
 
   @Get(':id/dishes/trash')
-  findTrashDishesByCategory(@Param('id') id: string) {
-    return this.categoryService.findDishesByCategory(+id, true);
+  findTrashDishesByCategory(@Param('id') id: string, @Query('offset') offset: string, @Query('limit') limit: string) {
+    return this.categoryService.findDishesByCategory(+id, +offset, +limit, true);
   }
 
   @Get(':id')
