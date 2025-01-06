@@ -1,13 +1,13 @@
-import { TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-import { SafeAreaSurface, Surface, Text } from '@/components/common';
-import { globalStyles } from '@/assets/styles';
+import { ParallaxScrollView, Surface, Text } from '@/components/common';
 import { Card, IconButton, Searchbar } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { getGreeting } from '@/utils';
 import { CategoryVO, DishVO } from '@/types';
 import { CategoryService } from '@/service';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import Animated from 'react-native-reanimated';
 
 export default function HomeLayout() {
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
@@ -40,7 +40,7 @@ export default function HomeLayout() {
   }, [selectedCategory]);
 
   return (
-    <SafeAreaSurface style={globalStyles.screenContent}>
+    <ParallaxScrollView>
       {/* Header */}
       <Surface>
         <Text style={[styles.greeting, { color: colors.secondary }]}>{t(`common.${getGreeting()}`)}</Text>
@@ -53,7 +53,7 @@ export default function HomeLayout() {
 
       {/* Categories */}
       <Surface style={styles.categoryContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <Animated.ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {categories.map((category) => {
             const isSelected = category.id === selectedCategory;
             const backgroundColor = isSelected ? colors.primary : colors.surface;
@@ -67,7 +67,7 @@ export default function HomeLayout() {
               </TouchableOpacity>
             );
           })}
-        </ScrollView>
+        </Animated.ScrollView>
 
         {categories.length > 10 && (
           <IconButton icon="view-grid-outline" size={20} onPress={() => console.log('Pressed')} />
@@ -75,21 +75,23 @@ export default function HomeLayout() {
       </Surface>
 
       {/* Dish Cards */}
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <Animated.ScrollView showsVerticalScrollIndicator={false} horizontal>
         <Surface style={styles.dishGrid}>
           {dishes.map((dish) => (
-            <Surface key={dish.id} style={[styles.dishCard]} elevation={4}>
-              <TouchableOpacity key={dish.id}>
-                <Card.Cover source={{ uri: dish.image }} style={styles.dishImage} resizeMode="cover" />
-                <Card.Content style={styles.dishInfo}>
-                  <Text style={[styles.dishTitle]}>{dish.name}</Text>
-                </Card.Content>
-              </TouchableOpacity>
-            </Surface>
+            <Card key={dish.id} elevation={5} contentStyle={{ width: 217, height: 291 }}>
+              <Card.Cover source={{ uri: dish.image }} style={styles.dishImage} resizeMode="cover" />
+              <Card.Title
+                title={`${dish.name} • ¥${dish.price}`}
+                subtitle={dish.description}
+                titleStyle={styles.dishTitle}
+                subtitleStyle={{ color: colors.secondary }}
+                right={() => <IconButton icon="cart-outline" size={24} onPress={() => console.log('Pressed')} />}
+              />
+            </Card>
           ))}
         </Surface>
-      </ScrollView>
-    </SafeAreaSurface>
+      </Animated.ScrollView>
+    </ParallaxScrollView>
   );
 }
 
@@ -119,25 +121,20 @@ const styles = StyleSheet.create({
   },
   dishGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between'
-  },
-  dishCard: {
-    width: '48%',
-    marginBottom: 16,
-    borderRadius: 12,
-    overflow: 'hidden'
+    justifyContent: 'space-between',
+    gap: 16
   },
   dishImage: {
-    width: '100%',
-    height: 128
-  },
-  dishInfo: {
-    padding: 12
+    flex: 1
   },
   dishTitle: {
-    fontWeight: '500',
+    fontWeight: 700,
     marginBottom: 4
+  },
+  dishInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   dishDetails: {
     fontSize: 12
