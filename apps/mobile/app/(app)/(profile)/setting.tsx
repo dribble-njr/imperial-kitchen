@@ -28,14 +28,14 @@ export default function Setting() {
 
       <Card mode="contained">
         <ListItem
-          title={t('profile.setting.language')}
+          title={t('profile.setting.language.title')}
           left={(props) => <List.Icon {...props} icon="translate" />}
-          rightText={setting?.language}
+          rightText={t(`profile.setting.language.${setting?.language}`)}
           onPress={() => setDisplay({ ...display, language: true })}
         />
 
         <ListItem
-          title={t('profile.setting.theme')}
+          title={t('profile.setting.theme.title')}
           left={(props) => (
             <List.Icon
               {...props}
@@ -48,12 +48,14 @@ export default function Setting() {
               }
             />
           )}
+          rightText={t(`profile.setting.theme.${setting?.theme}`)}
           onPress={() => setDisplay({ ...display, theme: true })}
         />
 
         <ListItem
-          title={t('profile.setting.color')}
+          title={t('profile.setting.color.title')}
           left={(props) => <List.Icon {...props} icon="palette-swatch-variant" color={colors.primary} />}
+          rightText={t(`profile.setting.color.${setting?.color}`)}
           onPress={() => setDisplay({ ...display, color: true })}
         />
       </Card>

@@ -52,9 +52,33 @@ const profile = {
   setting: {
     title: '设置',
     signOut: '退出登录',
-    language: '语言',
-    theme: '主题',
-    color: '颜色'
+    language: {
+      title: '语言',
+      auto: '跟随系统',
+      zh: '中文',
+      en: '英文'
+    },
+    theme: {
+      title: '主题',
+      auto: '跟随系统',
+      light: '浅色模式',
+      dark: '深色模式'
+    },
+    color: {
+      title: '主题色',
+      default: '默认',
+      orange: '橙色',
+      red: '红色',
+      violet: '紫色',
+      indigo: '靛蓝色',
+      blue: '蓝色',
+      teal: '青色',
+      cyan: '青色',
+      green: '绿色',
+      lime: '酸橙色',
+      olive: '橄榄色',
+      brown: '棕色'
+    }
   }
 };
 

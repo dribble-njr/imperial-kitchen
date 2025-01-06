@@ -26,7 +26,7 @@ export function AppSettingModal<T>({ type, visible, onDismiss, currentValue, onS
         return (
           <>
             <Menu.Item
-              title="System"
+              title={t('profile.setting.language.auto')}
               trailingIcon={currentValue === 'auto' ? 'check' : undefined}
               onPress={() => {
                 onSelect('auto' as T);
@@ -36,7 +36,7 @@ export function AppSettingModal<T>({ type, visible, onDismiss, currentValue, onS
             {Object.entries(Languages).map((lang) => (
               <Menu.Item
                 key={lang[0]}
-                title={`${lang[0]} / ${lang[1]}`}
+                title={t(`profile.setting.language.${lang[0]}`)}
                 trailingIcon={currentValue === lang[0] ? 'check' : undefined}
                 onPress={() => {
                   onSelect(lang[0] as T);
@@ -50,7 +50,7 @@ export function AppSettingModal<T>({ type, visible, onDismiss, currentValue, onS
         return (
           <>
             <Menu.Item
-              title={t('system')}
+              title={t('profile.setting.theme.auto')}
               leadingIcon="theme-light-dark"
               trailingIcon={currentValue === 'auto' ? 'check' : undefined}
               onPress={() => {
@@ -59,7 +59,7 @@ export function AppSettingModal<T>({ type, visible, onDismiss, currentValue, onS
               }}
             />
             <Menu.Item
-              title={t('lightMode')}
+              title={t('profile.setting.theme.light')}
               leadingIcon="weather-sunny"
               trailingIcon={currentValue === 'light' ? 'check' : undefined}
               onPress={() => {
@@ -68,7 +68,7 @@ export function AppSettingModal<T>({ type, visible, onDismiss, currentValue, onS
               }}
             />
             <Menu.Item
-              title={t('darkMode')}
+              title={t('profile.setting.theme.dark')}
               leadingIcon="weather-night"
               trailingIcon={currentValue === 'dark' ? 'check' : undefined}
               onPress={() => {
@@ -96,7 +96,7 @@ export function AppSettingModal<T>({ type, visible, onDismiss, currentValue, onS
                   />
                 )}
                 trailingIcon={currentValue === color ? 'check' : undefined}
-                title={t(color)}
+                title={t(`profile.setting.color.${color}`)}
                 onPress={() => {
                   onSelect(color as T);
                   onDismiss();
