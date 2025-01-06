@@ -7,6 +7,7 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { useTranslation } from 'react-i18next';
 import { useAppSetting } from '@/context/AppSettingContext';
 import { ColorName } from '@/constants/Colors';
+import { Language, Theme } from '@/types';
 
 export default function Setting() {
   const colors = useThemeColor();
@@ -57,7 +58,7 @@ export default function Setting() {
         />
       </Card>
 
-      <AppSettingModal
+      <AppSettingModal<Language>
         type="language"
         visible={display.language}
         currentValue={setting?.language}
@@ -65,20 +66,20 @@ export default function Setting() {
         onSelect={(value) => updateSetting({ language: value })}
       />
 
-      <AppSettingModal
+      <AppSettingModal<Theme>
         type="theme"
         visible={display.theme}
         currentValue={setting?.theme}
         onDismiss={() => setDisplay({ ...display, theme: false })}
-        onSelect={(value) => updateSetting({ theme: value as 'light' | 'dark' | 'auto' })}
+        onSelect={(value) => updateSetting({ theme: value })}
       />
 
-      <AppSettingModal
+      <AppSettingModal<ColorName>
         type="color"
         visible={display.color}
         currentValue={setting?.color}
         onDismiss={() => setDisplay({ ...display, color: false })}
-        onSelect={(value) => updateSetting({ color: value as ColorName })}
+        onSelect={(value) => updateSetting({ color: value })}
       />
 
       <Card mode="contained">

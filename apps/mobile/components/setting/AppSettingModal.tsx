@@ -1,5 +1,5 @@
 import { Menu } from 'react-native-paper';
-import { Languages, Language, Theme } from '@/types';
+import { Languages } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Modal } from '@/components/common';
@@ -7,15 +7,15 @@ import { Icon } from 'react-native-paper';
 import { Colors, ColorName } from '@/constants/Colors';
 import { useAppSetting } from '@/context/AppSettingContext';
 
-interface AppSettingModalProps {
+interface AppSettingModalProps<T> {
   type: 'language' | 'theme' | 'color';
   visible: boolean;
   onDismiss: () => void;
-  currentValue?: string;
-  onSelect: (value: Language | Theme | ColorName) => void;
+  currentValue?: T;
+  onSelect: (value: T) => void;
 }
 
-export function AppSettingModal({ type, visible, onDismiss, currentValue, onSelect }: AppSettingModalProps) {
+export function AppSettingModal<T>({ type, visible, onDismiss, currentValue, onSelect }: AppSettingModalProps<T>) {
   const { t } = useTranslation();
   const colors = useThemeColor();
   const { effectiveColorScheme } = useAppSetting();
@@ -29,7 +29,7 @@ export function AppSettingModal({ type, visible, onDismiss, currentValue, onSele
               title="System"
               trailingIcon={currentValue === 'auto' ? 'check' : undefined}
               onPress={() => {
-                onSelect('auto' as Language);
+                onSelect('auto' as T);
                 onDismiss();
               }}
             />
@@ -39,7 +39,7 @@ export function AppSettingModal({ type, visible, onDismiss, currentValue, onSele
                 title={`${lang[0]} / ${lang[1]}`}
                 trailingIcon={currentValue === lang[0] ? 'check' : undefined}
                 onPress={() => {
-                  onSelect(lang[0] as Language);
+                  onSelect(lang[0] as T);
                   onDismiss();
                 }}
               />
@@ -54,7 +54,7 @@ export function AppSettingModal({ type, visible, onDismiss, currentValue, onSele
               leadingIcon="theme-light-dark"
               trailingIcon={currentValue === 'auto' ? 'check' : undefined}
               onPress={() => {
-                onSelect('auto' as Theme);
+                onSelect('auto' as T);
                 onDismiss();
               }}
             />
@@ -63,7 +63,7 @@ export function AppSettingModal({ type, visible, onDismiss, currentValue, onSele
               leadingIcon="weather-sunny"
               trailingIcon={currentValue === 'light' ? 'check' : undefined}
               onPress={() => {
-                onSelect('light' as Theme);
+                onSelect('light' as T);
                 onDismiss();
               }}
             />
@@ -72,7 +72,7 @@ export function AppSettingModal({ type, visible, onDismiss, currentValue, onSele
               leadingIcon="weather-night"
               trailingIcon={currentValue === 'dark' ? 'check' : undefined}
               onPress={() => {
-                onSelect('dark' as Theme);
+                onSelect('dark' as T);
                 onDismiss();
               }}
             />
@@ -98,7 +98,7 @@ export function AppSettingModal({ type, visible, onDismiss, currentValue, onSele
                 trailingIcon={currentValue === color ? 'check' : undefined}
                 title={t(color)}
                 onPress={() => {
-                  onSelect(color as ColorName);
+                  onSelect(color as T);
                   onDismiss();
                 }}
               />
