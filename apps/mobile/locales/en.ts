@@ -48,7 +48,37 @@ const message = {
 };
 
 const profile = {
-  title: 'Profile'
+  title: 'Profile',
+  setting: {
+    title: 'Setting',
+    signOut: 'Sign Out',
+    language: {
+      title: 'Language',
+      zh: 'Chinese',
+      en: 'English'
+    },
+    theme: {
+      title: 'Theme',
+      auto: 'Follow System',
+      light: 'Light Mode',
+      dark: 'Dark Mode'
+    },
+    color: {
+      title: 'Color',
+      default: 'Default',
+      orange: 'Orange',
+      red: 'Red',
+      violet: 'Violet',
+      indigo: 'Indigo',
+      blue: 'Blue',
+      teal: 'Teal',
+      cyan: 'Cyan',
+      green: 'Green',
+      lime: 'Lime',
+      olive: 'Olive',
+      brown: 'Brown'
+    }
+  }
 };
 
 const create = {

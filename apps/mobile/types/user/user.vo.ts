@@ -10,8 +10,8 @@ export interface User {
   name: string;
   email: string;
   phone?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   role: Role;
   isActive: boolean;
 }

@@ -1,203 +1,76 @@
 import { ParallaxScrollView, Surface } from '@/components/common';
-import { useColorScheme } from 'react-native';
-import { List, Menu, IconButton, Snackbar, Icon, Button } from 'react-native-paper';
-import { Language, Languages } from '@/types';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ColorName, Colors } from '@/constants/Colors';
 import { useAuth } from '@/context/AuthContext';
-import { useAppSetting } from '@/context/AppSettingContext';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { StyleSheet } from 'react-native';
+import { Appbar, Avatar, Button, Card, Text } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
-  const colorScheme = useColorScheme();
-  const { t } = useTranslation();
-  const [message, setMessage] = useState({ visible: false, content: '' });
-
-  const { setting, updateSetting } = useAppSetting();
-  const { signOut } = useAuth();
-
-  const [display, setDisplay] = useState({
-    color: false,
-    language: false,
-    theme: false
-  });
-
-  const themeColors = Colors[setting?.theme === 'auto' ? colorScheme ?? 'light' : setting?.theme ?? 'light'];
+  const { userInfo } = useAuth();
+  const colors = useThemeColor();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
-    <ParallaxScrollView>
-      <Surface elevation={0}>
-        <List.AccordionGroup>
-          <List.Accordion id="1" title={t('appearance')} left={(props) => <List.Icon {...props} icon="palette" />}>
-            <List.Item
-              title={t('language')}
-              description={t('changeLanguage')}
-              left={(props) => <List.Icon {...props} icon="translate" />}
-              right={(props) => (
-                <Menu
-                  visible={display.language}
-                  onDismiss={() => setDisplay({ ...display, language: false })}
-                  anchor={
-                    <IconButton {...props} icon="pencil" onPress={() => setDisplay({ ...display, language: true })} />
-                  }
-                >
-                  <Menu.Item
-                    title="System"
-                    trailingIcon={setting?.language === 'auto' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ language: 'auto' });
-                      setDisplay({ ...display, language: false });
-                    }}
-                  />
-                  {Object.entries(Languages).map((lang) => (
-                    <Menu.Item
-                      key={lang[0]}
-                      title={`${lang[0]} / ${lang[1]}`}
-                      trailingIcon={setting?.language === lang[0] ? 'check' : undefined}
-                      onPress={() => {
-                        updateSetting({
-                          language: lang[0] as Language
-                        });
-                        setDisplay({ ...display, language: false });
-                      }}
-                    />
-                  ))}
-                </Menu>
-              )}
+    <ParallaxScrollView
+      variant="full"
+      headerImage={
+        <>
+          <Surface style={[styles.action, { top: insets.top }]} elevation={0}>
+            <Appbar.Action
+              icon={() => <SimpleLineIcons name="settings" size={24} color={colors.primary} />}
+              onPress={() => router.push('/(app)/(profile)/setting')}
             />
-            <List.Item
-              title={t('mode')}
-              description={t('changeMode')}
-              left={(props) => (
-                <List.Icon
-                  {...props}
-                  icon={
-                    setting?.theme === 'auto'
-                      ? 'theme-light-dark'
-                      : setting?.theme === 'light'
-                        ? 'weather-sunny'
-                        : 'weather-night'
-                  }
-                />
-              )}
-              right={(props) => (
-                <Menu
-                  visible={display.theme}
-                  onDismiss={() => setDisplay({ ...display, theme: false })}
-                  anchor={
-                    <IconButton {...props} icon="pencil" onPress={() => setDisplay({ ...display, theme: true })} />
-                  }
-                >
-                  <Menu.Item
-                    title={t('system')}
-                    leadingIcon="theme-light-dark"
-                    trailingIcon={setting?.theme === 'auto' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ theme: 'auto' });
-                      setDisplay({ ...display, theme: false });
-                    }}
-                  />
-                  <Menu.Item
-                    title={t('lightMode')}
-                    leadingIcon="weather-sunny"
-                    trailingIcon={setting?.theme === 'light' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ theme: 'light' });
-                      setDisplay({ ...display, theme: false });
-                    }}
-                  />
-                  <Menu.Item
-                    title={t('darkMode')}
-                    leadingIcon="weather-night"
-                    trailingIcon={setting?.theme === 'dark' ? 'check' : undefined}
-                    onPress={() => {
-                      updateSetting({ theme: 'dark' });
-                      setDisplay({ ...display, theme: false });
-                    }}
-                  />
-                </Menu>
-              )}
-            />
-            <List.Item
-              title={t('color')}
-              description={t('changeColor')}
-              left={(props) => (
-                <List.Icon
-                  {...props}
-                  icon="palette-swatch-variant"
-                  color={
-                    Colors[setting?.theme === 'auto' ? colorScheme ?? 'light' : setting?.theme ?? 'light'][
-                      setting?.color ?? 'default'
-                    ]?.primary
-                  }
-                />
-              )}
-              right={(props) => (
-                <Menu
-                  visible={display.color}
-                  onDismiss={() => setDisplay({ ...display, color: false })}
-                  anchor={
-                    <IconButton {...props} icon="pencil" onPress={() => setDisplay({ ...display, color: true })} />
-                  }
-                >
-                  {Object.keys(Colors.light).map((color) => (
-                    <Surface
-                      key={color}
-                      elevation={0}
-                      style={{
-                        width: '100%',
-                        flexDirection: 'row',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Surface
-                        elevation={0}
-                        style={{
-                          padding: 4,
-                          marginLeft: 8,
-                          borderRadius: 16,
-                          backgroundColor: color !== setting?.color ? undefined : themeColors[color]?.primary
-                        }}
-                      >
-                        <Icon
-                          size={24}
-                          source="palette"
-                          color={
-                            color !== setting?.color
-                              ? themeColors[color as ColorName]?.primary
-                              : themeColors[color as ColorName].onPrimary
-                          }
-                        />
-                      </Surface>
+          </Surface>
+          <Surface style={styles.avatar} elevation={0}>
+            <Avatar.Image size={64} source={{ uri: 'https://picsum.photos/128/128' }} />
+          </Surface>
+        </>
+      }
+      headerBackgroundColor="#2b2434"
+      contentContainerStyle={{ marginTop: 40 }}
+    >
+      <Surface>
+        <Text variant="titleLarge">{userInfo?.name}</Text>
+        <Text>{userInfo?.email}</Text>
 
-                      <Menu.Item
-                        key={color}
-                        title={t(color)}
-                        onPress={() => {
-                          updateSetting({
-                            color: color as ColorName
-                          });
-                          setDisplay({ ...display, color: false });
-                        }}
-                      />
-                    </Surface>
-                  ))}
-                </Menu>
-              )}
-            />
-          </List.Accordion>
-        </List.AccordionGroup>
+        <Button
+          style={{ marginTop: 16 }}
+          icon={() => <MaterialIcons name="mode-edit" size={16} color={colors.onPrimary} />}
+          mode="contained"
+          onPress={() => console.log('edit profile')}
+        >
+          编辑个人资料
+        </Button>
       </Surface>
 
-      <Button onPress={() => signOut()}>退出登录</Button>
-
-      <Snackbar
-        visible={message.visible}
-        onDismiss={() => setMessage({ ...message, visible: false })}
-        onIconPress={() => setMessage({ ...message, visible: false })}
-      >
-        {message.content}
-      </Snackbar>
+      <Card mode="contained" style={{ padding: 16 }}>
+        <Text style={[styles.title, { color: colors.onSecondaryContainer }]}>加入时间</Text>
+        <Text>{userInfo?.createdAt}</Text>
+      </Card>
     </ParallaxScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  action: {
+    position: 'absolute',
+    right: 24,
+    width: 48,
+    height: 48,
+    borderRadius: 24
+  },
+  avatar: {
+    position: 'absolute',
+    left: 24,
+    right: 0,
+    bottom: -32
+  },
+  title: {
+    fontWeight: 700,
+    fontSize: 16,
+    marginBottom: 8
+  }
+});
