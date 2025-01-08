@@ -37,9 +37,11 @@ export class CategoryService {
     });
   }
 
-  async findDishesByCategory(id: number, includeTrash: boolean = false) {
+  async findDishesByCategory(id: number, offset: number = 0, limit: number = 10, includeTrash: boolean = false) {
     return await this.prisma.dish.findMany({
-      where: { categoryId: id, isActive: !includeTrash }
+      where: { categoryId: id, isActive: !includeTrash },
+      skip: offset,
+      take: limit
     });
   }
 
