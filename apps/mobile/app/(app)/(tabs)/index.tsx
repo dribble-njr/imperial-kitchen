@@ -40,7 +40,12 @@ export default function HomeLayout() {
   }, [selectedCategory]);
 
   return (
-    <ParallaxScrollView>
+    <ParallaxScrollView
+      onRefresh={async () => {
+        await fetchCategories();
+        await fetchDishes();
+      }}
+    >
       {/* Header */}
       <Surface>
         <Text style={[styles.greeting, { color: colors.secondary }]}>{t(`common.${getGreeting()}`)}</Text>
@@ -75,22 +80,40 @@ export default function HomeLayout() {
       </Surface>
 
       {/* Dish Cards */}
-      <Animated.ScrollView showsVerticalScrollIndicator={false} horizontal>
-        <Surface style={styles.dishGrid}>
-          {dishes.map((dish) => (
-            <Card key={dish.id} elevation={5} contentStyle={{ width: 217, height: 291 }}>
-              <Card.Cover source={{ uri: dish.image }} style={styles.dishImage} resizeMode="cover" />
-              <Card.Title
-                title={`${dish.name} • ¥${dish.price}`}
-                subtitle={dish.description}
-                titleStyle={styles.dishTitle}
-                subtitleStyle={{ color: colors.secondary }}
-                right={() => <IconButton icon="cart-outline" size={24} onPress={() => console.log('Pressed')} />}
-              />
-            </Card>
-          ))}
-        </Surface>
-      </Animated.ScrollView>
+      <Animated.FlatList
+        data={dishes}
+        numColumns={1}
+        renderItem={({ item: dish }) => (
+          <Surface style={styles.dishCard} elevation={2}>
+            <Card.Cover
+              source={{ uri: dish.image ?? 'https://picsum.photos/200/300' }}
+              style={styles.dishImage}
+              resizeMode="cover"
+              testID="dish-image"
+            />
+            <Card.Content style={styles.dishContent}>
+              <Surface style={styles.dishInfo} elevation={0}>
+                <Text variant="titleMedium" ellipsizeMode="tail" style={styles.dishName} numberOfLines={2}>
+                  {dish.name}10串鸭肠小船
+                </Text>
+
+                <Text variant="bodySmall" style={[styles.dishDescription, { color: colors.secondary }]}>
+                  {dish.description}
+                </Text>
+              </Surface>
+
+              <Surface style={styles.dishPriceContainer} elevation={0}>
+                <Text variant="titleLarge" style={styles.dishPrice}>
+                  ¥{dish.price}
+                </Text>
+                <IconButton icon="cart-outline" size={22} onPress={() => console.log('Pressed')} />
+              </Surface>
+            </Card.Content>
+          </Surface>
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        showsVerticalScrollIndicator={false}
+      />
     </ParallaxScrollView>
   );
 }
@@ -119,51 +142,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
-  dishGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 16
-  },
-  dishImage: {
+  dishContainer: {
     flex: 1
   },
-  dishTitle: {
-    fontWeight: 700,
-    marginBottom: 4
+  dishCard: {
+    flexDirection: 'row',
+    marginBottom: 16,
+    borderRadius: 8,
+    overflow: 'hidden',
+    height: 130
+  },
+  dishImage: {
+    width: 120,
+    height: '100%'
+  },
+  dishContent: {
+    flex: 1,
+    padding: 12,
+    justifyContent: 'space-between'
   },
   dishInfo: {
+    justifyContent: 'space-between'
+  },
+  dishName: {
+    fontWeight: '600'
+  },
+  dishPriceContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  dishDetails: {
-    fontSize: 12
+  dishPrice: {
+    fontWeight: '600'
   },
-  recommendationBox: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 24
-  },
-  recommendationCategory: {
-    color: '#FF97B5'
-  },
-  recommendationContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 8
-  },
-  recommendationText: {
-    color: 'white',
-    fontSize: 18
-  },
-  exploreButton: {
-    backgroundColor: '#FF97B5',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 25
-  },
-  exploreButtonText: {
-    color: 'black'
+  dishDescription: {
+    marginTop: 4
   }
 });
