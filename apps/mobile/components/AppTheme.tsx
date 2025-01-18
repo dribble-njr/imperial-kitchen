@@ -1,6 +1,7 @@
 import { Surface } from '@/components/common';
 import Themes from '@/constants/Themes';
 import { useAppSetting } from '@/context/AppSettingContext';
+import { ToastProvider } from '@/context/ToastContext';
 import { DarkTheme as NavDarkTheme, DefaultTheme as NavLightTheme, ThemeProvider } from '@react-navigation/native';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -28,10 +29,12 @@ export function AppTheme() {
   return (
     <PaperProvider theme={paperTheme}>
       <ThemeProvider value={effectiveColorScheme === 'dark' ? DarkTheme : LightTheme}>
-        <Surface style={{ flex: 1 }} testID="root-surface">
-          <StatusBar style={statusBarStyle} />
-          <Slot />
-        </Surface>
+        <ToastProvider>
+          <Surface style={{ flex: 1 }} testID="root-surface">
+            <StatusBar style={statusBarStyle} />
+            <Slot />
+          </Surface>
+        </ToastProvider>
       </ThemeProvider>
     </PaperProvider>
   );
