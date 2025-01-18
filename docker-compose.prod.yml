@@ -1,0 +1,16 @@
+services:
+  database:
+    ports:
+      - 3306:3306
+    volumes:
+      - prod_mysql_data:/var/lib/mysql
+
+  server:
+    build:
+      args:
+        NODE_ENV: prod
+    environment:
+      NODE_ENV: prod
+
+volumes:
+  prod_mysql_data:
