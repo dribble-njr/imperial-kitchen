@@ -1,3 +1,4 @@
+import { useBackHandler } from '@/hooks/useBackHandler';
 import { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Portal, Surface, Text } from 'react-native-paper';
@@ -55,6 +56,8 @@ export default function Toast({ message, visible, onDismiss, duration = 1000 }: 
       }
     };
   }, [visible, duration, onDismiss, opacity]);
+
+  useBackHandler(visible, onDismiss);
 
   if (!visible) return null;
 

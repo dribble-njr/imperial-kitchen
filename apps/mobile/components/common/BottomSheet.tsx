@@ -10,6 +10,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Text from './Text';
 import { Colors } from '@/constants/Colors';
+import { useBackHandler } from '@/hooks/useBackHandler';
 
 interface BottomSheetProps {
   title?: string;
@@ -65,6 +66,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     dismiss();
     onDismiss();
   }, [dismiss, onDismiss]);
+
+  useBackHandler(visible, handleDismiss);
 
   return (
     <BottomSheetModal
