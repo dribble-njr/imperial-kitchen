@@ -15,3 +15,4 @@ export * from './List';
 export { default as DigitInput } from './DigitInput';
 export { default as Toast } from './Toast';
 export { default as BottomSheet } from './BottomSheet';
+export { default as BottomSheetTextInput } from './BottomSheetTextInput';
