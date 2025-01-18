@@ -9,6 +9,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Text from './Text';
+import { Colors } from '@/constants/Colors';
 
 interface BottomSheetProps {
   title?: string;
@@ -72,6 +73,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       enablePanDownToClose={enablePanDownToClose}
       enableDynamicSizing={enableDynamicSizing}
       backdropComponent={renderBackdrop}
+      backgroundStyle={{ backgroundColor: Colors.light.default.elevation['level1'] }}
       onDismiss={handleDismiss}
       handleIndicatorStyle={styles.indicator}
       containerStyle={[{ paddingBottom: bottom }, containerStyle]}
