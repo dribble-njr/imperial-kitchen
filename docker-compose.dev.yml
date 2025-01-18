@@ -1,16 +1,7 @@
 services:
   database:
-    image: mysql:latest
     ports:
-      - 3306:3306
-    environment:
-      TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: root
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      - 3307:3306
     volumes:
       - dev_mysql_data:/var/lib/mysql
 
@@ -20,9 +11,6 @@ services:
         NODE_ENV: dev
     environment:
       NODE_ENV: dev
-    depends_on:
-      database:
-        condition: service_healthy
 
 volumes:
   dev_mysql_data:

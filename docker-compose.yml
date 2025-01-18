@@ -1,14 +1,25 @@
 services:
+  database:
+    image: mysql:latest
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
   server:
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
-      args:
-        NODE_ENV: prod
     ports:
       - ${SERVER_PORT:-8000}:8000
+    depends_on:
+      database:
+        condition: service_healthy
     environment:
-      NODE_ENV: prod
       HTTP_PROXY: http://host.docker.internal:7890
       HTTPS_PROXY: http://host.docker.internal:7890
       NO_PROXY: localhost,127.0.0.1
