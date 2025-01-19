@@ -1,4 +1,9 @@
 const auth = {
+  guide: {
+    start: '开始',
+    welcome: '欢迎来到御膳房',
+    slogan: '定制您的厨房菜单'
+  },
   createKitchen: {
     title: '创建厨房',
     hero: '创建厨房',
@@ -88,10 +93,7 @@ const create = {
 };
 
 const Chinese = {
-  welcome: '欢迎来到御膳房',
-  start: '开始',
   startTip: '登录或注册开始使用',
-  slogan: '定制您的厨房菜单',
 
   common: {
     enter: '请输入',

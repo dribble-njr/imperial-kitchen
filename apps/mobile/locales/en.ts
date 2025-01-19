@@ -1,4 +1,9 @@
 const auth = {
+  guide: {
+    start: 'Start',
+    welcome: 'Welcome to Imperial Kitchen',
+    slogan: 'Customize your kitchen menu easily'
+  },
   createKitchen: {
     title: 'Create Kitchen',
     hero: 'Create Kitchen',
@@ -87,10 +92,7 @@ const create = {
 };
 
 const English = {
-  welcome: 'Welcome to Imperial Kitchen',
-  start: 'Get Started',
   startTip: 'Sign up or sign in to get started',
-  slogan: 'Customize your kitchen menu easily',
 
   common: {
     enter: 'Please enter ',

@@ -25,7 +25,7 @@ export default function GuideScreen() {
     <SafeAreaSurface style={styles.container}>
       <Surface style={styles.headerContainer}>
         <Text type="secondary" variant="bodySmall">
-          {t('welcome')}
+          {t('auth.guide.welcome')}
         </Text>
         <Button
           mode="contained-tonal"
@@ -38,7 +38,7 @@ export default function GuideScreen() {
         </Button>
       </Surface>
 
-      <Text className="mt-4 text-2xl font-bold w-full">{t('slogan')}</Text>
+      <Text className="mt-4 text-2xl font-bold w-full">{t('auth.guide.slogan')}</Text>
 
       <Carousel images={images} style={styles.featureCard} />
 
