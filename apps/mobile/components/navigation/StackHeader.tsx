@@ -9,7 +9,7 @@ interface StackHeaderProps extends AppbarProps {
 
 export default function StackHeader({ navProps, ...props }: StackHeaderProps) {
   return (
-    <Surface elevation={1} mode="elevated">
+    <Surface elevation={1}>
       <Appbar.Header {...props} style={{ backgroundColor: 'transparent' }}>
         {navProps.options.headerLeft
           ? navProps.options.headerLeft({
