@@ -9,6 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import type { SharedValue } from 'react-native-reanimated';
 import Surface from './Surface';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 const INDICATOR_WIDTH = 16;
 const INDICATOR_PADDING = 3;
@@ -74,6 +75,7 @@ function Indicator({
   scrollX: SharedValue<number>;
   containerWidth: number;
 }) {
+  const colors = useThemeColor();
   const animatedStyle = useAnimatedStyle(() => {
     const width = interpolate(
       scrollX.value,
@@ -85,7 +87,7 @@ function Indicator({
     const opacity = interpolate(
       scrollX.value,
       [(index - 1) * containerWidth, index * containerWidth, (index + 1) * containerWidth],
-      [0.5, 1, 0.5],
+      [0.3, 1, 0.3],
       'clamp'
     );
 
@@ -95,7 +97,7 @@ function Indicator({
     };
   });
 
-  return <Animated.View style={[styles.indicator, animatedStyle]} />;
+  return <Animated.View style={[styles.indicator, animatedStyle, { backgroundColor: colors.primary }]} />;
 }
 
 const styles = StyleSheet.create({
@@ -122,7 +124,6 @@ const styles = StyleSheet.create({
   },
   indicator: {
     height: 4,
-    backgroundColor: 'white',
     borderRadius: 2
   }
 });

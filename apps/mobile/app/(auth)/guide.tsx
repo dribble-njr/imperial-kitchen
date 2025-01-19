@@ -3,38 +3,38 @@ import { Button } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Surface, Carousel, SafeAreaSurface, Text } from '@/components/common';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function GuideScreen() {
   const { t } = useTranslation();
+  const colors = useThemeColor();
 
-  const skip = async () => {
+  const handleSkip = async () => {
     // TODO: Add skip guide logic
     // sign in a test user
-    // router.replace('/');
+    router.replace('/');
   };
 
   const images = [
-    'https://picsum.photos/700/400?random=1',
-    'https://picsum.photos/700/400?random=2',
-    'https://picsum.photos/700/400?random=3'
+    'https://picsum.photos/400/700?random=1',
+    'https://picsum.photos/400/700?random=2',
+    'https://picsum.photos/400/700?random=3'
   ];
 
   return (
     <SafeAreaSurface style={styles.container}>
       <Surface style={styles.headerContainer}>
-        <Text className="text-sm">{t('welcome')}</Text>
+        <Text type="secondary" variant="bodySmall">
+          {t('welcome')}
+        </Text>
         <Button
           mode="contained-tonal"
           contentStyle={{ height: 30 }}
-          labelStyle={{ height: 30, lineHeight: 30 }}
-          style={{ borderRadius: 5 }}
-          onPress={skip}
+          labelStyle={{ height: 30, lineHeight: 30, color: colors.onSurfaceVariant }}
+          style={{ borderRadius: 5, backgroundColor: colors.surfaceVariant }}
+          onPress={handleSkip}
         >
-          {/*
-            When the text is skip or '跳过', the button will click automatically. Why???!!!
-            It should be a bug of react-native-paper. Use react-native button is normal.
-          */}
-          {t('start')}
+          {t('auth.guide.start')}
         </Button>
       </Surface>
 
@@ -63,7 +63,7 @@ export default function GuideScreen() {
         </Button>
 
         <Text style={styles.signInText}>
-          {t('auth.alreadyHaveAccount')}
+          <Text type="secondary">{t('auth.alreadyHaveAccount')}</Text>
           <Text
             type="link"
             onPress={async () => {
