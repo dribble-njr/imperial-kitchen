@@ -16,7 +16,7 @@ const INDICATOR_PADDING = 3;
 const ACTIVE_INDICATOR_WIDTH = 24;
 
 interface CarouselProps {
-  images: string[];
+  images: string[] | React.ReactNode[];
   style?: ViewStyle;
 }
 
@@ -44,8 +44,14 @@ export default function Carousel({ images, style }: CarouselProps) {
         ref={flatListRef}
         data={images}
         renderItem={({ item }) => (
-          <Surface style={[styles.imageContainer, { width: containerWidth, height: containerHeight }]}>
-            <Animated.Image source={{ uri: item }} style={styles.image} />
+          <Surface style={[styles.itemContainer, { width: containerWidth, height: containerHeight }]}>
+            {typeof item === 'string' ? (
+              <Surface style={styles.imageContainer}>
+                <Animated.Image source={{ uri: item }} style={styles.image} />
+              </Surface>
+            ) : (
+              item
+            )}
           </Surface>
         )}
         horizontal
@@ -109,8 +115,14 @@ const styles = StyleSheet.create({
   flatList: {
     borderRadius: 8
   },
+  itemContainer: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   imageContainer: {
-    flex: 1
+    flex: 1,
+    width: '100%'
   },
   image: {
     flex: 1,

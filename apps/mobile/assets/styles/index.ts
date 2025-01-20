@@ -11,5 +11,8 @@ export const globalStyles = StyleSheet.create({
     padding: 24,
     gap: 16,
     overflow: 'hidden'
+  },
+  textCenter: {
+    textAlign: 'center'
   }
 });
