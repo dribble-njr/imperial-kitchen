@@ -27,7 +27,15 @@ const auth = {
   signUp: {
     title: 'Sign Up',
     hero: 'Sign Up',
-    description: 'Create your account now and start exploring'
+    description: 'Create your account now and start exploring',
+    haveAccount: 'Already have an account? ',
+    signUpFailed: 'Sign up failed'
+  },
+
+  captcha: {
+    title: 'Captcha',
+    hero: 'Please enter the captcha',
+    description: 'The captcha has been sent to your phone number'
   },
 
   forgotPassword: {

@@ -66,6 +66,7 @@ const English = {
     password: 'Password',
     inviteCode: 'Invite Code',
     sendCaptcha: 'Send Captcha',
+    captchaSent: 'Captcha sent successfully',
     invalidEmail: 'Invalid email',
 
     morning: 'Good morning',

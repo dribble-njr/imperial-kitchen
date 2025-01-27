@@ -66,6 +66,7 @@ const Chinese = {
     password: '密码',
     inviteCode: '邀请码',
     sendCaptcha: '发送验证码',
+    captchaSent: '验证码发送成功',
     invalidEmail: '无效的邮箱',
 
     morning: '早上好',

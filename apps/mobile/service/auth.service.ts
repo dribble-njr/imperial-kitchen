@@ -12,4 +12,20 @@ export default class AuthService {
     if (!refreshToken) return;
     return httpClient.post<RefreshTokenResponseVO>('/auth/refresh-token', { refreshToken });
   }
+
+  public static signUpSendCaptcha(phoneNumber: string) {
+    return httpClient.post('/auth/sign-up/captcha', { phoneNumber });
+  }
+
+  public static verifySignUpCaptcha(params: { phoneNumber: string; captcha: string }) {
+    return httpClient.post('/auth/sign-up/verify-captcha', params);
+  }
+
+  public static forgotPasswordSendCaptcha(phoneNumber: string) {
+    return httpClient.post('/auth/forgot-password/captcha', { phoneNumber });
+  }
+
+  public static verifyForgotPasswordCaptcha(params: { phoneNumber: string; captcha: string }) {
+    return httpClient.post('/auth/forgot-password/verify-captcha', params);
+  }
 }

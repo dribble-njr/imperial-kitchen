@@ -46,7 +46,7 @@ export default function GuideScreen() {
             {t('auth.signIn.title')}
           </Button>
 
-          <Button mode="contained-tonal" onPress={() => router.push('/(auth)/join-kitchen')}>
+          <Button mode="contained-tonal" onPress={() => router.push('/(auth)/sign-up')}>
             {t('auth.signIn.haveNoAccount')}
             {t('auth.signUp.title')}
           </Button>

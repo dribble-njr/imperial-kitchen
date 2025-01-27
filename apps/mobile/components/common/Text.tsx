@@ -8,7 +8,7 @@ interface CustomTextProps extends TextProps<TextStyle> {
   children: React.ReactNode;
 }
 
-export default function Text({ children, type = 'default', ...props }: CustomTextProps) {
+export default function Text({ children, type = 'default', style, ...props }: CustomTextProps) {
   const typeColor = () => {
     switch (type) {
       case 'link':
@@ -28,7 +28,7 @@ export default function Text({ children, type = 'default', ...props }: CustomTex
   const color = useThemeColor(typeColor()) as string;
 
   return (
-    <PaperText style={{ color }} {...props}>
+    <PaperText style={[style, { color }]} {...props}>
       {children}
     </PaperText>
   );

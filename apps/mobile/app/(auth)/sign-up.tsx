@@ -1,63 +1,59 @@
+import { globalStyles } from '@/assets/styles';
+import { Surface, ParallaxScrollView, Text } from '@/components/common';
+import { FieldInput } from '@/components/form';
+import { useToast } from '@/context/ToastContext';
+import { UserService } from '@/service';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
-import { SignInDTO } from '@/types';
-import { Surface, ParallaxScrollView, Text } from '@/components/common';
-import { PasswordInput, FieldInput } from '@/components/form';
-import { useAuth } from '@/context/AuthContext';
-import { globalStyles } from '@/assets/styles';
-import SignInHero from '@/assets/images/sign-in.svg';
-import { useToast } from '@/context/ToastContext';
+import SignUpHero from '@/assets/images/sign-up.svg';
+import { useRouter } from 'expo-router';
+import { CaptchaType } from '@/types';
+import { useAuthFlowContext } from './_layout';
 
-export default function SignInScreen() {
-  const { showToast } = useToast();
+export default function SignUpScreen() {
   const { t } = useTranslation();
-  const { signIn } = useAuth();
-  const handleSignIn = async (values: SignInDTO) => {
+  const { showToast } = useToast();
+  const { email, setEmail } = useAuthFlowContext();
+  const router = useRouter();
+
+  const sendCaptcha = async (values: { email: string }) => {
     try {
-      await signIn(values.email, values.password);
-      router.replace('/');
+      setEmail(values.email);
+      const res = await UserService.sendCaptcha({ email: values.email, type: CaptchaType.REGISTER });
+      if (res) {
+        showToast(t('common.captchaSent'));
+        router.push('/(auth)/captcha');
+      }
     } catch (error) {
-      showToast('Error');
+      showToast(error as string);
     }
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email(t('common.invalidEmail'))
-      .required(`${t('common.enter')}${t('common.email')}`),
-    password: Yup.string().required(`${t('common.enter')}${t('common.password')}`)
+      .required(`${t('common.enter')}${t('common.email')}`)
   });
 
   return (
     <ParallaxScrollView>
       <Surface style={globalStyles.hero}>
-        <SignInHero width="100%" />
+        <SignUpHero width="100%" />
         <Text variant="titleLarge" style={{ textAlign: 'center' }}>
-          {t('auth.signIn.hero')}
+          {t('auth.signUp.hero')}
         </Text>
         <Text variant="labelLarge" style={{ textAlign: 'center', marginTop: 8 }}>
-          {t('auth.signIn.description')}
+          {t('auth.signUp.description')}
         </Text>
       </Surface>
 
-      <Formik
-        initialValues={{ email: 'admin@test.com', password: 'admin123' }}
-        onSubmit={(values) => {
-          const dto: SignInDTO = {
-            ...values
-          };
-          handleSignIn(dto);
-        }}
-        validationSchema={validationSchema}
-      >
+      <Formik initialValues={{ email }} onSubmit={sendCaptcha} validationSchema={validationSchema}>
         {({ handleSubmit, validateForm }) => (
           <Surface style={globalStyles.form}>
             <FieldInput i18nKey="common" name="email" />
-            <PasswordInput i18nKey="common" name="password" />
 
             <Button
               style={styles.button}
@@ -71,7 +67,7 @@ export default function SignInScreen() {
                 handleSubmit();
               }}
             >
-              {t('common.confirm')}
+              {t('auth.signUp.title')}
             </Button>
           </Surface>
         )}
@@ -79,9 +75,9 @@ export default function SignInScreen() {
 
       <Surface style={{ flex: 1, alignItems: 'center' }}>
         <Text type="secondary">
-          {t('auth.signIn.haveNoAccount')}
-          <Text type="link" onPress={() => router.push('/(auth)/guide')}>
-            {t('auth.signIn.joinOrCreate')}
+          {t('auth.signUp.haveAccount')}
+          <Text type="link" onPress={() => router.push('/(auth)/sign-in')}>
+            {t('auth.signIn.title')}
           </Text>
         </Text>
       </Surface>
@@ -91,6 +87,6 @@ export default function SignInScreen() {
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 20
+    marginTop: 32
   }
 });

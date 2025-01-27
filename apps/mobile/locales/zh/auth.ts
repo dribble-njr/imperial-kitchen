@@ -26,7 +26,15 @@ const auth = {
   signUp: {
     title: '注册',
     hero: '注册',
-    description: '创建您的账号并开始探索'
+    description: '创建您的账号并开始探索',
+    haveAccount: '已有账号？',
+    signUpFailed: '注册失败'
+  },
+
+  captcha: {
+    title: '验证码',
+    hero: '请输入验证码',
+    description: '验证码已发送至：'
   },
 
   forgotPassword: {
