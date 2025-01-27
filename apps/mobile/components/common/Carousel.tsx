@@ -1,141 +1,116 @@
-import { useRef, useState } from 'react';
-import { StyleSheet, ViewStyle, LayoutChangeEvent } from 'react-native';
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-  useAnimatedStyle,
-  interpolate,
-  withSpring
-} from 'react-native-reanimated';
-import type { SharedValue } from 'react-native-reanimated';
+import RNCarousel from 'react-native-reanimated-carousel';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import Surface from './Surface';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-const INDICATOR_WIDTH = 16;
-const INDICATOR_PADDING = 3;
-const ACTIVE_INDICATOR_WIDTH = 24;
-
-interface CarouselProps {
-  images: string[] | React.ReactNode[];
-  style?: ViewStyle;
+interface CarouselProps<T> extends Omit<React.ComponentProps<typeof RNCarousel<T>>, 'renderItem'> {
+  data: T[];
+  renderItem: (item: T) => React.ReactElement;
 }
 
-export default function Carousel({ images, style }: CarouselProps) {
-  const scrollX = useSharedValue(0);
-  const flatListRef = useRef(null);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [containerHeight, setContainerHeight] = useState(0);
+export default function Carousel<T>({
+  data,
+  renderItem,
+  loop = true,
+  autoPlay = true,
+  width = Dimensions.get('window').width - 64,
+  vertical = false as const,
+  ...rest
+}: CarouselProps<T>) {
+  const progress = useSharedValue<number>(0);
+  const colors = useThemeColor();
 
-  const handleLayout = (event: LayoutChangeEvent) => {
-    const { width, height } = event.nativeEvent.layout;
-    setContainerWidth(width);
-    setContainerHeight(height);
+  const renderPaginationDot = (index: number) => {
+    const animatedStyle = useAnimatedStyle(() => {
+      const distance = (progress.value - index + data.length) % data.length;
+      const isActive = distance < 0.5 || distance > data.length - 0.5;
+
+      return {
+        opacity: withSpring(isActive ? 1 : 0.5, {
+          mass: 0.5,
+          damping: 15,
+          stiffness: 120
+        }),
+        transform: [
+          {
+            scale: withSpring(isActive ? 1.2 : 1, {
+              mass: 0.5,
+              damping: 15,
+              stiffness: 120
+            })
+          }
+        ]
+      };
+    });
+
+    return (
+      <Animated.View key={index} style={[styles.paginationDot, animatedStyle, { backgroundColor: colors.primary }]} />
+    );
   };
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollX.value = event.contentOffset.x;
-    }
-  });
-
   return (
-    <Surface style={[styles.container, style]} onLayout={handleLayout}>
-      <Animated.FlatList
-        ref={flatListRef}
-        data={images}
-        renderItem={({ item }) => (
-          <Surface style={[styles.itemContainer, { width: containerWidth, height: containerHeight }]}>
-            {typeof item === 'string' ? (
-              <Surface style={styles.imageContainer}>
-                <Animated.Image source={{ uri: item }} style={styles.image} />
-              </Surface>
-            ) : (
-              item
-            )}
-          </Surface>
-        )}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        onScroll={scrollHandler}
-        scrollEventThrottle={16}
-        style={styles.flatList}
+    <View style={styles.container}>
+      <RNCarousel
+        loop={loop}
+        width={width}
+        autoPlay={autoPlay}
+        data={data}
+        vertical={vertical}
+        scrollAnimationDuration={2000}
+        renderItem={({ item }: { item: T }) => <View style={styles.itemContainer}>{renderItem(item)}</View>}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onProgressChange={(_: any, absoluteProgress: number) => {
+          progress.value = absoluteProgress;
+        }}
+        {...rest}
       />
 
-      <Surface style={styles.indicatorContainer} elevation={0}>
-        {containerWidth > 0 &&
-          images.map((_, index) => (
-            <Indicator key={index} index={index} scrollX={scrollX} containerWidth={containerWidth} />
-          ))}
+      <Surface
+        elevation={0}
+        style={[styles.paginationContainer, vertical ? styles.verticalPagination : styles.horizontalPagination]}
+      >
+        {data.map((_, index) => renderPaginationDot(index))}
       </Surface>
-    </Surface>
+    </View>
   );
-}
-
-function Indicator({
-  index,
-  scrollX,
-  containerWidth
-}: {
-  index: number;
-  scrollX: SharedValue<number>;
-  containerWidth: number;
-}) {
-  const colors = useThemeColor();
-  const animatedStyle = useAnimatedStyle(() => {
-    const width = interpolate(
-      scrollX.value,
-      [(index - 1) * containerWidth, index * containerWidth, (index + 1) * containerWidth],
-      [INDICATOR_WIDTH, ACTIVE_INDICATOR_WIDTH, INDICATOR_WIDTH],
-      'clamp'
-    );
-
-    const opacity = interpolate(
-      scrollX.value,
-      [(index - 1) * containerWidth, index * containerWidth, (index + 1) * containerWidth],
-      [0.3, 1, 0.3],
-      'clamp'
-    );
-
-    return {
-      width: withSpring(width),
-      opacity: withSpring(opacity)
-    };
-  });
-
-  return <Animated.View style={[styles.indicator, animatedStyle, { backgroundColor: colors.primary }]} />;
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    overflow: 'hidden',
-    gap: 10
-  },
-  flatList: {
-    borderRadius: 8
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   itemContainer: {
-    height: '100%',
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center'
+    padding: 20
   },
-  imageContainer: {
-    flex: 1,
-    width: '100%'
+  paginationContainer: {
+    position: 'absolute',
+    gap: 8
   },
-  image: {
-    flex: 1,
-    resizeMode: 'cover',
-    borderRadius: 8
+  verticalPagination: {
+    right: 16,
+    top: '50%',
+    transform: [{ translateY: '-50%' }],
+    flexDirection: 'column'
   },
-  indicatorContainer: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    gap: INDICATOR_PADDING
+  horizontalPagination: {
+    bottom: 16,
+    left: '50%',
+    transform: [{ translateX: '-50%' }],
+    flexDirection: 'row'
   },
-  indicator: {
-    height: 4,
-    borderRadius: 2
+  paginationDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 3
   }
 });
