@@ -4,7 +4,8 @@ import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Surface, CaptchaInput, FieldInput, PasswordInput, ParallaxScrollView, Text } from '@/components/common';
+import { Surface, ParallaxScrollView, Text } from '@/components/common';
+import { CaptchaInput, FieldInput, PasswordInput } from '@/components/form';
 import * as Yup from 'yup';
 import { globalStyles } from '@/assets/styles';
 

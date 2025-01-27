@@ -13,6 +13,8 @@ import { MailService } from 'src/shared/mail.service';
 import { PrismaService } from 'src/shared/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
+import { RegisterUserDTO } from './dto/register-user.dto';
+import { CaptchaType } from './dto/captcha.dto';
 
 @Injectable()
 export class UserService {
@@ -52,7 +54,7 @@ export class UserService {
    */
   async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean) {
     // validate captcha
-    const captcha = await this.redisService.get(`captcha_${user.email}`);
+    const captcha = await this.redisService.get(`captcha_${CaptchaType.REGISTER}_${user.email}`);
     if (!captcha) {
       throw new UnauthorizedException('Captcha expired');
     }
@@ -146,20 +148,77 @@ export class UserService {
   /**
    * send captcha to user's email
    * @param email
+   * @param type captcha type
    * @returns
    */
-  async captcha(email: string) {
+  async captcha(email: string, type: CaptchaType) {
     const code = Math.random().toString().slice(2, 8);
 
     console.log(code, 'code');
 
-    await this.redisService.set(`captcha_${email}`, code, 5 * 60);
+    await this.redisService.set(`captcha_${type}_${email}`, code, 5 * 60);
+
+    const subjects = {
+      [CaptchaType.REGISTER]: '注册验证码',
+      [CaptchaType.RESET_PASSWORD]: '重置密码验证码'
+    };
 
     this.mailService.sendEmail({
       to: email,
-      subject: '注册验证码',
+      subject: subjects[type],
       html: generateCaptchaHtml(code)
     });
     return true;
+  }
+
+  async register(user: RegisterUserDTO) {
+    // validate captcha
+    const captcha = await this.redisService.get(`captcha_${CaptchaType.REGISTER}_${user.email}`);
+    if (!captcha) {
+      throw new UnauthorizedException('Captcha expired');
+    }
+    if (captcha !== user.captcha) {
+      throw new BadRequestException('Captcha error');
+    }
+
+    const { email, name, password } = user;
+
+    // validate user exists
+    const existingUser = await this.prismaService.user.findFirst({
+      where: {
+        OR: [{ email: email || undefined }]
+      }
+    });
+    if (existingUser) {
+      throw new ConflictException('User exists');
+    }
+
+    // create user
+    const hashedPassword = await hashPassword(password);
+    const newUser = await this.prismaService.user.create({
+      data: {
+        email,
+        name,
+        password: hashedPassword
+      }
+    });
+
+    // generate token
+    const accessToken = await this.jwtService.signAsync({ id: newUser.id, email: newUser.email }, { expiresIn: '1d' });
+    const refreshToken = await this.jwtService.signAsync(
+      { id: newUser.id, email: newUser.email },
+      { expiresIn: '30d' }
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...userWithoutPassword } = newUser;
+
+    return {
+      user: userWithoutPassword,
+      tokens: {
+        accessToken,
+        refreshToken
+      }
+    };
   }
 }

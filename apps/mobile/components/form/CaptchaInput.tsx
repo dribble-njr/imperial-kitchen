@@ -1,8 +1,8 @@
 import { useField } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { HelperText, TextInput, TextInputProps } from 'react-native-paper';
+import { TextInput, TextInputProps } from 'react-native-paper';
 import { useState, useEffect, useRef } from 'react';
-import Surface from './Surface';
+import Surface from '../common/Surface';
 
 interface CaptchaInputProps extends TextInputProps {
   i18nKey: string;
@@ -11,8 +11,7 @@ interface CaptchaInputProps extends TextInputProps {
 }
 
 export default function CaptchaInput({ i18nKey, name, onSendCaptcha, ...textInputProps }: CaptchaInputProps) {
-  const [field, meta, helpers] = useField(name);
-  const hasError = meta.touched && Boolean(meta.error);
+  const [field, , helpers] = useField(name);
   const { t } = useTranslation();
   const [countdown, setCountdown] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -41,7 +40,6 @@ export default function CaptchaInput({ i18nKey, name, onSendCaptcha, ...textInpu
         mode="outlined"
         label={t(`${i18nKey}.${name}`)}
         value={field.value}
-        error={hasError}
         placeholder={`${t('common.enter')}${t(`${i18nKey}.${name}`)}...`}
         onChangeText={(value) => helpers.setValue(value)}
         onBlur={() => helpers.setTouched(true)}
@@ -53,7 +51,6 @@ export default function CaptchaInput({ i18nKey, name, onSendCaptcha, ...textInpu
         }
         {...textInputProps}
       />
-      {hasError && <HelperText type="error">{meta.error}</HelperText>}
     </Surface>
   );
 }

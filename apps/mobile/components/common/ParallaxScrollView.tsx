@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 24,
+    paddingTop: 0,
     gap: 16,
     borderRadius: 20
   }

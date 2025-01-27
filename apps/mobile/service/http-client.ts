@@ -45,6 +45,10 @@ class HttpClient {
   }
 
   private async handleError(error: AxiosError<CommonResponse>) {
+    if (!(error instanceof AxiosError)) {
+      return Promise.reject('Network error');
+    }
+
     if (error.response?.status === 401 && error.response?.data.message === 'Expired token') {
       const refreshToken = await getStorageItemAsync('refreshToken');
       if (refreshToken) {
@@ -71,7 +75,14 @@ class HttpClient {
         }
       }
     }
-    return Promise.reject(error);
+
+    console.log(error.response?.data, 'error.response?.data.message');
+
+    const message = Array.isArray(error.response?.data.message)
+      ? error.response?.data.message[0]
+      : error.response?.data.message;
+
+    return Promise.reject(message || 'Request error');
   }
 
   private mergeConfig(overrideConfig?: AxiosRequestConfig) {

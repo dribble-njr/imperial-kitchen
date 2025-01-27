@@ -1,9 +1,9 @@
 import { globalStyles } from '@/assets/styles';
-import { Surface, FieldInput, ParallaxScrollView, Text } from '@/components/common';
+import { Surface, ParallaxScrollView, Text } from '@/components/common';
+import { FieldInput, PasswordInput } from '@/components/form';
 import { UserService } from '@/service';
 import { RegisterMemberDTO } from '@/types';
 import { Formik } from 'formik';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 
 export default function JoinKitchenScreen() {
   const { t } = useTranslation();
-  const [displayPassword, setDisplayPassword] = useState(false);
+
   const sendCaptcha = async (email: string) => {
     try {
       await UserService.sendCaptcha(email);
@@ -82,12 +82,8 @@ export default function JoinKitchenScreen() {
 
               <FieldInput i18nKey="common" name="captcha" />
 
-              <FieldInput
-                i18nKey="common"
-                name="password"
-                secureTextEntry={displayPassword}
-                right={<TextInput.Icon icon="eye" onPress={() => setDisplayPassword(!displayPassword)} />}
-              />
+              <PasswordInput i18nKey="common" name="password" />
+
               <FieldInput i18nKey="common" name="inviteCode" />
 
               <Button style={{ marginTop: 32 }} mode="contained" onPress={() => handleSubmit()}>
