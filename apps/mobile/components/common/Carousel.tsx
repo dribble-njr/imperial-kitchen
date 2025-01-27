@@ -57,7 +57,8 @@ export default function Carousel<T>({
         autoPlay={autoPlay}
         data={data}
         vertical={vertical}
-        scrollAnimationDuration={2000}
+        scrollAnimationDuration={1000}
+        autoPlayInterval={2000}
         renderItem={({ item }: { item: T }) => <View style={styles.itemContainer}>{renderItem(item)}</View>}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onProgressChange={(_: any, absoluteProgress: number) => {
