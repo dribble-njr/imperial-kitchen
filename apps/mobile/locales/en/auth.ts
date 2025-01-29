@@ -1,11 +1,11 @@
 const auth = {
-  common: {
-    captchaSent: 'Captcha sent successfully',
-    sendCaptchaFailed: 'Send Captcha Failed',
-    invalidEmail: 'Invalid email',
-    resendCaptcha: 'Resend Captcha',
-    verifyCaptchaFailed: 'Verify Captcha Failed'
-  },
+  alreadyHaveAccount: 'Already have an account? ',
+  invalidEmail: 'Invalid email address',
+  registerSuccess: 'Registration successful',
+  autoEnterHome: 'Entering home page in {{count}}s',
+  enterNow: 'Enter now',
+  password: 'Password',
+  confirmPassword: 'Confirm Password',
 
   guide: {
     welcome: 'Welcome to Imperial Kitchen',
@@ -29,21 +29,28 @@ const auth = {
     hero: 'Hi, Welcome!',
     description: 'Get ready to dive back into the app',
     haveNoAccount: "Don't have an account? ",
-    joinOrCreate: 'Join or Create a Kitchen'
+    joinOrCreate: 'Join or Create a Kitchen',
+    failed: 'Sign in failed'
   },
 
   signUp: {
     title: 'Sign Up',
     hero: 'Sign Up',
     description: 'Create your account now and start exploring',
-    haveAccount: 'Already have an account? ',
     signUpFailed: 'Sign up failed'
   },
 
   captcha: {
-    title: 'Captcha',
-    hero: 'Please enter the captcha',
-    description: 'The captcha has been sent to your phone number'
+    title: 'Verification Code',
+    hero: 'Please enter verification code',
+    description: 'Code has been sent to:',
+    send: 'Send Code',
+    sent: 'Verification code sent successfully',
+    sendFailed: 'Failed to send verification code',
+    verifyFailed: 'Failed to verify code',
+    resend: 'Resend verification code',
+    countdown: 'Resend in {{count}}s',
+    length: '6 characters'
   },
 
   setPassword: {
@@ -62,9 +69,7 @@ const auth = {
     title: 'Create New Password',
     hero: 'Create New Password',
     description: 'Create your new password'
-  },
-
-  alreadyHaveAccount: 'Already have an account? '
+  }
 };
 
 export default auth;

@@ -64,10 +64,10 @@ export default function SetPasswordScreen() {
 
   const validationSchema = Yup.object({
     password: Yup.string()
-      .min(6, `${t('common.minPasswordLength')}`)
-      .required(`${t('common.enter')}${t('common.password')}`),
+      .min(6, t('common.minPasswordLength'))
+      .required(t('common.enter') + t('auth.password')),
     confirmPassword: Yup.string()
-      .required(`${t('common.confirm')}${t('common.password')}`)
+      .required(t('common.pleaseConfirm') + t('auth.password'))
       .oneOf([Yup.ref('password')], t('common.passwordNotMatch'))
   });
 
@@ -90,8 +90,8 @@ export default function SetPasswordScreen() {
       >
         {({ handleSubmit, validateForm }) => (
           <Surface style={globalStyles.form}>
-            <PasswordInput i18nKey="common" name="password" />
-            <PasswordInput i18nKey="common" name="confirmPassword" />
+            <PasswordInput i18nKey="auth" name="password" />
+            <PasswordInput i18nKey="auth" name="confirmPassword" />
 
             <Button
               style={styles.button}
@@ -120,10 +120,10 @@ export default function SetPasswordScreen() {
       >
         <View style={globalStyles.form}>
           <Text variant="titleLarge" style={{ textAlign: 'center' }}>
-            注册成功
+            {t('auth.registerSuccess')}
           </Text>
           <Text variant="labelLarge" style={{ textAlign: 'center', color: colors.secondary }}>
-            {countdown} 秒后自动进入首页
+            {t('auth.autoEnterHome', { count: countdown })}
           </Text>
           <Button
             mode="contained"
@@ -132,7 +132,7 @@ export default function SetPasswordScreen() {
               router.push('/');
             }}
           >
-            直接进入
+            {t('auth.enterNow')}
           </Button>
         </View>
       </Modal>

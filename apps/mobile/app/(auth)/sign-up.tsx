@@ -29,18 +29,18 @@ export default function SignUpScreen() {
       setEmail(values.email);
       const res = await UserService.sendCaptcha({ email: values.email, type: CaptchaType.REGISTER });
       if (res) {
-        showToast(t('auth.common.captchaSent'));
+        showToast(t('auth.captcha.sent'));
         router.push('/(auth)/captcha');
       }
     } catch (error) {
-      showToast(t('auth.common.sendCaptchaFailed'));
+      showToast(t('auth.captcha.sendFailed'));
     }
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
-      .email(t('auth.common.invalidEmail'))
-      .required(`${t('common.enter')}${t('common.email')}`)
+      .email(t('auth.invalidEmail'))
+      .required(t('common.enter', { field: t('common.email') }))
   });
 
   return (
@@ -80,7 +80,7 @@ export default function SignUpScreen() {
 
       <Surface style={{ flex: 1, alignItems: 'center' }}>
         <Text type="secondary">
-          {t('auth.signUp.haveAccount')}
+          {t('auth.alreadyHaveAccount')}
           <Text type="link" onPress={() => router.push('/(auth)/sign-in')}>
             {t('auth.signIn.title')}
           </Text>

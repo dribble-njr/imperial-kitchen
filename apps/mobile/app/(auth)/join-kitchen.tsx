@@ -15,9 +15,9 @@ export default function JoinKitchenScreen() {
   const sendCaptcha = async (email: string) => {
     try {
       await UserService.sendCaptcha(email);
-      Alert.alert('Success', 'Captcha sent successfully');
+      Alert.alert(t('common.success'), t('auth.captcha.sent'));
     } catch (error) {
-      Alert.alert('Error');
+      Alert.alert(t('common.error'), t('auth.captcha.sendFailed'));
     }
   };
 

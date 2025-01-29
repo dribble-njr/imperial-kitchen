@@ -21,15 +21,15 @@ export default function SignInScreen() {
       await signIn(values.email, values.password);
       router.replace('/');
     } catch (error) {
-      showToast('Error');
+      showToast(t('auth.signIn.failed'));
     }
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
-      .email(t('common.invalidEmail'))
-      .required(`${t('common.enter')}${t('common.email')}`),
-    password: Yup.string().required(`${t('common.enter')}${t('common.password')}`)
+      .email(t('auth.invalidEmail'))
+      .required(t('common.enter', { field: t('common.email') })),
+    password: Yup.string().required(t('common.enter', { field: t('common.password') }))
   });
 
   return (

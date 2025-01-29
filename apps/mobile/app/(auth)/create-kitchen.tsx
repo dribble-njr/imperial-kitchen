@@ -14,15 +14,14 @@ export default function CreateKitchenScreen() {
   const sendCaptcha = async (email: string) => {
     const res = await UserService.sendCaptcha(email);
     if (res) {
-      Alert.alert('Success', 'Captcha sent successfully');
+      Alert.alert(t('common.success'), t('auth.captcha.sent'));
     }
   };
 
   const registerAdmin = async (values: RegisterAdminDTO) => {
     const res = await UserService.registerAdmin(values);
     if (res) {
-      console.log(res);
-      Alert.alert('Success', 'Admin registered successfully');
+      Alert.alert(t('common.success'), t('auth.registerSuccess'));
     }
   };
 

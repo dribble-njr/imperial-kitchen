@@ -37,7 +37,7 @@ export default function CaptchaScreen() {
       if (typeof error === 'string') {
         showToast(error);
       } else {
-        showToast(t('common.verifyCaptchaFailed'));
+        showToast(t('auth.captcha.verifyFailed'));
       }
     }
   };
@@ -46,14 +46,14 @@ export default function CaptchaScreen() {
     try {
       const res = await UserService.sendCaptcha({ email, type: captchaType });
       if (res) {
-        showToast(t('common.captchaSent'));
+        showToast(t('auth.captcha.sent'));
         setCountdown(60);
       }
     } catch (error) {
       if (typeof error === 'string') {
         showToast(error);
       } else {
-        showToast(t('common.sendCaptchaFailed'));
+        showToast(t('auth.captcha.sendFailed'));
       }
     }
   };
@@ -87,7 +87,7 @@ export default function CaptchaScreen() {
         <Formik
           initialValues={{ captcha: '' }}
           validationSchema={Yup.object().shape({
-            captcha: Yup.string().length(6, `${t('common.enter')}${t('common.captchaLength')}`)
+            captcha: Yup.string().length(6, t('auth.captcha.length')).required(t('auth.captcha.hero'))
           })}
           onSubmit={handleVerify}
         >
@@ -100,14 +100,12 @@ export default function CaptchaScreen() {
                 style={styles.countdownText}
                 onPress={handleResendCaptcha}
               >
-                {countdown === 0 ? `${t('common.resendCaptcha')}` : `${countdown}秒后可重新发送`}
+                {countdown === 0 ? t('auth.captcha.resend') : t('auth.captcha.countdown', { count: countdown })}
               </Text>
 
               <Button
                 mode="contained"
                 style={styles.button}
-                // contentStyle={styles.buttonContent}
-                // labelStyle={styles.buttonLabel}
                 onPress={async () => {
                   const errors = await validateForm();
                   if (Object.keys(errors).length > 0) {
@@ -128,81 +126,11 @@ export default function CaptchaScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  headerImage: {
-    alignSelf: 'center',
-    width: 252,
-    height: 269,
-    resizeMode: 'contain'
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  subtitle: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: '#AEAEB2'
-  },
   formContainer: {
     flex: 1
   },
-  inputContainer: {
-    // flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 8,
-    borderBottomWidth: 1,
-    borderColor: '#E5E5EA'
-  },
-  chevronIcon: {
-    width: 16,
-    height: 16,
-    marginLeft: 4
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    backgroundColor: 'transparent'
-  },
-  agreementContainer: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginTop: 24
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderRadius: 4,
-    marginRight: 8,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  checked: {
-    width: 12,
-    height: 12,
-    borderRadius: 2
-  },
-  agreementText: {
-    fontSize: 12
-  },
-  link: {
-    fontSize: 12,
-    color: '#007BFF'
-  },
   button: {
     marginTop: 19
-  },
-  buttonContent: {
-    height: 46
-  },
-  buttonLabel: {
-    fontSize: 16,
-    color: '#fff'
   },
   countdownText: {
     fontSize: 12,

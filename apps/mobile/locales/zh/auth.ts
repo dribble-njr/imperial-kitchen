@@ -1,4 +1,12 @@
 const auth = {
+  alreadyHaveAccount: '已有账号？',
+  invalidEmail: '无效的邮箱',
+  registerSuccess: '注册成功',
+  autoEnterHome: '{{count}} 秒后自动进入首页',
+  enterNow: '直接进入',
+  password: '密码',
+  confirmPassword: '确认密码',
+
   guide: {
     welcome: '欢迎来到御膳房',
     slogan: '定制您的厨房菜单'
@@ -20,21 +28,28 @@ const auth = {
     hero: '你好！',
     description: '准备开始探索御膳房',
     haveNoAccount: '没有账号？',
-    joinOrCreate: '加入或创建厨房'
+    joinOrCreate: '加入或创建厨房',
+    failed: '登录失败'
   },
 
   signUp: {
     title: '注册',
     hero: '注册',
     description: '创建您的账号并开始探索',
-    haveAccount: '已有账号？',
     signUpFailed: '注册失败'
   },
 
   captcha: {
     title: '验证码',
     hero: '请输入验证码',
-    description: '验证码已发送至：'
+    description: '验证码已发送至：',
+    send: '发送验证码',
+    sent: '验证码发送成功',
+    sendFailed: '发送验证码失败',
+    verifyFailed: '验证码验证失败',
+    resend: '重新发送验证码',
+    countdown: '{{count}} 秒后可重新发送',
+    length: '6 位验证码'
   },
 
   setPassword: {
@@ -53,9 +68,7 @@ const auth = {
     title: '创建新密码',
     hero: '创建新密码',
     description: '重置您的账号密码'
-  },
-
-  alreadyHaveAccount: '已有账号？'
+  }
 };
 
 export default auth;
