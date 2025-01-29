@@ -43,6 +43,7 @@ export default function AppLayout() {
       <Stack.Screen name="(recipe)" options={{ title: '' }} />
       <Stack.Screen name="(new)" options={{ title: '', headerShown: false, animation: 'fade' }} />
       <Stack.Screen name="(profile)" options={{ title: '', headerShown: false }} />
+      <Stack.Screen name="search" options={{ title: '', headerShown: false, animation: 'fade' }} />
     </Stack>
   );
 }
