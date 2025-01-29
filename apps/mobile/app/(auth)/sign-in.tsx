@@ -11,6 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 import { globalStyles } from '@/assets/styles';
 import SignInHero from '@/assets/images/sign-in.svg';
 import { useToast } from '@/context/ToastContext';
+import { AuthService } from '@/service';
 
 export default function SignInScreen() {
   const { showToast } = useToast();
@@ -18,18 +19,22 @@ export default function SignInScreen() {
   const { signIn } = useAuth();
   const handleSignIn = async (values: SignInDTO) => {
     try {
-      await signIn(values.email, values.password);
+      const res = await AuthService.signIn({
+        email: values.email,
+        password: values.password
+      });
+      signIn(res);
       router.replace('/');
     } catch (error) {
-      showToast(t('auth.signIn.failed'));
+      showToast(error as string);
     }
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email(t('auth.invalidEmail'))
-      .required(t('common.enter', { field: t('common.email') })),
-    password: Yup.string().required(t('common.enter', { field: t('common.password') }))
+      .required(t('common.enter') + t('common.email')),
+    password: Yup.string().required(t('common.enter') + t('common.password'))
   });
 
   return (

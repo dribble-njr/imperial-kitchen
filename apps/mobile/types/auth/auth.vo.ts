@@ -3,7 +3,7 @@ import { User } from '../user/user.vo';
 export interface SignInResponseVO {
   accessToken: string;
   refreshToken: string;
-  user: Omit<User, 'role'>;
+  userInfo: User;
 }
 
 export interface RefreshTokenResponseVO {

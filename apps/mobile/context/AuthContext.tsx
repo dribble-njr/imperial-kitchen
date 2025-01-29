@@ -5,17 +5,17 @@ import { eventBus, SignInPayload } from '@/utils/event-bus';
 import { useRouter } from 'expo-router';
 
 const AuthContext = createContext<{
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (payload: SignInPayload) => void;
   signOut: () => void;
   accessToken?: string | null;
   refreshToken?: string | null;
   setAccessToken: (token: string | null) => void;
   setRefreshToken: (token: string | null) => void;
   isLoading: boolean;
-  userInfo?: Omit<User, 'role'> | null;
+  userInfo?: User | null;
 }>({
-  signIn: () => Promise.resolve(),
-  signOut: () => null,
+  signIn: () => {},
+  signOut: () => {},
   accessToken: null,
   refreshToken: null,
   setAccessToken: () => {},
@@ -39,24 +39,27 @@ export function useAuth() {
 export function AuthProvider(props: PropsWithChildren) {
   const [[isLoading, accessToken], setAccessToken] = useStorageState('accessToken');
   const [[, refreshToken], setRefreshToken] = useStorageState('refreshToken');
-  const [[, userInfo], setUserInfo] = useStorageState<Omit<User, 'role'> | null>('userInfo');
+  const [[, userInfo], setUserInfo] = useStorageState<User | null>('userInfo');
 
   const router = useRouter();
 
+  const handleSignOut = () => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setUserInfo(null);
+    router.push('/guide');
+  };
+
+  const handleSignIn = (payload?: SignInPayload) => {
+    if (payload) {
+      setAccessToken(payload.accessToken);
+      setRefreshToken(payload.refreshToken);
+      setUserInfo(payload.userInfo);
+    }
+    router.push('/');
+  };
+
   useEffect(() => {
-    const handleSignOut = () => {
-      setAccessToken(null);
-      setRefreshToken(null);
-    };
-
-    const handleSignIn = (payload?: SignInPayload) => {
-      if (payload) {
-        setAccessToken(payload.accessToken);
-        setRefreshToken(payload.refreshToken);
-      }
-      router.push('/');
-    };
-
     eventBus.on('signOut', handleSignOut);
     eventBus.on('signIn', handleSignIn);
 
@@ -69,21 +72,8 @@ export function AuthProvider(props: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: async () => {
-          // const { accessToken, refreshToken, userInfo } = await AuthService.signIn({
-          //   email,
-          //   password
-          // });
-
-          setAccessToken(accessToken);
-          setRefreshToken(refreshToken);
-          setUserInfo(userInfo);
-        },
-        signOut: () => {
-          setAccessToken(null);
-          setRefreshToken(null);
-          setUserInfo(null);
-        },
+        signIn: handleSignIn,
+        signOut: handleSignOut,
         accessToken,
         refreshToken,
         setAccessToken,

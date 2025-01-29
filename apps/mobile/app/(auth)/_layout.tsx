@@ -57,8 +57,6 @@ export default function AuthLayout() {
         }}
       >
         <Stack.Screen name="guide" options={{ headerShown: false }} />
-        <Stack.Screen name="create-kitchen" options={{ title: '' }} />
-        <Stack.Screen name="join-kitchen" options={{ title: '' }} />
         <Stack.Screen name="sign-in" options={{ title: '' }} />
         <Stack.Screen name="sign-up" options={{ title: '' }} />
         <Stack.Screen name="captcha" options={{ title: '' }} />

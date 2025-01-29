@@ -237,7 +237,7 @@ export class UserService {
     const { password: _, ...userWithoutPassword } = newUser;
 
     return {
-      user: userWithoutPassword,
+      userInfo: userWithoutPassword,
       accessToken,
       refreshToken
     };

@@ -1,8 +1,11 @@
+import { User } from '@/types';
+
 type EventType = 'signIn' | 'signOut' | 'message';
 
 export interface SignInPayload {
   accessToken: string;
   refreshToken: string;
+  userInfo: User;
 }
 
 type EventPayloadMap = {
