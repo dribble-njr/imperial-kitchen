@@ -6,17 +6,21 @@ import { createContext, useContext, useState } from 'react';
 const AuthFlowContext = createContext<{
   registerType: 'admin' | 'member';
   setRegisterType: (type: 'admin' | 'member') => void;
-  flowType: CaptchaType;
-  setFlowType: (type: CaptchaType) => void;
+  captchaType: CaptchaType;
+  setCaptchaType: (type: CaptchaType) => void;
   email: string;
   setEmail: (email: string) => void;
+  captcha: string;
+  setCaptcha: (captcha: string) => void;
 }>({
   registerType: 'admin',
   setRegisterType: () => {},
-  flowType: CaptchaType.REGISTER,
-  setFlowType: () => {},
+  captchaType: CaptchaType.REGISTER,
+  setCaptchaType: () => {},
   email: '',
-  setEmail: () => {}
+  setEmail: () => {},
+  captcha: '',
+  setCaptcha: () => {}
 });
 
 export function useAuthFlowContext() {
@@ -29,18 +33,21 @@ export function useAuthFlowContext() {
 
 export default function AuthLayout() {
   const [registerType, setRegisterType] = useState<'admin' | 'member'>('admin');
-  const [flowType, setFlowType] = useState<CaptchaType>(CaptchaType.REGISTER);
+  const [captchaType, setCaptchaType] = useState<CaptchaType>(CaptchaType.REGISTER);
   const [email, setEmail] = useState('');
+  const [captcha, setCaptcha] = useState('');
 
   return (
     <AuthFlowContext.Provider
       value={{
         registerType,
         setRegisterType,
-        flowType,
-        setFlowType,
+        captchaType,
+        setCaptchaType,
         email,
-        setEmail
+        setEmail,
+        captcha,
+        setCaptcha
       }}
     >
       <Stack
@@ -55,6 +62,7 @@ export default function AuthLayout() {
         <Stack.Screen name="sign-in" options={{ title: '' }} />
         <Stack.Screen name="sign-up" options={{ title: '' }} />
         <Stack.Screen name="captcha" options={{ title: '' }} />
+        <Stack.Screen name="set-password" options={{ title: '' }} />
       </Stack>
     </AuthFlowContext.Provider>
   );

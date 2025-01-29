@@ -1,4 +1,12 @@
 const auth = {
+  common: {
+    captchaSent: 'Captcha sent successfully',
+    sendCaptchaFailed: 'Send Captcha Failed',
+    invalidEmail: 'Invalid email',
+    resendCaptcha: 'Resend Captcha',
+    verifyCaptchaFailed: 'Verify Captcha Failed'
+  },
+
   guide: {
     welcome: 'Welcome to Imperial Kitchen',
     slogan: 'Customize your kitchen menu easily'
@@ -36,6 +44,12 @@ const auth = {
     title: 'Captcha',
     hero: 'Please enter the captcha',
     description: 'The captcha has been sent to your phone number'
+  },
+
+  setPassword: {
+    title: 'Set Password',
+    hero: 'Set Password',
+    description: 'Set your password'
   },
 
   forgotPassword: {

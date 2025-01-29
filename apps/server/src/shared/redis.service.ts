@@ -75,6 +75,13 @@ export class RedisService {
     });
   }
 
+  async del(key: string) {
+    await this.ensureConnected();
+    return new Promise((resolve) => {
+      resolve(this.client.del(key));
+    });
+  }
+
   async ensureConnected() {
     if (!this.isConnected) {
       try {

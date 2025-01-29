@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { Text } from 'react-native-paper';
 import Surface from './Surface';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface DigitInputProps {
   value: string;
@@ -15,6 +16,7 @@ export default function DigitInput({ value, onChange, length = 6, cellSize = 40 
   const [focused, setFocused] = useState(false);
   const [showCursor, setShowCursor] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout>();
+  const colors = useThemeColor();
 
   const digits = value.split('');
   const filledCells = digits.length;
@@ -80,14 +82,22 @@ export default function DigitInput({ value, onChange, length = 6, cellSize = 40 
               key={index}
               style={[
                 styles.cell,
-                { width: cellSize, height: cellSize },
-                focused && filledCells === index && styles.cellFocused,
-                digits[index] && styles.cellFilled
+                {
+                  width: cellSize,
+                  height: cellSize,
+                  borderBottomColor: digits[index]
+                    ? colors.secondary
+                    : focused && filledCells === index
+                      ? colors.secondary
+                      : colors.outline
+                }
               ]}
               pointerEvents="none"
             >
-              <Text style={styles.digit}>{digits[index] || ''}</Text>
-              {focused && filledCells === index && filledCells < length && showCursor && <View style={styles.cursor} />}
+              <Text style={[styles.digit, { color: colors.secondary }]}>{digits[index] || ''}</Text>
+              {focused && filledCells === index && filledCells < length && showCursor && (
+                <View style={[styles.cursor, { backgroundColor: colors.secondary }]} />
+              )}
             </Surface>
           ))}
         </View>
@@ -114,25 +124,16 @@ const styles = StyleSheet.create({
     fontSize: 1
   },
   cell: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
+    borderBottomWidth: 2,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  cellFocused: {
-    borderBottomColor: '#f87170'
-  },
-  cellFilled: {
-    borderBottomColor: '#254BE7'
-  },
   digit: {
-    fontSize: 20,
-    color: '#254BE7'
+    fontSize: 20
   },
   cursor: {
     position: 'absolute',
-    width: 1,
-    height: 24,
-    backgroundColor: '#f87170'
+    width: 2,
+    height: 24
   }
 });

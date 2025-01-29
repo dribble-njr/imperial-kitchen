@@ -12,29 +12,34 @@ import SignUpHero from '@/assets/images/sign-up.svg';
 import { useRouter } from 'expo-router';
 import { CaptchaType } from '@/types';
 import { useAuthFlowContext } from './_layout';
+import { useEffect } from 'react';
 
 export default function SignUpScreen() {
   const { t } = useTranslation();
   const { showToast } = useToast();
-  const { email, setEmail } = useAuthFlowContext();
+  const { email, setEmail, setCaptchaType } = useAuthFlowContext();
   const router = useRouter();
+
+  useEffect(() => {
+    setCaptchaType(CaptchaType.REGISTER);
+  }, []);
 
   const sendCaptcha = async (values: { email: string }) => {
     try {
       setEmail(values.email);
       const res = await UserService.sendCaptcha({ email: values.email, type: CaptchaType.REGISTER });
       if (res) {
-        showToast(t('common.captchaSent'));
+        showToast(t('auth.common.captchaSent'));
         router.push('/(auth)/captcha');
       }
     } catch (error) {
-      showToast(error as string);
+      showToast(t('auth.common.sendCaptchaFailed'));
     }
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
-      .email(t('common.invalidEmail'))
+      .email(t('auth.common.invalidEmail'))
       .required(`${t('common.enter')}${t('common.email')}`)
   });
 

@@ -1,11 +1,6 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength, ValidateIf } from 'class-validator';
 
 export class RegisterUserDTO {
-  @IsNotEmpty({
-    message: 'Username is required'
-  })
-  name: string;
-
   @IsEmail()
   @IsNotEmpty({
     message: 'Email is required'
@@ -21,9 +16,12 @@ export class RegisterUserDTO {
   password: string;
 
   @IsNotEmpty({
-    message: 'Captcha is required'
+    message: 'Confirm password is required'
   })
-  captcha: string;
+  @ValidateIf((o) => o.password === o.confirmPassword, {
+    message: 'Passwords do not match'
+  })
+  confirmPassword: string;
 }
 
 export class RegisterAdminDTO extends RegisterUserDTO {

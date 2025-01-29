@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum } from 'class-validator';
+import { IsEmail, IsEnum, IsString } from 'class-validator';
 
 export enum CaptchaType {
   REGISTER = 'register',
@@ -8,6 +8,17 @@ export enum CaptchaType {
 export class CaptchaDTO {
   @IsEmail()
   email: string;
+
+  @IsEnum(CaptchaType)
+  type: CaptchaType;
+}
+
+export class VerifyCaptchaDTO {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  captcha: string;
 
   @IsEnum(CaptchaType)
   type: CaptchaType;

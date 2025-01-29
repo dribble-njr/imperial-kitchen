@@ -1,12 +1,12 @@
 type EventType = 'signIn' | 'signOut' | 'message';
 
-export interface LoginPayload {
+export interface SignInPayload {
   accessToken: string;
   refreshToken: string;
 }
 
 type EventPayloadMap = {
-  signIn: LoginPayload;
+  signIn: SignInPayload;
   signOut: void;
   message: string;
 };

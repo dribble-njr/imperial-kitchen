@@ -14,7 +14,7 @@ import { PrismaService } from 'src/shared/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
 import { RegisterUserDTO } from './dto/register-user.dto';
-import { CaptchaType } from './dto/captcha.dto';
+import { CaptchaType, VerifyCaptchaDTO } from './dto/captcha.dto';
 
 @Injectable()
 export class UserService {
@@ -53,16 +53,10 @@ export class UserService {
    * @returns
    */
   async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean) {
-    // validate captcha
-    const captcha = await this.redisService.get(`captcha_${CaptchaType.REGISTER}_${user.email}`);
-    if (!captcha) {
-      throw new UnauthorizedException('Captcha expired');
-    }
-    if (captcha !== user.captcha) {
-      throw new BadRequestException('Captcha error');
-    }
+    // 检查验证码是否已经验证过
+    await this.validateVerifiedCaptcha(user.email, CaptchaType.REGISTER);
 
-    const { email, name, password } = user;
+    const { email, password } = user;
 
     // validate user exists
     const existingUser = await this.prismaService.user.findFirst({
@@ -80,7 +74,7 @@ export class UserService {
       const newUser = await tx.user.create({
         data: {
           email,
-          name,
+          name: email.split('@')[0],
           password: hashedPassword
         }
       });
@@ -171,17 +165,34 @@ export class UserService {
     return true;
   }
 
-  async register(user: RegisterUserDTO) {
-    // validate captcha
-    const captcha = await this.redisService.get(`captcha_${CaptchaType.REGISTER}_${user.email}`);
-    if (!captcha) {
-      throw new UnauthorizedException('Captcha expired');
+  async verifyCaptcha(body: VerifyCaptchaDTO) {
+    const { email, captcha, type } = body;
+    const redisKey = `captcha_${type}_${email}`;
+    const captchaCode = await this.redisService.get(redisKey);
+    if (!captchaCode) {
+      throw new UnauthorizedException('验证码过期');
     }
-    if (captcha !== user.captcha) {
-      throw new BadRequestException('Captcha error');
+    if (captchaCode !== captcha) {
+      throw new BadRequestException('验证码错误');
     }
 
-    const { email, name, password } = user;
+    // Verified captcha, delay 5 minutes to prevent spam
+    await this.redisService.set(`verified_${redisKey}`, 'true', 5 * 60);
+    return true;
+  }
+
+  async validateVerifiedCaptcha(email: string, type: CaptchaType) {
+    const isVerified = await this.redisService.get(`verified_captcha_${type}_${email}`);
+    if (!isVerified) {
+      throw new UnauthorizedException('请先验证验证码');
+    }
+  }
+
+  async register(user: RegisterUserDTO) {
+    // Check if the verification code has been validated
+    await this.validateVerifiedCaptcha(user.email, CaptchaType.REGISTER);
+
+    const { email, password } = user;
 
     // validate user exists
     const existingUser = await this.prismaService.user.findFirst({
@@ -198,7 +209,7 @@ export class UserService {
     const newUser = await this.prismaService.user.create({
       data: {
         email,
-        name,
+        name: email.split('@')[0],
         password: hashedPassword
       }
     });
@@ -215,10 +226,8 @@ export class UserService {
 
     return {
       user: userWithoutPassword,
-      tokens: {
-        accessToken,
-        refreshToken
-      }
+      accessToken,
+      refreshToken
     };
   }
 }

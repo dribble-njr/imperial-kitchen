@@ -28,7 +28,7 @@ export default function Text({ children, type = 'default', style, ...props }: Cu
   const color = useThemeColor(typeColor()) as string;
 
   return (
-    <PaperText style={[style, { color }]} {...props}>
+    <PaperText style={[{ color }, style]} {...props}>
       {children}
     </PaperText>
   );

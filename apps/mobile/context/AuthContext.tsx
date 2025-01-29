@@ -1,7 +1,8 @@
-import { createContext, useContext, PropsWithChildren } from 'react';
+import { createContext, useContext, PropsWithChildren, useEffect } from 'react';
 import { useStorageState } from '../hooks/useStorageState';
-import AuthService from '@/service/auth.service';
 import { User } from '@/types';
+import { eventBus, SignInPayload } from '@/utils/event-bus';
+import { useRouter } from 'expo-router';
 
 const AuthContext = createContext<{
   signIn: (email: string, password: string) => Promise<void>;
@@ -40,14 +41,39 @@ export function AuthProvider(props: PropsWithChildren) {
   const [[, refreshToken], setRefreshToken] = useStorageState('refreshToken');
   const [[, userInfo], setUserInfo] = useStorageState<Omit<User, 'role'> | null>('userInfo');
 
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleSignOut = () => {
+      setAccessToken(null);
+      setRefreshToken(null);
+    };
+
+    const handleSignIn = (payload?: SignInPayload) => {
+      if (payload) {
+        setAccessToken(payload.accessToken);
+        setRefreshToken(payload.refreshToken);
+      }
+      router.push('/');
+    };
+
+    eventBus.on('signOut', handleSignOut);
+    eventBus.on('signIn', handleSignIn);
+
+    return () => {
+      eventBus.off('signOut', handleSignOut);
+      eventBus.off('signIn', handleSignIn);
+    };
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
-        signIn: async (email, password) => {
-          const { accessToken, refreshToken, userInfo } = await AuthService.signIn({
-            email,
-            password
-          });
+        signIn: async () => {
+          // const { accessToken, refreshToken, userInfo } = await AuthService.signIn({
+          //   email,
+          //   password
+          // });
 
           setAccessToken(accessToken);
           setRefreshToken(refreshToken);

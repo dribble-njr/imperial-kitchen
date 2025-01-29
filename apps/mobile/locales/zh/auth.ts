@@ -37,6 +37,12 @@ const auth = {
     description: '验证码已发送至：'
   },
 
+  setPassword: {
+    title: '设置密码',
+    hero: '设置密码',
+    description: '设置您的密码'
+  },
+
   forgotPassword: {
     title: '忘记密码',
     hero: '重置密码',

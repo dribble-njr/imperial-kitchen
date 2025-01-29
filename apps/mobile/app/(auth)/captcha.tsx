@@ -4,74 +4,56 @@ import { ParallaxScrollView, Surface, Text } from '@/components/common';
 import { Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter } from 'expo-router';
 import DigitInput from '@/components/common/DigitInput';
 import { useToast } from '@/context/ToastContext';
-import { AuthService } from '@/service';
+import { UserService } from '@/service';
 import CaptchaHero from '@/assets/images/captcha.svg';
 import { globalStyles } from '@/assets/styles';
 import { useTranslation } from 'react-i18next';
 import { useAuthFlowContext } from './_layout';
+import { CaptchaType } from '@/types';
 
 export default function CaptchaScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { phoneNumber, type } = useLocalSearchParams<{
-    phoneNumber: string;
-    type: 'forgot-password' | 'sign-up';
-  }>();
+  const { captchaType, email, setCaptcha } = useAuthFlowContext();
   const [countdown, setCountdown] = useState(59);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
   const { showToast } = useToast();
-  const { email } = useAuthFlowContext();
 
   const handleVerify = async (values: { captcha: string }) => {
     try {
-      let res;
-      if (type === 'forgot-password') {
-        res = await AuthService.verifyForgotPasswordCaptcha({ phoneNumber, captcha: values.captcha });
-        if (res) {
-          router.push({
-            pathname: '/reset-password',
-            params: { accessToken: res.accessToken }
-          });
-        }
-      } else if (type === 'sign-up') {
-        res = await AuthService.verifySignUpCaptcha({ phoneNumber, captcha: values.captcha });
-        if (res) {
-          router.push({
-            pathname: '/create-password',
-            params: { phoneNumber, captcha: values.captcha }
-          });
+      const res = await UserService.verifyCaptcha({ email, captcha: values.captcha, type: captchaType });
+      if (res) {
+        setCaptcha(values.captcha);
+        if (captchaType === CaptchaType.RESET_PASSWORD) {
+          router.push('/(auth)/reset-password');
+        } else if (captchaType === CaptchaType.REGISTER) {
+          router.push('/(auth)/set-password');
         }
       }
     } catch (error) {
       if (typeof error === 'string') {
         showToast(error);
       } else {
-        showToast('验证失败');
+        showToast(t('common.verifyCaptchaFailed'));
       }
     }
   };
 
   const handleResendCaptcha = async () => {
     try {
-      let res;
-      if (type === 'forgot-password') {
-        res = await AuthService.forgotPasswordSendCaptcha(phoneNumber);
-      } else if (type === 'sign-up') {
-        res = await AuthService.signUpSendCaptcha(phoneNumber);
-      }
-
+      const res = await UserService.sendCaptcha({ email, type: captchaType });
       if (res) {
-        showToast('已发送验证码');
+        showToast(t('common.captchaSent'));
         setCountdown(60);
       }
     } catch (error) {
       if (typeof error === 'string') {
         showToast(error);
       } else {
-        showToast('发送失败');
+        showToast(t('common.sendCaptchaFailed'));
       }
     }
   };
@@ -105,7 +87,7 @@ export default function CaptchaScreen() {
         <Formik
           initialValues={{ captcha: '' }}
           validationSchema={Yup.object().shape({
-            captcha: Yup.string().length(6, '请输入6位验证码').required('请输入验证码')
+            captcha: Yup.string().length(6, `${t('common.enter')}${t('common.captchaLength')}`)
           })}
           onSubmit={handleVerify}
         >
@@ -118,7 +100,7 @@ export default function CaptchaScreen() {
                 style={styles.countdownText}
                 onPress={handleResendCaptcha}
               >
-                {countdown === 0 ? '重新发送' : `${countdown}秒后可重新发送`}
+                {countdown === 0 ? `${t('common.resendCaptcha')}` : `${countdown}秒后可重新发送`}
               </Text>
 
               <Button
@@ -135,7 +117,7 @@ export default function CaptchaScreen() {
                   handleSubmit();
                 }}
               >
-                下一步
+                {t('common.next')}
               </Button>
             </>
           )}

@@ -26,7 +26,7 @@ export default function PasswordInput({ i18nKey, name, ...textInputProps }: Pass
         mode="outlined"
         label={t(`${i18nKey}.${name}`)}
         value={field.value}
-        placeholder={`${t('common.enter')}${t(`${i18nKey}.${name}`)}...`}
+        placeholder={`${t(name === 'password' ? 'common.enter' : 'common.confirm')}${t(`${i18nKey}.${name}`)}...`}
         onChangeText={(value) => helpers.setValue(value)}
         onBlur={() => helpers.setTouched(true)}
         secureTextEntry={!showPassword}
