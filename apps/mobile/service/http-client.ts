@@ -1,5 +1,6 @@
 import { getStorageItemAsync, removeStorageItemAsync, setStorageItemAsync } from '@/hooks/useStorageState';
 import { CommonResponse, RefreshTokenResponseVO } from '@/types';
+import { eventBus } from '@/utils/event-bus';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { router } from 'expo-router';
 
@@ -78,11 +79,13 @@ class HttpClient {
 
     console.log(error.response?.data, 'error.response?.data.message');
 
-    const message = Array.isArray(error.response?.data.message)
-      ? error.response?.data.message[0]
-      : error.response?.data.message;
+    const errorMessage =
+      (Array.isArray(error.response?.data.message) ? error.response?.data.message[0] : error.response?.data.message) ||
+      'Request error';
 
-    return Promise.reject(message || 'Request error');
+    eventBus.emit('message', errorMessage);
+
+    return Promise.reject(errorMessage);
   }
 
   private mergeConfig(overrideConfig?: AxiosRequestConfig) {

@@ -25,22 +25,22 @@ export default function SignUpScreen() {
   }, []);
 
   const sendCaptcha = async (values: { email: string }) => {
+    setEmail(values.email);
     try {
-      setEmail(values.email);
       const res = await UserService.sendCaptcha({ email: values.email, type: CaptchaType.REGISTER });
       if (res) {
         showToast(t('auth.captcha.sent'));
         router.push('/(auth)/captcha');
       }
     } catch (error) {
-      showToast(t('auth.captcha.sendFailed'));
+      console.error('error', error);
     }
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email(t('auth.invalidEmail'))
-      .required(t('common.enter', { field: t('common.email') }))
+      .required(t('common.enter') + t('common.email'))
   });
 
   return (

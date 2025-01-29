@@ -146,6 +146,23 @@ export class UserService {
    * @returns
    */
   async captcha(email: string, type: CaptchaType) {
+    // Check if the user exists based on different types of verification codes
+    const user = await this.prismaService.user.findUnique({
+      where: { email }
+    });
+
+    console.log(user, 'user');
+
+    if (type === CaptchaType.REGISTER) {
+      if (user) {
+        throw new ConflictException('用户已存在');
+      }
+    } else if (type === CaptchaType.RESET_PASSWORD) {
+      if (!user) {
+        throw new UnauthorizedException('用户不存在');
+      }
+    }
+
     const code = Math.random().toString().slice(2, 8);
 
     console.log(code, 'code');
@@ -189,22 +206,17 @@ export class UserService {
   }
 
   async register(user: RegisterUserDTO) {
-    // Check if the verification code has been validated
     await this.validateVerifiedCaptcha(user.email, CaptchaType.REGISTER);
 
     const { email, password } = user;
 
-    // validate user exists
-    const existingUser = await this.prismaService.user.findFirst({
-      where: {
-        OR: [{ email: email || undefined }]
-      }
+    const existingUser = await this.prismaService.user.findUnique({
+      where: { email }
     });
     if (existingUser) {
-      throw new ConflictException('User exists');
+      throw new ConflictException('用户已存在');
     }
 
-    // create user
     const hashedPassword = await hashPassword(password);
     const newUser = await this.prismaService.user.create({
       data: {
