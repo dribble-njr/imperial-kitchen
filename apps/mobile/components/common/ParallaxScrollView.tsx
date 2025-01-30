@@ -48,7 +48,7 @@ export default function ParallaxScrollView({
       <Animated.ScrollView
         ref={scrollViewRef}
         scrollEventThrottle={16}
-        style={contentContainerStyle}
+        contentContainerStyle={contentContainerStyle}
         refreshControl={
           onRefresh && (
             <RefreshControl

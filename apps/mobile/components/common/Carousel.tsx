@@ -14,8 +14,9 @@ export default function Carousel<T>({
   renderItem,
   loop = true,
   autoPlay = true,
-  width = Dimensions.get('window').width - 64,
+  width = Dimensions.get('window').width,
   vertical = false as const,
+  style: customStyle,
   ...rest
 }: CarouselProps<T>) {
   const progress = useSharedValue<number>(0);
@@ -64,6 +65,7 @@ export default function Carousel<T>({
         onProgressChange={(_: any, absoluteProgress: number) => {
           progress.value = absoluteProgress;
         }}
+        style={[customStyle]}
         {...rest}
       />
 
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20
+    paddingHorizontal: 24
   },
   paginationContainer: {
     position: 'absolute',

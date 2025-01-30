@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Surface, SafeAreaSurface, Text, Carousel, HelloWave } from '@/components/common';
+import { Surface, Text, Carousel, HelloWave, ParallaxScrollView } from '@/components/common';
 import { globalStyles } from '@/assets/styles';
 import HotPot from '@/assets/images/hot-pot.svg';
 import Dumpling from '@/assets/images/dumpling.svg';
@@ -12,7 +12,7 @@ export default function GuideScreen() {
   const { t } = useTranslation();
 
   return (
-    <SafeAreaSurface style={styles.container}>
+    <ParallaxScrollView contentStyle={styles.container} contentContainerStyle={{ flex: 1 }}>
       <Carousel
         data={[HotPot, Dumpling, Noodle]}
         renderItem={(item) => {
@@ -52,7 +52,7 @@ export default function GuideScreen() {
           </Button>
         </Surface>
       </Surface>
-    </SafeAreaSurface>
+    </ParallaxScrollView>
   );
 }
 
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: 32,
     paddingVertical: 40
   },
   svgWrapper: {
