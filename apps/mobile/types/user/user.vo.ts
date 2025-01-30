@@ -12,7 +12,6 @@ export interface User {
   phone?: string;
   createdAt: string;
   updatedAt: string;
-  role: Role;
   isActive: boolean;
 }
 

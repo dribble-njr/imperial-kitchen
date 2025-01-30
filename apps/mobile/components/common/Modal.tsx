@@ -1,7 +1,6 @@
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { Animated } from 'react-native';
 import { Modal as PaperModal, Portal, ModalProps as PaperModalProps } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import Surface from './Surface';
 
 interface ModalProps extends PaperModalProps {
   visible: boolean;
@@ -13,14 +12,12 @@ interface ModalProps extends PaperModalProps {
 // https://github.com/callstack/react-native-paper/pull/4574
 
 export default function Modal({ visible, onDismiss, children }: ModalProps) {
-  const colors = useThemeColor();
-
   return (
     <Portal>
-      <PaperModal visible={visible} onDismiss={onDismiss} contentContainerStyle={[styles.modal, {}]}>
-        <Animated.View style={[styles.animatedContainer, { backgroundColor: colors.secondaryContainer }]}>
+      <PaperModal visible={visible} onDismiss={onDismiss} contentContainerStyle={[styles.modal]}>
+        <Surface elevation={5} style={styles.contentContainer}>
           {children}
-        </Animated.View>
+        </Surface>
       </PaperModal>
     </Portal>
   );
@@ -38,7 +35,7 @@ const styles = StyleSheet.create({
     margin: 24,
     borderRadius: 16
   },
-  animatedContainer: {
+  contentContainer: {
     width: '100%',
     padding: 20,
     borderRadius: 10

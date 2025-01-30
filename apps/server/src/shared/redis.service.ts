@@ -6,13 +6,29 @@ import config from 'src/config';
 export class RedisService {
   private client: RedisClientType;
   private isConnected: boolean = false;
+  private reconnectAttempts: number = 0;
+  private readonly maxReconnectAttempts: number = 5;
+  private readonly reconnectInterval: number = 5000; // 5秒
 
   constructor() {
+    this.initializeClient();
+  }
+
+  private initializeClient() {
     this.client = createClient({
       password: config.REDIS_PASSWORD,
       socket: {
-        host: 'redis-13502.c261.us-east-1-4.ec2.redns.redis-cloud.com',
-        port: 13502
+        host: config.REDIS_URL,
+        port: config.REDIS_PORT,
+        connectTimeout: 10000,
+        keepAlive: 5000,
+        reconnectStrategy: (retries) => {
+          if (retries > this.maxReconnectAttempts) {
+            console.error('Max reconnection attempts reached, giving up');
+            return new Error('Max reconnection attempts reached');
+          }
+          return this.reconnectInterval;
+        }
       }
     });
 
@@ -20,15 +36,21 @@ export class RedisService {
     this.client.on('connect', this.onConnect.bind(this));
     this.client.on('ready', () => {
       this.isConnected = true;
+      this.reconnectAttempts = 0;
     });
 
     this.client.on('end', () => {
       this.isConnected = false;
     });
+
+    this.client.connect().catch((err) => {
+      console.error('Initial connection failed:', err);
+    });
   }
 
   onError(error: Error) {
     console.error('Redis Client Error:', error);
+    this.reconnectAttempts++;
   }
 
   onConnect() {
@@ -53,13 +75,36 @@ export class RedisService {
     });
   }
 
+  async del(key: string) {
+    await this.ensureConnected();
+    return new Promise((resolve) => {
+      resolve(this.client.del(key));
+    });
+  }
+
   async ensureConnected() {
     if (!this.isConnected) {
-      return new Promise((resolve, reject) => {
-        this.client.once('ready', resolve);
-        this.client.once('error', reject);
-        this.client.connect();
-      });
+      try {
+        await this.client.connect();
+        return new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            reject(new Error('Redis connection timeout'));
+          }, 5000);
+
+          this.client.once('ready', () => {
+            clearTimeout(timeout);
+            resolve(true);
+          });
+
+          this.client.once('error', (err) => {
+            clearTimeout(timeout);
+            reject(err);
+          });
+        });
+      } catch (error) {
+        console.error('Failed to ensure Redis connection:', error);
+        throw error;
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
-import { FieldInput, ParallaxScrollView, Modal } from '@/components/common';
+import { ParallaxScrollView, Modal } from '@/components/common';
+import { FieldInput } from '@/components/form';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { CreateDishDTO } from '@/types';
 import { Formik } from 'formik';

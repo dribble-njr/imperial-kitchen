@@ -1,38 +1,4 @@
-const auth = {
-  createKitchen: {
-    title: 'Create Kitchen',
-    hero: 'Create Kitchen',
-    description: 'Create your kitchen now and start exploring'
-  },
-
-  joinKitchen: {
-    title: 'Join Kitchen',
-    hero: 'Join Kitchen',
-    description: 'Join a kitchen now and start exploring'
-  },
-
-  signIn: {
-    title: 'Sign In',
-    hero: 'Hi, Welcome!',
-    description: 'Get ready to dive back into the app',
-    haveNoAccount: "Don't have an account? ",
-    joinOrCreate: 'Join or Create a Kitchen'
-  },
-
-  forgotPassword: {
-    title: 'Forgot Password',
-    hero: 'Reset Password',
-    description: 'Recover your account password'
-  },
-
-  createNewPassword: {
-    title: 'Create New Password',
-    hero: 'Create New Password',
-    description: 'Create your new password'
-  },
-
-  alreadyHaveAccount: 'Already have an account? '
-};
+import auth from './auth';
 
 const home = {
   title: 'Home',
@@ -87,23 +53,25 @@ const create = {
 };
 
 const English = {
-  welcome: 'Welcome to Imperial Kitchen',
-  start: 'Get Started',
   startTip: 'Sign up or sign in to get started',
-  slogan: 'Customize your kitchen menu easily',
 
   common: {
     enter: 'Please enter ',
     next: 'Next',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    captcha: 'Captcha',
     email: 'Email',
     name: 'Name',
+    captchaLength: '6 characters',
     password: 'Password',
+    pleaseConfirm: 'Please confirm',
+    confirmPassword: 'Confirm Password',
+    passwordNotMatch: 'Password do not match',
+    minPasswordLength: 'Password must be at least 6 characters',
     inviteCode: 'Invite Code',
-    sendCaptcha: 'Send Captcha',
     invalidEmail: 'Invalid email',
+    success: 'Success',
+    error: 'Error',
 
     morning: 'Good morning',
     noon: 'Good noon',

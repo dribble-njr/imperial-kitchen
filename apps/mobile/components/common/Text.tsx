@@ -8,17 +8,17 @@ interface CustomTextProps extends TextProps<TextStyle> {
   children: React.ReactNode;
 }
 
-export default function Text({ children, type = 'default', ...props }: CustomTextProps) {
+export default function Text({ children, type = 'default', style, ...props }: CustomTextProps) {
   const typeColor = () => {
     switch (type) {
       case 'link':
         return 'primary' as keyof MD3Colors;
       case 'secondary':
-        return 'secondary' as keyof MD3Colors;
+        return 'onSurfaceVariant' as keyof MD3Colors;
       case 'success':
         return 'tertiary' as keyof MD3Colors;
       case 'warning':
-        return 'tertiaryContainer' as keyof MD3Colors;
+        return 'onSecondaryContainer' as keyof MD3Colors;
       case 'danger':
         return 'error' as keyof MD3Colors;
       default:
@@ -28,7 +28,7 @@ export default function Text({ children, type = 'default', ...props }: CustomTex
   const color = useThemeColor(typeColor()) as string;
 
   return (
-    <PaperText style={{ color }} {...props}>
+    <PaperText style={[{ color }, style]} {...props}>
       {children}
     </PaperText>
   );

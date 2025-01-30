@@ -1,39 +1,4 @@
-const auth = {
-  createKitchen: {
-    title: '创建厨房',
-    hero: '创建厨房',
-    description: '创建您的厨房并开始探索'
-  },
-
-  joinKitchen: {
-    title: '加入厨房',
-    hero: '加入厨房',
-    description: '加入厨房并开始探索'
-  },
-
-  signIn: {
-    title: '登录',
-    hero: '你好！',
-    description: '准备开始探索御膳房',
-    haveNoAccount: '没有账号？',
-    joinOrCreate: '加入或创建厨房'
-  },
-
-  forgotPassword: {
-    title: '忘记密码',
-    hero: '重置密码',
-    description: '找回您的账号密码'
-  },
-
-  createNewPassword: {
-    title: '创建新密码',
-    hero: '创建新密码',
-    description: '重置您的账号密码'
-  },
-
-  alreadyHaveAccount: '已有账号？'
-};
-
+import auth from './auth';
 const home = {
   title: '首页',
   slogan: '今天想吃些什么呢？😊'
@@ -88,24 +53,25 @@ const create = {
 };
 
 const Chinese = {
-  welcome: '欢迎来到御膳房',
-  start: '开始',
   startTip: '登录或注册开始使用',
-  slogan: '定制您的厨房菜单',
 
   common: {
     enter: '请输入',
     next: '下一步',
     confirm: '确认',
     cancel: '取消',
-    captcha: '验证码',
     email: '邮箱',
     name: '用户名',
+    captchaLength: '6 位验证码',
     password: '密码',
+    pleaseConfirm: '请确认',
+    confirmPassword: '确认密码',
+    passwordNotMatch: '两次输入的密码不一致',
+    minPasswordLength: '密码长度至少为6位',
     inviteCode: '邀请码',
-    sendCaptcha: '发送验证码',
     invalidEmail: '无效的邮箱',
-
+    success: '成功',
+    error: '错误',
     morning: '早上好',
     noon: '中午好',
     afternoon: '下午好',

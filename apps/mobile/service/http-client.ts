@@ -1,5 +1,6 @@
 import { getStorageItemAsync, removeStorageItemAsync, setStorageItemAsync } from '@/hooks/useStorageState';
 import { CommonResponse, RefreshTokenResponseVO } from '@/types';
+import { eventBus } from '@/utils/event-bus';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { router } from 'expo-router';
 
@@ -45,6 +46,10 @@ class HttpClient {
   }
 
   private async handleError(error: AxiosError<CommonResponse>) {
+    if (!(error instanceof AxiosError)) {
+      return Promise.reject('Network error');
+    }
+
     if (error.response?.status === 401 && error.response?.data.message === 'Expired token') {
       const refreshToken = await getStorageItemAsync('refreshToken');
       if (refreshToken) {
@@ -71,7 +76,16 @@ class HttpClient {
         }
       }
     }
-    return Promise.reject(error);
+
+    console.log(error.response?.data, 'error.response?.data.message');
+
+    const errorMessage =
+      (Array.isArray(error.response?.data.message) ? error.response?.data.message[0] : error.response?.data.message) ||
+      'Request error';
+
+    eventBus.emit('message', errorMessage);
+
+    return Promise.reject(errorMessage);
   }
 
   private mergeConfig(overrideConfig?: AxiosRequestConfig) {

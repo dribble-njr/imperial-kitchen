@@ -1,17 +1,17 @@
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import { ParallaxScrollView, Surface, Text } from '@/components/common';
-import { Card, IconButton, Searchbar } from 'react-native-paper';
+import { Card, Icon, IconButton, TouchableRipple } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { getGreeting } from '@/utils';
 import { CategoryVO, DishVO } from '@/types';
 import { CategoryService } from '@/service';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import Animated from 'react-native-reanimated';
+import { router } from 'expo-router';
 
 export default function HomeLayout() {
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
-  const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
   const colors = useThemeColor();
 
@@ -54,7 +54,17 @@ export default function HomeLayout() {
         </Text>
       </Surface>
 
-      <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
+      <TouchableRipple
+        onPress={() => router.push('/search')}
+        rippleColor="rgba(0, 0, 0, .3)"
+        style={styles.searchBarContainer}
+        borderless
+      >
+        <Surface style={styles.searchBar} elevation={2}>
+          <Icon source="magnify" size={24} color={colors.onSurfaceVariant} />
+          <Text style={[styles.searchText, { color: colors.onSurfaceVariant }]}>热词</Text>
+        </Surface>
+      </TouchableRipple>
 
       {/* Categories */}
       <Surface style={styles.categoryContainer}>
@@ -65,11 +75,16 @@ export default function HomeLayout() {
             const textColor = isSelected ? colors.onPrimary : colors.onSurfaceVariant;
 
             return (
-              <TouchableOpacity key={category.id} onPress={() => setSelectedCategory(category.id)}>
+              <TouchableRipple
+                borderless
+                key={category.id}
+                onPress={() => setSelectedCategory(category.id)}
+                style={{ marginRight: 16, borderRadius: 25 }}
+              >
                 <Surface style={[styles.categoryButton, { backgroundColor }]}>
                   <Text style={{ color: textColor }}>{category.name}</Text>
                 </Surface>
-              </TouchableOpacity>
+              </TouchableRipple>
             );
           })}
         </Animated.ScrollView>
@@ -80,40 +95,45 @@ export default function HomeLayout() {
       </Surface>
 
       {/* Dish Cards */}
-      <Animated.FlatList
-        data={dishes}
-        numColumns={1}
-        renderItem={({ item: dish }) => (
-          <Surface style={styles.dishCard} elevation={2}>
-            <Card.Cover
-              source={{ uri: dish.image ?? 'https://picsum.photos/200/300' }}
-              style={styles.dishImage}
-              resizeMode="cover"
-              testID="dish-image"
-            />
-            <Card.Content style={styles.dishContent}>
-              <Surface style={styles.dishInfo} elevation={0}>
-                <Text variant="titleMedium" ellipsizeMode="tail" style={styles.dishName} numberOfLines={2}>
-                  {dish.name}10串鸭肠小船
-                </Text>
+      <Surface>
+        <Animated.FlatList
+          data={dishes}
+          numColumns={1}
+          renderItem={({ item: dish }) => (
+            <Surface style={styles.dishCard} elevation={2}>
+              <Card.Cover
+                source={{ uri: dish.image ?? 'https://picsum.photos/200/300' }}
+                style={styles.dishImage}
+                resizeMode="cover"
+                testID="dish-image"
+              />
+              <Card.Content style={styles.dishContent}>
+                <Surface style={styles.dishInfo} elevation={0}>
+                  <Text variant="titleSmall" ellipsizeMode="tail" style={styles.dishName} numberOfLines={2}>
+                    {dish.name}
+                  </Text>
 
-                <Text variant="bodySmall" style={[styles.dishDescription, { color: colors.secondary }]}>
-                  {dish.description}
-                </Text>
-              </Surface>
+                  <Text variant="labelSmall" style={[styles.dishDescription, { color: colors.secondary }]}>
+                    {dish.description}
+                  </Text>
+                </Surface>
 
-              <Surface style={styles.dishPriceContainer} elevation={0}>
-                <Text variant="titleLarge" style={styles.dishPrice}>
-                  ¥{dish.price}
-                </Text>
-                <IconButton icon="cart-outline" size={22} onPress={() => console.log('Pressed')} />
-              </Surface>
-            </Card.Content>
-          </Surface>
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-      />
+                <Surface style={styles.dishPriceContainer} elevation={0}>
+                  <Text>
+                    ¥{' '}
+                    <Text variant="titleLarge" style={styles.dishPrice}>
+                      {dish.price}
+                    </Text>
+                  </Text>
+                  <IconButton icon="cart-outline" size={22} onPress={() => console.log('Pressed')} />
+                </Surface>
+              </Card.Content>
+            </Surface>
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      </Surface>
     </ParallaxScrollView>
   );
 }
@@ -126,8 +146,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   searchInput: {
-    flex: 1,
-    marginLeft: 8
+    height: 20
   },
   categoryContainer: {
     flexDirection: 'row',
@@ -135,7 +154,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   categoryButton: {
-    marginRight: 16,
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderRadius: 25,
@@ -177,5 +195,20 @@ const styles = StyleSheet.create({
   },
   dishDescription: {
     marginTop: 4
+  },
+  searchBarContainer: {
+    borderRadius: 32,
+    marginVertical: 8
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    gap: 8
+  },
+  searchText: {
+    height: 18,
+    lineHeight: 18
   }
 });
