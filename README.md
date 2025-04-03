@@ -30,11 +30,12 @@
    ```
 4. 安装并配置：[`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/)；
    > [!NOTE]
-   > 若你使用 [`docker`](https://www.docker.com/) 启动服务端，可以跳过配置 `mysql`。
+   > 若你使用 [`docker`](https://www.docker.com/) 启动服务端，可以跳过配置 `mysql` 和 `redis`。
 5. 配置服务端环境变量：将 **server/.env.example** 改名为 **server/.env**；
+
    ```sh
    # PORT=8000
-   # DB_URL="mysql://root:root@host.docker.internal:3306/imperial_kitchen"
+   # DB_URL="mysql://root:root@host.docker.internal:3307/imperial_kitchen"
 
    # # nodemailer
    # nodemailer_host=
@@ -45,12 +46,14 @@
    # JWT_SECRET=agshddgfsd
 
    # # redis
-   # REDIS_PASSWORD=
-   # REDIS_URL=
+   # REDIS_PASSWORD=redis_password
+   # REDIS_URL=redis://default:redis_password@host.docker.internal:6380
    ```
 
    > [!NOTE]
-   > 若使用 `docker` 启动服务端，出现 `Can't reach database server at host.docker.internal:3306` 报错，请检查 host 配置。
+   > 若使用 `docker` 启动服务端，出现 `Can't reach database server at host.docker.internal:3307` 报错，请检查 host 配置。
+   > 在配置文件中增加 `127.0.0.1 host.docker.internal` 。
+
 6. 启动服务端，并访问 [api-docs](http://localhost:8000/api-docs) 查看 API 文档。
    ```sh
    yarn dev:server
@@ -59,6 +62,7 @@
    ```sh
    yarn docker:dev
    ```
+   如果你是首次启动，请执行 `yarn seed` 创建初始化数据。你可以通过 `yarn studio` 启动 `prisma studio` 查看数据库。
 7. 启动移动端
    修改 **apps/mobile/.env.example** 为 **apps/mobile/.env**，并修改 **EXPO_PUBLIC_BASE_URL** 为服务端地址，然后启动移动端：
    ```sh

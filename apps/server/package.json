@@ -6,6 +6,8 @@
   "scripts": {
     "build": "yarn bundle:openapi && nest build",
     "dev": "yarn bundle:openapi && nest start --watch",
+    "studio": "yarn prisma studio",
+    "seed": "yarn prisma db seed",
     "debug": "nest start --debug --watch",
     "prod": "node dist/src/main",
     "test": "jest",

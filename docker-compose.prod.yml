@@ -5,6 +5,12 @@ services:
     volumes:
       - prod_mysql_data:/var/lib/mysql
 
+  redis:
+    ports:
+      - 6379:6379
+    volumes:
+      - prod_redis_data:/data
+
   server:
     build:
       args:
@@ -14,3 +20,4 @@ services:
 
 volumes:
   prod_mysql_data:
+  prod_redis_data:

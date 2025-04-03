@@ -4,8 +4,18 @@ services:
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: imperial_kitchen
     healthcheck:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis:
+    image: redis:latest
+    command: redis-server --save 60 1 --appendonly yes --loglevel warning --requirepass redis_password
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis_password", "ping"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -18,6 +28,8 @@ services:
       - ${SERVER_PORT:-8000}:8000
     depends_on:
       database:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     environment:
       HTTP_PROXY: http://host.docker.internal:7890

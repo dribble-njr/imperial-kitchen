@@ -24,4 +24,4 @@ RUN npx prisma generate
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "if [ \"$NODE_ENV\" = \"dev\" ]; then yarn dev; else npx prisma migrate deploy && yarn build && yarn prod; fi"]
+CMD ["sh", "-c", "npx prisma migrate deploy && if [ \"$NODE_ENV\" = \"dev\" ]; then yarn dev; else yarn build && yarn prod; fi"]
