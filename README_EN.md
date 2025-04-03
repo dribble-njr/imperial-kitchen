@@ -30,8 +30,9 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
    ```
 4. Install and configure [`mysql`](https://www.mysql.com/), [`nodemailer`](https://nodemailer.com/) and [`redis`](https://redis.io/try-free/).
    > [!NOTE]
-   > If you use [`docker`](https://www.docker.com/) to start the server, you can skip the configuration of `mysql`.
+   > If you use [`docker`](https://www.docker.com/) to start the server, you can skip the configuration of `mysql` and `redis`.
 5. Configure server env: rename **server/.env.example** to **server/.env**.
+
    ```shell
    # PORT=8000
    # DB_URL="mysql://root:root@host.docker.internal:3306/imperial_kitchen"
@@ -45,12 +46,14 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
    # JWT_SECRET=agshddgfsd
 
    # # redis
-   # REDIS_PASSWORD=
-   # REDIS_URL=
+   # REDIS_PASSWORD=redis_password
+   # REDIS_URL=redis://default:redis_password@host.docker.internal:6380
    ```
 
    > [!NOTE]
    > If start server with `docker`, you get `Can't reach database server at host.docker.internal:3306` error, please check the host configuration.
+   > Add `127.0.0.1 host.docker.internal` in host configuration.
+
 6. Run server, and the api docs can be viewed at [api-docs](http://localhost:8000/api-docs).
    ```sh
    yarn dev:server
@@ -59,6 +62,7 @@ To develop Expo, you should read [Tools for development](https://docs.expo.dev/d
    ```sh
    yarn docker:dev
    ```
+   If you are first start, please run `yarn seed` generate initial data, and you can run `yarn studio` see the database.
 7. Run mobile.
    Modify **apps/mobile/.env.example** to **apps/mobile/.env**, and modify **EXPO_PUBLIC_BASE_URL** to the server address, then run mobile:
    ```sh

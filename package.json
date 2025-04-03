@@ -9,6 +9,8 @@
     "dev:mobile": "yarn workspace mobile dev",
     "dev:server": "yarn workspace server dev",
     "build:server": "yarn workspace server build",
+    "studio": "yarn workspace server studio",
+    "seed": "yarn workspace server seed",
     "prod:server": "yarn workspace server prod",
     "docker:dev": "yarn docker:dev:up && yarn docker:dev:watch",
     "docker:dev:up": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build",
