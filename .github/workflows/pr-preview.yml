@@ -60,7 +60,8 @@ jobs:
           nodemailer_auth_pass=${{ secrets.NODEMAILER_AUTH_PASS }}
           jwt_secret=agshddgfsd
           REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
-          REDIS_URL=redis-13502.c261.us-east-1-4.ec2.redns.redis-cloud.com
+          REDIS_URL=${{ secrets.REDIS_URL }}
+          REDIS_PORT=${{ secrets.REDIS_PORT }}
           EOL
 
           cd ../..

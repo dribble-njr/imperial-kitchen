@@ -13,6 +13,8 @@ import { MailService } from 'src/shared/mail.service';
 import { PrismaService } from 'src/shared/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
+import { RegisterUserDTO } from './dto/register-user.dto';
+import { CaptchaType, VerifyCaptchaDTO } from './dto/captcha.dto';
 
 @Injectable()
 export class UserService {
@@ -51,16 +53,10 @@ export class UserService {
    * @returns
    */
   async registerUser(user: RegisterAdminDTO | RegisterMemberDTO, createKitchen: boolean) {
-    // validate captcha
-    const captcha = await this.redisService.get(`captcha_${user.email}`);
-    if (!captcha) {
-      throw new UnauthorizedException('Captcha expired');
-    }
-    if (captcha !== user.captcha) {
-      throw new BadRequestException('Captcha error');
-    }
+    // 检查验证码是否已经验证过
+    await this.validateVerifiedCaptcha(user.email, CaptchaType.REGISTER);
 
-    const { email, name, password } = user;
+    const { email, password } = user;
 
     // validate user exists
     const existingUser = await this.prismaService.user.findFirst({
@@ -78,7 +74,7 @@ export class UserService {
       const newUser = await tx.user.create({
         data: {
           email,
-          name,
+          name: email.split('@')[0],
           password: hashedPassword
         }
       });
@@ -146,20 +142,104 @@ export class UserService {
   /**
    * send captcha to user's email
    * @param email
+   * @param type captcha type
    * @returns
    */
-  async captcha(email: string) {
+  async captcha(email: string, type: CaptchaType) {
+    // Check if the user exists based on different types of verification codes
+    const user = await this.prismaService.user.findUnique({
+      where: { email }
+    });
+
+    console.log(user, 'user');
+
+    if (type === CaptchaType.REGISTER) {
+      if (user) {
+        throw new ConflictException('用户已存在');
+      }
+    } else if (type === CaptchaType.RESET_PASSWORD) {
+      if (!user) {
+        throw new UnauthorizedException('用户不存在');
+      }
+    }
+
     const code = Math.random().toString().slice(2, 8);
 
     console.log(code, 'code');
 
-    await this.redisService.set(`captcha_${email}`, code, 5 * 60);
+    await this.redisService.set(`captcha_${type}_${email}`, code, 5 * 60);
+
+    const subjects = {
+      [CaptchaType.REGISTER]: '注册验证码',
+      [CaptchaType.RESET_PASSWORD]: '重置密码验证码'
+    };
 
     this.mailService.sendEmail({
       to: email,
-      subject: '注册验证码',
+      subject: subjects[type],
       html: generateCaptchaHtml(code)
     });
     return true;
+  }
+
+  async verifyCaptcha(body: VerifyCaptchaDTO) {
+    const { email, captcha, type } = body;
+    const redisKey = `captcha_${type}_${email}`;
+    const captchaCode = await this.redisService.get(redisKey);
+    if (!captchaCode) {
+      throw new UnauthorizedException('验证码过期');
+    }
+    if (captchaCode !== captcha) {
+      throw new BadRequestException('验证码错误');
+    }
+
+    // Verified captcha, delay 5 minutes to prevent spam
+    await this.redisService.set(`verified_${redisKey}`, 'true', 5 * 60);
+    return true;
+  }
+
+  async validateVerifiedCaptcha(email: string, type: CaptchaType) {
+    const isVerified = await this.redisService.get(`verified_captcha_${type}_${email}`);
+    if (!isVerified) {
+      throw new UnauthorizedException('请先验证验证码');
+    }
+  }
+
+  async register(user: RegisterUserDTO) {
+    await this.validateVerifiedCaptcha(user.email, CaptchaType.REGISTER);
+
+    const { email, password } = user;
+
+    const existingUser = await this.prismaService.user.findUnique({
+      where: { email }
+    });
+    if (existingUser) {
+      throw new ConflictException('用户已存在');
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const newUser = await this.prismaService.user.create({
+      data: {
+        email,
+        name: email.split('@')[0],
+        password: hashedPassword
+      }
+    });
+
+    // generate token
+    const accessToken = await this.jwtService.signAsync({ id: newUser.id, email: newUser.email }, { expiresIn: '1d' });
+    const refreshToken = await this.jwtService.signAsync(
+      { id: newUser.id, email: newUser.email },
+      { expiresIn: '30d' }
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...userWithoutPassword } = newUser;
+
+    return {
+      userInfo: userWithoutPassword,
+      accessToken,
+      refreshToken
+    };
   }
 }

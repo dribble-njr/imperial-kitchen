@@ -19,8 +19,11 @@ export default function SafeAreaSurface({
   const insets = useSafeAreaInsets();
 
   return (
-    <Surface style={{ flex: 1, paddingTop: variant === 'default' ? insets.top : 0 }} testID="safe-area-surface">
-      <Surface style={[style, { flex: 1 }]} testID="safe-area-surface-content">
+    <Surface style={{ flex: 1, paddingTop: variant === 'default' ? insets.top + 12 : 0 }} testID="safe-area-surface">
+      <Surface
+        style={[style, { flex: 1, paddingTop: variant === 'full' ? insets.top + 12 : 0 }]}
+        testID="safe-area-surface-content"
+      >
         {children}
       </Surface>
     </Surface>

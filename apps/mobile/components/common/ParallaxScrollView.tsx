@@ -48,7 +48,7 @@ export default function ParallaxScrollView({
       <Animated.ScrollView
         ref={scrollViewRef}
         scrollEventThrottle={16}
-        style={contentContainerStyle}
+        contentContainerStyle={contentContainerStyle}
         refreshControl={
           onRefresh && (
             <RefreshControl
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 24,
+    paddingTop: 0,
     gap: 16,
     borderRadius: 20
   }

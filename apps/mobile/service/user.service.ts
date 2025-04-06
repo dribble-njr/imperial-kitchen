@@ -1,5 +1,13 @@
 import httpClient from './http-client';
-import { RegisterAdminDTO, RegisterMemberDTO, RegisterVO } from '@/types';
+import {
+  CaptchaDTO,
+  RegisterAdminDTO,
+  RegisterMemberDTO,
+  RegisterUserDTO,
+  RegisterVO,
+  SignInResponseVO,
+  VerifyCaptchaDTO
+} from '@/types';
 
 export default class UserService {
   public static registerAdmin(params: RegisterAdminDTO) {
@@ -10,7 +18,15 @@ export default class UserService {
     return httpClient.post<boolean, RegisterMemberDTO>('/user/register/member', params);
   }
 
-  public static sendCaptcha(email: string) {
-    return httpClient.get<boolean, { email: string }>(`/user/register/captcha?email=${email}`);
+  public static sendCaptcha(params: CaptchaDTO) {
+    return httpClient.get<boolean, CaptchaDTO>(`/user/captcha?email=${params.email}&type=${params.type}`);
+  }
+
+  public static verifyCaptcha(params: VerifyCaptchaDTO) {
+    return httpClient.post<boolean, VerifyCaptchaDTO>('/user/captcha/verify', params);
+  }
+
+  public static registerUser(params: RegisterUserDTO) {
+    return httpClient.post<SignInResponseVO, RegisterUserDTO>('/user', params);
   }
 }

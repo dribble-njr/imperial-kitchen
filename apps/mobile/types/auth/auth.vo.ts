@@ -1,8 +1,9 @@
 import { User } from '../user/user.vo';
+
 export interface SignInResponseVO {
   accessToken: string;
   refreshToken: string;
-  userInfo: Omit<User, 'role'>;
+  userInfo: User;
 }
 
 export interface RefreshTokenResponseVO {

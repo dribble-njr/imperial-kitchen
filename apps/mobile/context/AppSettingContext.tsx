@@ -1,12 +1,12 @@
 import { ColorName } from '@/constants/Colors';
 import { useStorageState } from '@/hooks/useStorageState';
 import { getUserLanguage } from '@/locales/i18n';
-import { Setting } from '@/types';
+import { AppSetting } from '@/types';
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ColorSchemeName, useColorScheme } from 'react-native';
 
-const DEFAULT_SETTING: Setting = {
+const DEFAULT_SETTING: AppSetting = {
   theme: 'auto',
   language: 'auto',
   color: 'default'
@@ -14,8 +14,8 @@ const DEFAULT_SETTING: Setting = {
 
 const AppSettingContext = createContext<{
   isSettingLoading: boolean;
-  setting: Setting | null;
-  updateSetting: (newSetting: Partial<Setting>) => void;
+  setting: AppSetting | null;
+  updateSetting: (newSetting: Partial<AppSetting>) => void;
   effectiveColorScheme: ColorSchemeName;
   currentColor: ColorName;
 }>({
@@ -38,7 +38,7 @@ export function useAppSetting() {
 
 export function AppSettingProvider(props: PropsWithChildren) {
   const colorScheme = useColorScheme();
-  const [[isSettingLoading, setting], setSetting] = useStorageState<Setting>('app-setting');
+  const [[isSettingLoading, setting], setSetting] = useStorageState<AppSetting>('app-setting');
   const { i18n } = useTranslation();
 
   useEffect(() => {
@@ -57,8 +57,8 @@ export function AppSettingProvider(props: PropsWithChildren) {
   }, [setting?.language, i18n]);
 
   const updateSetting = useCallback(
-    (newSetting: Partial<Setting>) => {
-      setSetting({ ...setting, ...newSetting } as Setting);
+    (newSetting: Partial<AppSetting>) => {
+      setSetting({ ...setting, ...newSetting } as AppSetting);
     },
     [setSetting, setting]
   );
