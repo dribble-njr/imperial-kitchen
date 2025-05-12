@@ -1,71 +1,60 @@
-import { useRef, useState, type PropsWithChildren, type ReactElement } from 'react';
-import { StyleSheet, ViewStyle, RefreshControl } from 'react-native';
-import Animated from 'react-native-reanimated';
-import Surface from './Surface';
-import SafeAreaSurface from './SafeAreaSurface';
+import type { PropsWithChildren, ReactElement } from 'react';
+import { StyleSheet } from 'react-native';
+import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
 
-const HEADER_HEIGHT = 150;
+import Surface from './Surface';
+import { useBottomTabOverflow } from '@/components/ui/TabBarBackground';
+import { useAppSetting } from '@/context/AppSettingContext';
+
+const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
-  variant?: 'full' | 'default';
-  headerImage?: ReactElement;
-  headerBackgroundColor?: string;
-  contentContainerStyle?: ViewStyle;
-  contentStyle?: ViewStyle;
-  onRefresh?: () => void;
+  headerImage: ReactElement;
+  headerBackgroundColor: { dark: string; light: string };
 }>;
 
-/**
- * When scroll quickly with scrollView, it will show white background, so we need to use Animated.ScrollView
- */
-export default function ParallaxScrollView({
-  variant = 'default',
-  children,
-  headerImage,
-  headerBackgroundColor,
-  contentContainerStyle,
-  contentStyle,
-  onRefresh
-}: Props) {
-  const scrollViewRef = useRef<Animated.ScrollView>(null);
-  const [refreshing, setRefreshing] = useState(false);
-
-  const handleRefresh = async () => {
-    try {
-      setRefreshing(true);
-      await onRefresh?.();
-    } finally {
-      setRefreshing(false);
-    }
-  };
+export default function ParallaxScrollView({ children, headerImage, headerBackgroundColor }: Props) {
+  const { effectiveColorScheme: colorScheme } = useAppSetting();
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollOffset = useScrollViewOffset(scrollRef);
+  const bottom = useBottomTabOverflow();
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: interpolate(
+            scrollOffset.value,
+            [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
+            [-HEADER_HEIGHT / 2, 0, HEADER_HEIGHT * 0.75]
+          )
+        },
+        {
+          scale: interpolate(scrollOffset.value, [-HEADER_HEIGHT, 0, HEADER_HEIGHT], [2, 1, 1])
+        }
+      ]
+    };
+  });
 
   return (
-    <SafeAreaSurface variant={variant} style={{ position: 'relative' }}>
-      {headerImage && (
-        <Animated.View style={[styles.header, { backgroundColor: headerBackgroundColor }]}>{headerImage}</Animated.View>
-      )}
-
+    <Surface style={styles.container}>
       <Animated.ScrollView
-        ref={scrollViewRef}
+        ref={scrollRef}
         scrollEventThrottle={16}
-        contentContainerStyle={contentContainerStyle}
-        refreshControl={
-          onRefresh && (
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-              progressViewOffset={headerImage ? HEADER_HEIGHT : 0}
-              tintColor="#999999"
-              titleColor="#999999"
-            />
-          )
-        }
+        scrollIndicatorInsets={{ bottom }}
+        contentContainerStyle={{ paddingBottom: bottom }}
       >
-        <Surface style={[styles.content, contentStyle]} elevation={0} testID="parallax-scroll-view-content">
-          {children}
-        </Surface>
+        <Animated.View
+          style={[
+            styles.header,
+            { backgroundColor: headerBackgroundColor[colorScheme ?? 'light'] },
+            headerAnimatedStyle
+          ]}
+        >
+          {headerImage}
+        </Animated.View>
+        <Surface style={styles.content}>{children}</Surface>
       </Animated.ScrollView>
-    </SafeAreaSurface>
+    </Surface>
   );
 }
 
@@ -75,13 +64,12 @@ const styles = StyleSheet.create({
   },
   header: {
     height: HEADER_HEIGHT,
-    zIndex: 2
+    overflow: 'hidden'
   },
   content: {
     flex: 1,
-    padding: 24,
-    paddingTop: 0,
+    padding: 32,
     gap: 16,
-    borderRadius: 20
+    overflow: 'hidden'
   }
 });

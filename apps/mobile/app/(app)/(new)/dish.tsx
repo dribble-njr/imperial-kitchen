@@ -1,4 +1,4 @@
-import { ParallaxScrollView, Modal } from '@/components/common';
+import { Modal, Surface } from '@/components/common';
 import { FieldInput } from '@/components/form';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { CreateDishDTO } from '@/types';
@@ -28,7 +28,7 @@ export default function Dish() {
   };
 
   return (
-    <ParallaxScrollView>
+    <Surface>
       <Formik
         initialValues={{ name: '', price: 0, kitchenId: '', categoryId: '' }}
         onSubmit={(values) => {
@@ -67,6 +67,6 @@ export default function Dish() {
       <Button style={{ marginTop: 30 }} onPress={showModal}>
         Show
       </Button>
-    </ParallaxScrollView>
+    </Surface>
   );
 }

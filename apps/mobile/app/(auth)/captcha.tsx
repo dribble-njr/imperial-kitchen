@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { ParallaxScrollView, Surface, Text } from '@/components/common';
+import { Surface, Text } from '@/components/common';
 import { Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -28,7 +28,7 @@ export default function CaptchaScreen() {
       if (res) {
         setCaptcha(values.captcha);
         if (captchaType === CaptchaType.RESET_PASSWORD) {
-          router.push('/(auth)/reset-password');
+          router.push('/(auth)/set-password');
         } else if (captchaType === CaptchaType.REGISTER) {
           router.push('/(auth)/set-password');
         }
@@ -72,7 +72,7 @@ export default function CaptchaScreen() {
   }, [countdown]);
 
   return (
-    <ParallaxScrollView contentStyle={{ paddingTop: 0 }}>
+    <Surface>
       <Surface style={globalStyles.hero}>
         <CaptchaHero width="100%" />
         <Text variant="titleLarge" style={{ textAlign: 'center' }}>
@@ -121,7 +121,7 @@ export default function CaptchaScreen() {
           )}
         </Formik>
       </Surface>
-    </ParallaxScrollView>
+    </Surface>
   );
 }
 

@@ -1,5 +1,5 @@
 import { globalStyles } from '@/assets/styles';
-import { Surface, ParallaxScrollView, Text } from '@/components/common';
+import { Surface, Text } from '@/components/common';
 import { FieldInput } from '@/components/form';
 import { useToast } from '@/context/ToastContext';
 import { UserService } from '@/service';
@@ -44,7 +44,7 @@ export default function SignUpScreen() {
   });
 
   return (
-    <ParallaxScrollView>
+    <Surface>
       <Surface style={globalStyles.hero}>
         <SignUpHero width="100%" />
         <Text variant="titleLarge" style={{ textAlign: 'center' }}>
@@ -86,7 +86,7 @@ export default function SignUpScreen() {
           </Text>
         </Text>
       </Surface>
-    </ParallaxScrollView>
+    </Surface>
   );
 }
 

@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { RefreshControl, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-import { ParallaxScrollView, Surface, Text } from '@/components/common';
+import { Surface, Text } from '@/components/common';
 import { Card, Icon, IconButton, TouchableRipple } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { getGreeting } from '@/utils';
@@ -15,6 +15,7 @@ export default function HomeLayout() {
   const { t } = useTranslation();
   const colors = useThemeColor();
 
+  const [refreshing, setRefreshing] = useState(false);
   const [categories, setCategories] = useState<CategoryVO[]>([]);
 
   const [dishes, setDishes] = useState<DishVO[]>([]);
@@ -40,11 +41,18 @@ export default function HomeLayout() {
   }, [selectedCategory]);
 
   return (
-    <ParallaxScrollView
-      onRefresh={async () => {
-        await fetchCategories();
-        await fetchDishes();
-      }}
+    <Animated.ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={async () => {
+            setRefreshing(true);
+            await fetchCategories();
+            await fetchDishes();
+            setRefreshing(false);
+          }}
+        />
+      }
     >
       {/* Header */}
       <Surface>
@@ -134,7 +142,7 @@ export default function HomeLayout() {
           showsVerticalScrollIndicator={false}
         />
       </Surface>
-    </ParallaxScrollView>
+    </Animated.ScrollView>
   );
 }
 
