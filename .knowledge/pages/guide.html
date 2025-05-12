@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imperial Kitchen - 引导页面</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --md-primary: #6750A4;
+            --md-secondary: #9c27b0;
+            --md-background: #FFFBFE;
+            --md-surface: #FFFFFF;
+            --md-on-surface: #1C1B1F;
+            --md-primary-container: #EADDFF;
+            --md-on-primary: #FFFFFF;
+            --md-on-primary-container: #21005E;
+            --md-outline: #79747E;
+            --md-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--md-background);
+            color: var(--md-on-surface);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            box-shadow: 0 2px 4px var(--md-shadow);
+            background-color: var(--md-surface);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--md-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--md-on-primary);
+            font-weight: 700;
+            margin-right: 12px;
+        }
+
+        .brand-name {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 8px var(--md-shadow);
+        }
+
+        .carousel-container {
+            width: 300%;
+            height: 100%;
+            display: flex;
+            animation: slide 15s infinite;
+        }
+
+        .carousel-item {
+            width: 33.33%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        @keyframes slide {
+            0%, 30% {
+                transform: translateX(0);
+            }
+            33%, 63% {
+                transform: translateX(-33.33%);
+            }
+            66%, 96% {
+                transform: translateX(-66.66%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 16px;
+        }
+
+        .md-button {
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 1px 3px var(--md-shadow);
+            text-decoration: none;
+            display: block;
+        }
+
+        .md-button-filled {
+            background-color: var(--md-primary);
+            color: var(--md-on-primary);
+        }
+
+        .md-button-outlined {
+            background-color: transparent;
+            color: var(--md-primary);
+            border: 1px solid var(--md-outline);
+        }
+
+        .md-button:hover {
+            box-shadow: 0 2px 4px var(--md-shadow);
+        }
+
+        .footer {
+            padding: 16px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--md-outline);
+            margin-top: auto;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 600px) {
+            .buttons-container {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">IK</div>
+        <div class="brand-name">Imperial Kitchen</div>
+    </header>
+
+    <main class="main-content">
+        <div class="carousel">
+            <div class="carousel-container">
+                <div class="carousel-item">
+                    <img src="https://picsum.photos/600/300?random=1" alt="特色菜品">
+                    <div class="carousel-caption">发现美味佳肴</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://picsum.photos/600/300?random=2" alt="厨房环境">
+                    <div class="carousel-caption">匠心制作，用心服务</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://picsum.photos/600/300?random=3" alt="用餐体验">
+                    <div class="carousel-caption">舌尖上的皇家体验</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons-container">
+            <a href="#" class="md-button md-button-filled">已有账号？立即登录</a>
+            <a href="#" class="md-button md-button-outlined">没有账号？立即注册</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Imperial Kitchen &copy; 2023 | 版本 1.0.0</p>
+    </footer>
+</body>
+</html> 

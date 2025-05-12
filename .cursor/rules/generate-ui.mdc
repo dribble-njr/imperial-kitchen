@@ -1,0 +1,38 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## 🧾 任务目标
+
+为一个厨房点菜 App 设计一组符合 [Material Design 3](mdc:https:/m3.material.io) 规范的 UI 页面。每个页面为一个静态 HTML 文件，仅包含 HTML 和 CSS，不包含任何 JavaScript。
+
+---
+
+## 🎨 样式设计要求
+
+- 使用 Google Fonts 的 `Roboto` 字体
+- 所有组件、输入框、按钮、卡片、导航栏遵循 Material Design 3 视觉风格  
+- 使用 `<style>` 标签内联样式，禁止引入外部 CSS 文件
+- 使用响应式布局（Flex），适配手机与平板
+- 图片使用 `https://picsum.photos/200/300` 占位
+
+---
+
+## 📁 输出格式
+
+- 每个页面对应一个完整 `.html` 文件
+- 输出路径应为：`.knowledge/pages/<页面名>.html`
+- 禁止包含任何 JavaScript 逻辑或事件
+- 所有 CSS 样式写在 `<style>` 标签内，禁止引入外部 CSS 文件
+- 页面可直接打开浏览器查看美观排版结果
+
+---
+
+## ⛔ 注意事项
+
+- **不要编写 JavaScript**
+- **不要使用外部样式或 CDN**
+- **不要使用框架（如 React、Vue）**
+- **所有 UI 元素应美观且实用，遵循 @Material Design 3 规范，可直接打开浏览查看效果**
+- **不仅输出 HTML 片段，必须是完整可运行的 HTML 页面**
