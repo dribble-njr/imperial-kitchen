@@ -36,6 +36,7 @@
     "expo-web-browser": "~14.0.1",
     "formik": "^2.4.6",
     "i18next": "^23.15.1",
+    "lottie-react-native": "^7.2.2",
     "nativewind": "^4.1.21",
     "react-i18next": "^15.0.2",
     "react-native": "0.76.5",
