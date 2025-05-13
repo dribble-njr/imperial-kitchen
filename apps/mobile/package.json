@@ -5,13 +5,13 @@
   "scripts": {
     "dev": "cross-env expo start -c",
     "reset-project": "./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "pre build:android": "npx expo run:android",
-    "build:android": "eas build --platform android --profile preview"
+    "preview:a": "eas build --platform android --profile preview",
+    "preview:i": "eas build --platform ios --profile preview"
   },
   "jest": {
     "preset": "jest-expo"
@@ -52,7 +52,8 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
     "tailwindcss": "^3.4.14",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "react": "18.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
