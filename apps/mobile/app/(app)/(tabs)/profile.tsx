@@ -1,4 +1,4 @@
-import { ParallaxScrollView, Surface } from '@/components/common';
+import { Surface } from '@/components/common';
 import { useAuth } from '@/context/AuthContext';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
@@ -14,24 +14,17 @@ export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
 
   return (
-    <ParallaxScrollView
-      variant="full"
-      headerImage={
-        <>
-          <Surface style={[styles.action, { top: insets.top }]} elevation={0}>
-            <Appbar.Action
-              icon={() => <SimpleLineIcons name="settings" size={24} color={colors.primary} />}
-              onPress={() => router.push('/(app)/(profile)/setting')}
-            />
-          </Surface>
-          <Surface style={styles.avatar} elevation={0}>
-            <Avatar.Image size={64} source={{ uri: 'https://picsum.photos/128/128' }} />
-          </Surface>
-        </>
-      }
-      headerBackgroundColor="#2b2434"
-      contentContainerStyle={{ marginTop: 40 }}
-    >
+    <Surface>
+      <Surface style={[styles.action, { top: insets.top }]} elevation={0}>
+        <Appbar.Action
+          icon={() => <SimpleLineIcons name="settings" size={24} color={colors.primary} />}
+          onPress={() => router.push('/(app)/(profile)/setting')}
+        />
+      </Surface>
+      <Surface style={styles.avatar} elevation={0}>
+        <Avatar.Image size={64} source={{ uri: 'https://picsum.photos/128/128' }} />
+      </Surface>
+
       <Surface>
         <Text variant="titleLarge">{userInfo?.name}</Text>
         <Text>{userInfo?.email}</Text>
@@ -50,7 +43,7 @@ export default function ProfileScreen() {
         <Text style={[styles.title, { color: colors.onSecondaryContainer }]}>加入时间</Text>
         <Text>{userInfo?.createdAt}</Text>
       </Card>
-    </ParallaxScrollView>
+    </Surface>
   );
 }
 

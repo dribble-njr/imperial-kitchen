@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import * as Yup from 'yup';
 import { SignInDTO } from '@/types';
-import { Surface, ParallaxScrollView, Text } from '@/components/common';
+import { Surface, Text } from '@/components/common';
 import { PasswordInput, FieldInput } from '@/components/form';
 import { useAuth } from '@/context/AuthContext';
 import { globalStyles } from '@/assets/styles';
@@ -38,7 +38,7 @@ export default function SignInScreen() {
   });
 
   return (
-    <ParallaxScrollView>
+    <Surface>
       <Surface style={globalStyles.hero}>
         <SignInHero width="100%" />
         <Text variant="titleLarge" style={{ textAlign: 'center' }}>
@@ -90,7 +90,7 @@ export default function SignInScreen() {
           </Text>
         </Text>
       </Surface>
-    </ParallaxScrollView>
+    </Surface>
   );
 }
 

@@ -61,6 +61,7 @@ export default function AuthLayout() {
         <Stack.Screen name="sign-up" options={{ title: '' }} />
         <Stack.Screen name="captcha" options={{ title: '' }} />
         <Stack.Screen name="set-password" options={{ title: '' }} />
+        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
       </Stack>
     </AuthFlowContext.Provider>
   );

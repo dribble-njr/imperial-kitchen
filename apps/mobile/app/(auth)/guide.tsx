@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { Button } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Surface, Text, Carousel, HelloWave, ParallaxScrollView } from '@/components/common';
+import { Surface, Text, Carousel, HelloWave } from '@/components/common';
 import { globalStyles } from '@/assets/styles';
 import HotPot from '@/assets/images/hot-pot.svg';
 import Dumpling from '@/assets/images/dumpling.svg';
@@ -11,8 +11,10 @@ import Noodle from '@/assets/images/noodle.svg';
 export default function GuideScreen() {
   const { t } = useTranslation();
 
+  console.log('guide');
+
   return (
-    <ParallaxScrollView contentStyle={styles.container} contentContainerStyle={{ flex: 1 }}>
+    <Surface style={styles.container}>
       <Carousel
         data={[HotPot, Dumpling, Noodle]}
         renderItem={(item) => {
@@ -52,7 +54,7 @@ export default function GuideScreen() {
           </Button>
         </Surface>
       </Surface>
-    </ParallaxScrollView>
+    </Surface>
   );
 }
 

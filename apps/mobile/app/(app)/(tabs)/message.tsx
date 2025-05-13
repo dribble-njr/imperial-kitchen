@@ -1,4 +1,4 @@
-import { ParallaxScrollView, Surface } from '@/components/common';
+import { Surface } from '@/components/common';
 import { useSSE } from '@/context/SSEContext';
 import { SSEService } from '@/service';
 import { SSEEventType } from '@/types';
@@ -10,7 +10,7 @@ export default function MessageScreen() {
   const [message, setMessage] = useState('');
 
   return (
-    <ParallaxScrollView>
+    <Surface>
       <Text className="text-2xl font-bold">消息</Text>
       <Text className="text-xl font-bold">{connected ? 'sse已连接' : 'sse未连接'}</Text>
       <Surface className="flex-row gap-2">
@@ -36,6 +36,6 @@ export default function MessageScreen() {
           {index} : {msg.data.message}
         </Text>
       ))}
-    </ParallaxScrollView>
+    </Surface>
   );
 }

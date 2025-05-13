@@ -1,5 +1,5 @@
 import { globalStyles } from '@/assets/styles';
-import { Surface, ParallaxScrollView, Text, Modal } from '@/components/common';
+import { Surface, Text, Modal } from '@/components/common';
 import { PasswordInput } from '@/components/form';
 import { useToast } from '@/context/ToastContext';
 import { UserService } from '@/service';
@@ -72,7 +72,7 @@ export default function SetPasswordScreen() {
   });
 
   return (
-    <ParallaxScrollView>
+    <Surface>
       <Surface style={globalStyles.hero}>
         <CreatePasswordHero width="100%" />
         <Text variant="titleLarge" style={{ textAlign: 'center' }}>
@@ -136,7 +136,7 @@ export default function SetPasswordScreen() {
           </Button>
         </View>
       </Modal>
-    </ParallaxScrollView>
+    </Surface>
   );
 }
 

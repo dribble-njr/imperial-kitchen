@@ -1,5 +1,5 @@
 import { Card, List, Text } from 'react-native-paper';
-import { ListItem, ParallaxScrollView } from '@/components/common';
+import { ListItem, Surface } from '@/components/common';
 import { AppSettingModal } from '@/components/setting/AppSettingModal';
 import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
@@ -23,7 +23,7 @@ export default function Setting() {
   const { signOut } = useAuth();
 
   return (
-    <ParallaxScrollView variant="full">
+    <Surface>
       <Text>App 设置</Text>
 
       <Card mode="contained">
@@ -93,6 +93,6 @@ export default function Setting() {
           hasRightIcon={false}
         />
       </Card>
-    </ParallaxScrollView>
+    </Surface>
   );
 }

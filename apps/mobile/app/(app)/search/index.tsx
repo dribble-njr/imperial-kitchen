@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ParallaxScrollView } from '@/components/common';
+import { Surface } from '@/components/common';
 import { Searchbar, SegmentedButtons } from 'react-native-paper';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ export default function SearchScreen() {
   const { t } = useTranslation();
 
   return (
-    <ParallaxScrollView>
+    <Surface>
       <Searchbar
         placeholder={t('common.search')}
         onChangeText={setSearchQuery}
@@ -39,7 +39,7 @@ export default function SearchScreen() {
         // 菜谱搜索结果
         <RecipeSearchResults query={searchQuery} />
       )} */}
-    </ParallaxScrollView>
+    </Surface>
   );
 }
 
